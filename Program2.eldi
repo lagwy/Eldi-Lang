@@ -1,0 +1,30 @@
+var int nombre, mas, uno, arreglo[3];
+var int nombre2[-1];
+
+method char nombre(int x, int y){
+
+}
+
+# Metodo main
+# Comentario del programa
+method void main(){
+  var int otra[-1];
+  return r;
+  x = read();
+  print (4);
+  llamada();
+  variable = x * 3 - 4 && 4 > 4;
+  arreglo[pos] = 5 > 4 * 25 && ((23 * 2) < 120);
+  while ((otro > 5) && ((4) + 3 * 25 * 3 * 2 + 5 * 2 + 3 + 3 - 2)) {
+    x = read();
+  }
+  if (4 > 4 < 4 == 5 * (3 * -2)){
+    x = 4;
+  }
+  if (true){
+    x = llamada(4,4);
+  } else {
+    y = 4;
+    x = read();
+  }
+}

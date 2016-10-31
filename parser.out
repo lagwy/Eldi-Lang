@@ -1,0 +1,3371 @@
+Created by PLY version 3.9 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> programa
+Rule 1     programa -> variables_list metodos
+Rule 2     variables_list -> variables_list variables
+Rule 3     variables_list -> empty
+Rule 4     variables -> VAR tipo ID lista_variables SEMICOLON
+Rule 5     variables -> VAR tipo ID LEFTSB INT_CTE RIGHTSB lista_variables SEMICOLON
+Rule 6     lista_variables -> COMMA ID lista_variables
+Rule 7     lista_variables -> COMMA ID LEFTSB INT_CTE RIGHTSB lista_variables
+Rule 8     lista_variables -> empty
+Rule 9     metodos -> metodos metodo
+Rule 10    metodos -> empty
+Rule 11    metodo -> METHOD VOID MAIN LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB
+Rule 12    metodo -> METHOD VOID ID LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB
+Rule 13    metodo -> METHOD tipo ID LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB
+Rule 14    params -> params parametro
+Rule 15    params -> empty
+Rule 16    parametro -> tipo ID mas_parametros
+Rule 17    mas_parametros -> COMMA tipo ID
+Rule 18    mas_parametros -> empty
+Rule 19    bloque -> bloque estatuto
+Rule 20    bloque -> empty
+Rule 21    estatuto -> return
+Rule 22    estatuto -> lectura
+Rule 23    estatuto -> escritura
+Rule 24    estatuto -> llamada SEMICOLON
+Rule 25    estatuto -> asignacion
+Rule 26    estatuto -> ciclo
+Rule 27    estatuto -> condicion
+Rule 28    return -> RETURN exp SEMICOLON
+Rule 29    lectura -> ID ASSIGN READ LEFTP RIGHTP SEMICOLON
+Rule 30    escritura -> PRINT LEFTP exp RIGHTP SEMICOLON
+Rule 31    llamada -> ID LEFTP llamada_list RIGHTP
+Rule 32    llamada_list -> llamada_list args
+Rule 33    llamada_list -> empty
+Rule 34    args -> exp mas_args
+Rule 35    mas_args -> COMMA exp
+Rule 36    mas_args -> empty
+Rule 37    asignacion -> ID ASSIGN exp SEMICOLON
+Rule 38    asignacion -> ID LEFTSB exp RIGHTSB ASSIGN exp SEMICOLON
+Rule 39    ciclo -> WHILE LEFTP exp RIGHTP LEFTB bloque RIGHTB
+Rule 40    condicion -> IF LEFTP exp RIGHTP LEFTB bloque RIGHTB
+Rule 41    condicion -> IF LEFTP exp RIGHTP LEFTB bloque RIGHTB ELSE LEFTB bloque RIGHTB
+Rule 42    exp -> llamada
+Rule 43    exp -> expresion
+Rule 44    expresion -> expresion1
+Rule 45    expresion -> expresion1 TIMES expresion
+Rule 46    expresion -> expresion1 DIVISION expresion
+Rule 47    expresion1 -> expresion2
+Rule 48    expresion1 -> expresion2 SUM expresion1
+Rule 49    expresion1 -> expresion2 LESS expresion1
+Rule 50    expresion2 -> expresion3
+Rule 51    expresion2 -> expresion3 EQUALS expresion2
+Rule 52    expresion2 -> expresion3 NOTEQUAL expresion2
+Rule 53    expresion2 -> expresion3 GREATEREQUAL expresion2
+Rule 54    expresion2 -> expresion3 GREATERTHAN expresion2
+Rule 55    expresion2 -> expresion3 LESSTHAN expresion2
+Rule 56    expresion2 -> expresion3 LESSEQUAL expresion2
+Rule 57    expresion3 -> expresion4
+Rule 58    expresion3 -> expresion4 AND expresion3
+Rule 59    expresion3 -> expresion4 OR expresion3
+Rule 60    expresion4 -> constante
+Rule 61    expresion4 -> ID
+Rule 62    expresion4 -> LEFTP expresion RIGHTP
+Rule 63    tipo -> INT
+Rule 64    tipo -> CHAR
+Rule 65    tipo -> BOOLEAN
+Rule 66    tipo -> FLOAT
+Rule 67    tipo -> STRING
+Rule 68    constante -> INT_CTE
+Rule 69    constante -> FLOAT_CTE
+Rule 70    constante -> CHAR_CTE
+Rule 71    constante -> STRING_CTE
+Rule 72    constante -> TRUE
+Rule 73    constante -> FALSE
+Rule 74    empty -> <empty>
+
+Terminals, with rules where they appear
+
+AND                  : 58
+ASSIGN               : 29 37 38
+BOOLEAN              : 65
+CHAR                 : 64
+CHAR_CTE             : 70
+COMMA                : 6 7 17 35
+DIVISION             : 46
+ELSE                 : 41
+EQUALS               : 51
+FALSE                : 73
+FLOAT                : 66
+FLOAT_CTE            : 69
+GREATEREQUAL         : 53
+GREATERTHAN          : 54
+ID                   : 4 5 6 7 12 13 16 17 29 31 37 38 61
+IF                   : 40 41
+INT                  : 63
+INT_CTE              : 5 7 68
+LEFTB                : 11 12 13 39 40 41 41
+LEFTP                : 11 12 13 29 30 31 39 40 41 62
+LEFTSB               : 5 7 38
+LESS                 : 49
+LESSEQUAL            : 56
+LESSTHAN             : 55
+MAIN                 : 11
+METHOD               : 11 12 13
+NOTEQUAL             : 52
+OR                   : 59
+PRINT                : 30
+READ                 : 29
+RETURN               : 28
+RIGHTB               : 11 12 13 39 40 41 41
+RIGHTP               : 11 12 13 29 30 31 39 40 41 62
+RIGHTSB              : 5 7 38
+SEMICOLON            : 4 5 24 28 29 30 37 38
+STRING               : 67
+STRING_CTE           : 71
+SUM                  : 48
+TIMES                : 45
+TRUE                 : 72
+VAR                  : 4 5
+VOID                 : 11 12
+WHILE                : 39
+error                : 
+
+Nonterminals, with rules where they appear
+
+args                 : 32
+asignacion           : 25
+bloque               : 11 12 13 19 39 40 41 41
+ciclo                : 26
+condicion            : 27
+constante            : 60
+empty                : 3 8 10 15 18 20 33 36
+escritura            : 23
+estatuto             : 19
+exp                  : 28 30 34 35 37 38 38 39 40 41
+expresion            : 43 45 46 62
+expresion1           : 44 45 46 48 49
+expresion2           : 47 48 49 51 52 53 54 55 56
+expresion3           : 50 51 52 53 54 55 56 58 59
+expresion4           : 57 58 59
+lectura              : 22
+lista_variables      : 4 5 6 7
+llamada              : 24 42
+llamada_list         : 31 32
+mas_args             : 34
+mas_parametros       : 16
+metodo               : 9
+metodos              : 1 9
+parametro            : 14
+params               : 11 12 13 14
+programa             : 0
+return               : 21
+tipo                 : 4 5 13 16 17
+variables            : 2
+variables_list       : 1 2 11 12 13
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . programa
+    (1) programa -> . variables_list metodos
+    (2) variables_list -> . variables_list variables
+    (3) variables_list -> . empty
+    (74) empty -> .
+
+    VAR             reduce using rule 74 (empty -> .)
+    METHOD          reduce using rule 74 (empty -> .)
+    $end            reduce using rule 74 (empty -> .)
+
+    variables_list                 shift and go to state 1
+    programa                       shift and go to state 2
+    empty                          shift and go to state 3
+
+state 1
+
+    (1) programa -> variables_list . metodos
+    (2) variables_list -> variables_list . variables
+    (9) metodos -> . metodos metodo
+    (10) metodos -> . empty
+    (4) variables -> . VAR tipo ID lista_variables SEMICOLON
+    (5) variables -> . VAR tipo ID LEFTSB INT_CTE RIGHTSB lista_variables SEMICOLON
+    (74) empty -> .
+
+    VAR             shift and go to state 6
+    METHOD          reduce using rule 74 (empty -> .)
+    $end            reduce using rule 74 (empty -> .)
+
+    variables                      shift and go to state 4
+    metodos                        shift and go to state 5
+    empty                          shift and go to state 7
+
+state 2
+
+    (0) S' -> programa .
+
+
+
+state 3
+
+    (3) variables_list -> empty .
+
+    VAR             reduce using rule 3 (variables_list -> empty .)
+    RIGHTB          reduce using rule 3 (variables_list -> empty .)
+    RETURN          reduce using rule 3 (variables_list -> empty .)
+    ID              reduce using rule 3 (variables_list -> empty .)
+    PRINT           reduce using rule 3 (variables_list -> empty .)
+    WHILE           reduce using rule 3 (variables_list -> empty .)
+    IF              reduce using rule 3 (variables_list -> empty .)
+    METHOD          reduce using rule 3 (variables_list -> empty .)
+    $end            reduce using rule 3 (variables_list -> empty .)
+
+
+state 4
+
+    (2) variables_list -> variables_list variables .
+
+    VAR             reduce using rule 2 (variables_list -> variables_list variables .)
+    RIGHTB          reduce using rule 2 (variables_list -> variables_list variables .)
+    RETURN          reduce using rule 2 (variables_list -> variables_list variables .)
+    ID              reduce using rule 2 (variables_list -> variables_list variables .)
+    PRINT           reduce using rule 2 (variables_list -> variables_list variables .)
+    WHILE           reduce using rule 2 (variables_list -> variables_list variables .)
+    IF              reduce using rule 2 (variables_list -> variables_list variables .)
+    METHOD          reduce using rule 2 (variables_list -> variables_list variables .)
+    $end            reduce using rule 2 (variables_list -> variables_list variables .)
+
+
+state 5
+
+    (1) programa -> variables_list metodos .
+    (9) metodos -> metodos . metodo
+    (11) metodo -> . METHOD VOID MAIN LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB
+    (12) metodo -> . METHOD VOID ID LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB
+    (13) metodo -> . METHOD tipo ID LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB
+
+    $end            reduce using rule 1 (programa -> variables_list metodos .)
+    METHOD          shift and go to state 9
+
+    metodo                         shift and go to state 8
+
+state 6
+
+    (4) variables -> VAR . tipo ID lista_variables SEMICOLON
+    (5) variables -> VAR . tipo ID LEFTSB INT_CTE RIGHTSB lista_variables SEMICOLON
+    (63) tipo -> . INT
+    (64) tipo -> . CHAR
+    (65) tipo -> . BOOLEAN
+    (66) tipo -> . FLOAT
+    (67) tipo -> . STRING
+
+    INT             shift and go to state 12
+    CHAR            shift and go to state 13
+    BOOLEAN         shift and go to state 14
+    FLOAT           shift and go to state 10
+    STRING          shift and go to state 15
+
+    tipo                           shift and go to state 11
+
+state 7
+
+    (10) metodos -> empty .
+
+    METHOD          reduce using rule 10 (metodos -> empty .)
+    $end            reduce using rule 10 (metodos -> empty .)
+
+
+state 8
+
+    (9) metodos -> metodos metodo .
+
+    METHOD          reduce using rule 9 (metodos -> metodos metodo .)
+    $end            reduce using rule 9 (metodos -> metodos metodo .)
+
+
+state 9
+
+    (11) metodo -> METHOD . VOID MAIN LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB
+    (12) metodo -> METHOD . VOID ID LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB
+    (13) metodo -> METHOD . tipo ID LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB
+    (63) tipo -> . INT
+    (64) tipo -> . CHAR
+    (65) tipo -> . BOOLEAN
+    (66) tipo -> . FLOAT
+    (67) tipo -> . STRING
+
+    VOID            shift and go to state 17
+    INT             shift and go to state 12
+    CHAR            shift and go to state 13
+    BOOLEAN         shift and go to state 14
+    FLOAT           shift and go to state 10
+    STRING          shift and go to state 15
+
+    tipo                           shift and go to state 16
+
+state 10
+
+    (66) tipo -> FLOAT .
+
+    ID              reduce using rule 66 (tipo -> FLOAT .)
+
+
+state 11
+
+    (4) variables -> VAR tipo . ID lista_variables SEMICOLON
+    (5) variables -> VAR tipo . ID LEFTSB INT_CTE RIGHTSB lista_variables SEMICOLON
+
+    ID              shift and go to state 18
+
+
+state 12
+
+    (63) tipo -> INT .
+
+    ID              reduce using rule 63 (tipo -> INT .)
+
+
+state 13
+
+    (64) tipo -> CHAR .
+
+    ID              reduce using rule 64 (tipo -> CHAR .)
+
+
+state 14
+
+    (65) tipo -> BOOLEAN .
+
+    ID              reduce using rule 65 (tipo -> BOOLEAN .)
+
+
+state 15
+
+    (67) tipo -> STRING .
+
+    ID              reduce using rule 67 (tipo -> STRING .)
+
+
+state 16
+
+    (13) metodo -> METHOD tipo . ID LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB
+
+    ID              shift and go to state 19
+
+
+state 17
+
+    (11) metodo -> METHOD VOID . MAIN LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB
+    (12) metodo -> METHOD VOID . ID LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB
+
+    MAIN            shift and go to state 21
+    ID              shift and go to state 20
+
+
+state 18
+
+    (4) variables -> VAR tipo ID . lista_variables SEMICOLON
+    (5) variables -> VAR tipo ID . LEFTSB INT_CTE RIGHTSB lista_variables SEMICOLON
+    (6) lista_variables -> . COMMA ID lista_variables
+    (7) lista_variables -> . COMMA ID LEFTSB INT_CTE RIGHTSB lista_variables
+    (8) lista_variables -> . empty
+    (74) empty -> .
+
+    LEFTSB          shift and go to state 22
+    COMMA           shift and go to state 24
+    SEMICOLON       reduce using rule 74 (empty -> .)
+
+    lista_variables                shift and go to state 23
+    empty                          shift and go to state 25
+
+state 19
+
+    (13) metodo -> METHOD tipo ID . LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB
+
+    LEFTP           shift and go to state 26
+
+
+state 20
+
+    (12) metodo -> METHOD VOID ID . LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB
+
+    LEFTP           shift and go to state 27
+
+
+state 21
+
+    (11) metodo -> METHOD VOID MAIN . LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB
+
+    LEFTP           shift and go to state 28
+
+
+state 22
+
+    (5) variables -> VAR tipo ID LEFTSB . INT_CTE RIGHTSB lista_variables SEMICOLON
+
+    INT_CTE         shift and go to state 29
+
+
+state 23
+
+    (4) variables -> VAR tipo ID lista_variables . SEMICOLON
+
+    SEMICOLON       shift and go to state 30
+
+
+state 24
+
+    (6) lista_variables -> COMMA . ID lista_variables
+    (7) lista_variables -> COMMA . ID LEFTSB INT_CTE RIGHTSB lista_variables
+
+    ID              shift and go to state 31
+
+
+state 25
+
+    (8) lista_variables -> empty .
+
+    SEMICOLON       reduce using rule 8 (lista_variables -> empty .)
+
+
+state 26
+
+    (13) metodo -> METHOD tipo ID LEFTP . params RIGHTP LEFTB variables_list bloque RIGHTB
+    (14) params -> . params parametro
+    (15) params -> . empty
+    (74) empty -> .
+
+    RIGHTP          reduce using rule 74 (empty -> .)
+    INT             reduce using rule 74 (empty -> .)
+    CHAR            reduce using rule 74 (empty -> .)
+    BOOLEAN         reduce using rule 74 (empty -> .)
+    FLOAT           reduce using rule 74 (empty -> .)
+    STRING          reduce using rule 74 (empty -> .)
+
+    params                         shift and go to state 32
+    empty                          shift and go to state 33
+
+state 27
+
+    (12) metodo -> METHOD VOID ID LEFTP . params RIGHTP LEFTB variables_list bloque RIGHTB
+    (14) params -> . params parametro
+    (15) params -> . empty
+    (74) empty -> .
+
+    RIGHTP          reduce using rule 74 (empty -> .)
+    INT             reduce using rule 74 (empty -> .)
+    CHAR            reduce using rule 74 (empty -> .)
+    BOOLEAN         reduce using rule 74 (empty -> .)
+    FLOAT           reduce using rule 74 (empty -> .)
+    STRING          reduce using rule 74 (empty -> .)
+
+    params                         shift and go to state 34
+    empty                          shift and go to state 33
+
+state 28
+
+    (11) metodo -> METHOD VOID MAIN LEFTP . params RIGHTP LEFTB variables_list bloque RIGHTB
+    (14) params -> . params parametro
+    (15) params -> . empty
+    (74) empty -> .
+
+    RIGHTP          reduce using rule 74 (empty -> .)
+    INT             reduce using rule 74 (empty -> .)
+    CHAR            reduce using rule 74 (empty -> .)
+    BOOLEAN         reduce using rule 74 (empty -> .)
+    FLOAT           reduce using rule 74 (empty -> .)
+    STRING          reduce using rule 74 (empty -> .)
+
+    params                         shift and go to state 35
+    empty                          shift and go to state 33
+
+state 29
+
+    (5) variables -> VAR tipo ID LEFTSB INT_CTE . RIGHTSB lista_variables SEMICOLON
+
+    RIGHTSB         shift and go to state 36
+
+
+state 30
+
+    (4) variables -> VAR tipo ID lista_variables SEMICOLON .
+
+    VAR             reduce using rule 4 (variables -> VAR tipo ID lista_variables SEMICOLON .)
+    RIGHTB          reduce using rule 4 (variables -> VAR tipo ID lista_variables SEMICOLON .)
+    RETURN          reduce using rule 4 (variables -> VAR tipo ID lista_variables SEMICOLON .)
+    ID              reduce using rule 4 (variables -> VAR tipo ID lista_variables SEMICOLON .)
+    PRINT           reduce using rule 4 (variables -> VAR tipo ID lista_variables SEMICOLON .)
+    WHILE           reduce using rule 4 (variables -> VAR tipo ID lista_variables SEMICOLON .)
+    IF              reduce using rule 4 (variables -> VAR tipo ID lista_variables SEMICOLON .)
+    METHOD          reduce using rule 4 (variables -> VAR tipo ID lista_variables SEMICOLON .)
+    $end            reduce using rule 4 (variables -> VAR tipo ID lista_variables SEMICOLON .)
+
+
+state 31
+
+    (6) lista_variables -> COMMA ID . lista_variables
+    (7) lista_variables -> COMMA ID . LEFTSB INT_CTE RIGHTSB lista_variables
+    (6) lista_variables -> . COMMA ID lista_variables
+    (7) lista_variables -> . COMMA ID LEFTSB INT_CTE RIGHTSB lista_variables
+    (8) lista_variables -> . empty
+    (74) empty -> .
+
+    LEFTSB          shift and go to state 37
+    COMMA           shift and go to state 24
+    SEMICOLON       reduce using rule 74 (empty -> .)
+
+    lista_variables                shift and go to state 38
+    empty                          shift and go to state 25
+
+state 32
+
+    (13) metodo -> METHOD tipo ID LEFTP params . RIGHTP LEFTB variables_list bloque RIGHTB
+    (14) params -> params . parametro
+    (16) parametro -> . tipo ID mas_parametros
+    (63) tipo -> . INT
+    (64) tipo -> . CHAR
+    (65) tipo -> . BOOLEAN
+    (66) tipo -> . FLOAT
+    (67) tipo -> . STRING
+
+    RIGHTP          shift and go to state 39
+    INT             shift and go to state 12
+    CHAR            shift and go to state 13
+    BOOLEAN         shift and go to state 14
+    FLOAT           shift and go to state 10
+    STRING          shift and go to state 15
+
+    tipo                           shift and go to state 40
+    parametro                      shift and go to state 41
+
+state 33
+
+    (15) params -> empty .
+
+    RIGHTP          reduce using rule 15 (params -> empty .)
+    INT             reduce using rule 15 (params -> empty .)
+    CHAR            reduce using rule 15 (params -> empty .)
+    BOOLEAN         reduce using rule 15 (params -> empty .)
+    FLOAT           reduce using rule 15 (params -> empty .)
+    STRING          reduce using rule 15 (params -> empty .)
+
+
+state 34
+
+    (12) metodo -> METHOD VOID ID LEFTP params . RIGHTP LEFTB variables_list bloque RIGHTB
+    (14) params -> params . parametro
+    (16) parametro -> . tipo ID mas_parametros
+    (63) tipo -> . INT
+    (64) tipo -> . CHAR
+    (65) tipo -> . BOOLEAN
+    (66) tipo -> . FLOAT
+    (67) tipo -> . STRING
+
+    RIGHTP          shift and go to state 42
+    INT             shift and go to state 12
+    CHAR            shift and go to state 13
+    BOOLEAN         shift and go to state 14
+    FLOAT           shift and go to state 10
+    STRING          shift and go to state 15
+
+    tipo                           shift and go to state 40
+    parametro                      shift and go to state 41
+
+state 35
+
+    (11) metodo -> METHOD VOID MAIN LEFTP params . RIGHTP LEFTB variables_list bloque RIGHTB
+    (14) params -> params . parametro
+    (16) parametro -> . tipo ID mas_parametros
+    (63) tipo -> . INT
+    (64) tipo -> . CHAR
+    (65) tipo -> . BOOLEAN
+    (66) tipo -> . FLOAT
+    (67) tipo -> . STRING
+
+    RIGHTP          shift and go to state 43
+    INT             shift and go to state 12
+    CHAR            shift and go to state 13
+    BOOLEAN         shift and go to state 14
+    FLOAT           shift and go to state 10
+    STRING          shift and go to state 15
+
+    tipo                           shift and go to state 40
+    parametro                      shift and go to state 41
+
+state 36
+
+    (5) variables -> VAR tipo ID LEFTSB INT_CTE RIGHTSB . lista_variables SEMICOLON
+    (6) lista_variables -> . COMMA ID lista_variables
+    (7) lista_variables -> . COMMA ID LEFTSB INT_CTE RIGHTSB lista_variables
+    (8) lista_variables -> . empty
+    (74) empty -> .
+
+    COMMA           shift and go to state 24
+    SEMICOLON       reduce using rule 74 (empty -> .)
+
+    lista_variables                shift and go to state 44
+    empty                          shift and go to state 25
+
+state 37
+
+    (7) lista_variables -> COMMA ID LEFTSB . INT_CTE RIGHTSB lista_variables
+
+    INT_CTE         shift and go to state 45
+
+
+state 38
+
+    (6) lista_variables -> COMMA ID lista_variables .
+
+    SEMICOLON       reduce using rule 6 (lista_variables -> COMMA ID lista_variables .)
+
+
+state 39
+
+    (13) metodo -> METHOD tipo ID LEFTP params RIGHTP . LEFTB variables_list bloque RIGHTB
+
+    LEFTB           shift and go to state 46
+
+
+state 40
+
+    (16) parametro -> tipo . ID mas_parametros
+
+    ID              shift and go to state 47
+
+
+state 41
+
+    (14) params -> params parametro .
+
+    RIGHTP          reduce using rule 14 (params -> params parametro .)
+    INT             reduce using rule 14 (params -> params parametro .)
+    CHAR            reduce using rule 14 (params -> params parametro .)
+    BOOLEAN         reduce using rule 14 (params -> params parametro .)
+    FLOAT           reduce using rule 14 (params -> params parametro .)
+    STRING          reduce using rule 14 (params -> params parametro .)
+
+
+state 42
+
+    (12) metodo -> METHOD VOID ID LEFTP params RIGHTP . LEFTB variables_list bloque RIGHTB
+
+    LEFTB           shift and go to state 48
+
+
+state 43
+
+    (11) metodo -> METHOD VOID MAIN LEFTP params RIGHTP . LEFTB variables_list bloque RIGHTB
+
+    LEFTB           shift and go to state 49
+
+
+state 44
+
+    (5) variables -> VAR tipo ID LEFTSB INT_CTE RIGHTSB lista_variables . SEMICOLON
+
+    SEMICOLON       shift and go to state 50
+
+
+state 45
+
+    (7) lista_variables -> COMMA ID LEFTSB INT_CTE . RIGHTSB lista_variables
+
+    RIGHTSB         shift and go to state 51
+
+
+state 46
+
+    (13) metodo -> METHOD tipo ID LEFTP params RIGHTP LEFTB . variables_list bloque RIGHTB
+    (2) variables_list -> . variables_list variables
+    (3) variables_list -> . empty
+    (74) empty -> .
+
+    VAR             reduce using rule 74 (empty -> .)
+    RIGHTB          reduce using rule 74 (empty -> .)
+    RETURN          reduce using rule 74 (empty -> .)
+    ID              reduce using rule 74 (empty -> .)
+    PRINT           reduce using rule 74 (empty -> .)
+    WHILE           reduce using rule 74 (empty -> .)
+    IF              reduce using rule 74 (empty -> .)
+
+    variables_list                 shift and go to state 52
+    empty                          shift and go to state 3
+
+state 47
+
+    (16) parametro -> tipo ID . mas_parametros
+    (17) mas_parametros -> . COMMA tipo ID
+    (18) mas_parametros -> . empty
+    (74) empty -> .
+
+    COMMA           shift and go to state 55
+    RIGHTP          reduce using rule 74 (empty -> .)
+    INT             reduce using rule 74 (empty -> .)
+    CHAR            reduce using rule 74 (empty -> .)
+    BOOLEAN         reduce using rule 74 (empty -> .)
+    FLOAT           reduce using rule 74 (empty -> .)
+    STRING          reduce using rule 74 (empty -> .)
+
+    mas_parametros                 shift and go to state 53
+    empty                          shift and go to state 54
+
+state 48
+
+    (12) metodo -> METHOD VOID ID LEFTP params RIGHTP LEFTB . variables_list bloque RIGHTB
+    (2) variables_list -> . variables_list variables
+    (3) variables_list -> . empty
+    (74) empty -> .
+
+    VAR             reduce using rule 74 (empty -> .)
+    RIGHTB          reduce using rule 74 (empty -> .)
+    RETURN          reduce using rule 74 (empty -> .)
+    ID              reduce using rule 74 (empty -> .)
+    PRINT           reduce using rule 74 (empty -> .)
+    WHILE           reduce using rule 74 (empty -> .)
+    IF              reduce using rule 74 (empty -> .)
+
+    variables_list                 shift and go to state 56
+    empty                          shift and go to state 3
+
+state 49
+
+    (11) metodo -> METHOD VOID MAIN LEFTP params RIGHTP LEFTB . variables_list bloque RIGHTB
+    (2) variables_list -> . variables_list variables
+    (3) variables_list -> . empty
+    (74) empty -> .
+
+    VAR             reduce using rule 74 (empty -> .)
+    RIGHTB          reduce using rule 74 (empty -> .)
+    RETURN          reduce using rule 74 (empty -> .)
+    ID              reduce using rule 74 (empty -> .)
+    PRINT           reduce using rule 74 (empty -> .)
+    WHILE           reduce using rule 74 (empty -> .)
+    IF              reduce using rule 74 (empty -> .)
+
+    variables_list                 shift and go to state 57
+    empty                          shift and go to state 3
+
+state 50
+
+    (5) variables -> VAR tipo ID LEFTSB INT_CTE RIGHTSB lista_variables SEMICOLON .
+
+    VAR             reduce using rule 5 (variables -> VAR tipo ID LEFTSB INT_CTE RIGHTSB lista_variables SEMICOLON .)
+    RIGHTB          reduce using rule 5 (variables -> VAR tipo ID LEFTSB INT_CTE RIGHTSB lista_variables SEMICOLON .)
+    RETURN          reduce using rule 5 (variables -> VAR tipo ID LEFTSB INT_CTE RIGHTSB lista_variables SEMICOLON .)
+    ID              reduce using rule 5 (variables -> VAR tipo ID LEFTSB INT_CTE RIGHTSB lista_variables SEMICOLON .)
+    PRINT           reduce using rule 5 (variables -> VAR tipo ID LEFTSB INT_CTE RIGHTSB lista_variables SEMICOLON .)
+    WHILE           reduce using rule 5 (variables -> VAR tipo ID LEFTSB INT_CTE RIGHTSB lista_variables SEMICOLON .)
+    IF              reduce using rule 5 (variables -> VAR tipo ID LEFTSB INT_CTE RIGHTSB lista_variables SEMICOLON .)
+    METHOD          reduce using rule 5 (variables -> VAR tipo ID LEFTSB INT_CTE RIGHTSB lista_variables SEMICOLON .)
+    $end            reduce using rule 5 (variables -> VAR tipo ID LEFTSB INT_CTE RIGHTSB lista_variables SEMICOLON .)
+
+
+state 51
+
+    (7) lista_variables -> COMMA ID LEFTSB INT_CTE RIGHTSB . lista_variables
+    (6) lista_variables -> . COMMA ID lista_variables
+    (7) lista_variables -> . COMMA ID LEFTSB INT_CTE RIGHTSB lista_variables
+    (8) lista_variables -> . empty
+    (74) empty -> .
+
+    COMMA           shift and go to state 24
+    SEMICOLON       reduce using rule 74 (empty -> .)
+
+    lista_variables                shift and go to state 58
+    empty                          shift and go to state 25
+
+state 52
+
+    (13) metodo -> METHOD tipo ID LEFTP params RIGHTP LEFTB variables_list . bloque RIGHTB
+    (2) variables_list -> variables_list . variables
+    (19) bloque -> . bloque estatuto
+    (20) bloque -> . empty
+    (4) variables -> . VAR tipo ID lista_variables SEMICOLON
+    (5) variables -> . VAR tipo ID LEFTSB INT_CTE RIGHTSB lista_variables SEMICOLON
+    (74) empty -> .
+
+    VAR             shift and go to state 6
+    RIGHTB          reduce using rule 74 (empty -> .)
+    RETURN          reduce using rule 74 (empty -> .)
+    ID              reduce using rule 74 (empty -> .)
+    PRINT           reduce using rule 74 (empty -> .)
+    WHILE           reduce using rule 74 (empty -> .)
+    IF              reduce using rule 74 (empty -> .)
+
+    variables                      shift and go to state 4
+    bloque                         shift and go to state 59
+    empty                          shift and go to state 60
+
+state 53
+
+    (16) parametro -> tipo ID mas_parametros .
+
+    RIGHTP          reduce using rule 16 (parametro -> tipo ID mas_parametros .)
+    INT             reduce using rule 16 (parametro -> tipo ID mas_parametros .)
+    CHAR            reduce using rule 16 (parametro -> tipo ID mas_parametros .)
+    BOOLEAN         reduce using rule 16 (parametro -> tipo ID mas_parametros .)
+    FLOAT           reduce using rule 16 (parametro -> tipo ID mas_parametros .)
+    STRING          reduce using rule 16 (parametro -> tipo ID mas_parametros .)
+
+
+state 54
+
+    (18) mas_parametros -> empty .
+
+    RIGHTP          reduce using rule 18 (mas_parametros -> empty .)
+    INT             reduce using rule 18 (mas_parametros -> empty .)
+    CHAR            reduce using rule 18 (mas_parametros -> empty .)
+    BOOLEAN         reduce using rule 18 (mas_parametros -> empty .)
+    FLOAT           reduce using rule 18 (mas_parametros -> empty .)
+    STRING          reduce using rule 18 (mas_parametros -> empty .)
+
+
+state 55
+
+    (17) mas_parametros -> COMMA . tipo ID
+    (63) tipo -> . INT
+    (64) tipo -> . CHAR
+    (65) tipo -> . BOOLEAN
+    (66) tipo -> . FLOAT
+    (67) tipo -> . STRING
+
+    INT             shift and go to state 12
+    CHAR            shift and go to state 13
+    BOOLEAN         shift and go to state 14
+    FLOAT           shift and go to state 10
+    STRING          shift and go to state 15
+
+    tipo                           shift and go to state 61
+
+state 56
+
+    (12) metodo -> METHOD VOID ID LEFTP params RIGHTP LEFTB variables_list . bloque RIGHTB
+    (2) variables_list -> variables_list . variables
+    (19) bloque -> . bloque estatuto
+    (20) bloque -> . empty
+    (4) variables -> . VAR tipo ID lista_variables SEMICOLON
+    (5) variables -> . VAR tipo ID LEFTSB INT_CTE RIGHTSB lista_variables SEMICOLON
+    (74) empty -> .
+
+    VAR             shift and go to state 6
+    RIGHTB          reduce using rule 74 (empty -> .)
+    RETURN          reduce using rule 74 (empty -> .)
+    ID              reduce using rule 74 (empty -> .)
+    PRINT           reduce using rule 74 (empty -> .)
+    WHILE           reduce using rule 74 (empty -> .)
+    IF              reduce using rule 74 (empty -> .)
+
+    variables                      shift and go to state 4
+    bloque                         shift and go to state 62
+    empty                          shift and go to state 60
+
+state 57
+
+    (11) metodo -> METHOD VOID MAIN LEFTP params RIGHTP LEFTB variables_list . bloque RIGHTB
+    (2) variables_list -> variables_list . variables
+    (19) bloque -> . bloque estatuto
+    (20) bloque -> . empty
+    (4) variables -> . VAR tipo ID lista_variables SEMICOLON
+    (5) variables -> . VAR tipo ID LEFTSB INT_CTE RIGHTSB lista_variables SEMICOLON
+    (74) empty -> .
+
+    VAR             shift and go to state 6
+    RIGHTB          reduce using rule 74 (empty -> .)
+    RETURN          reduce using rule 74 (empty -> .)
+    ID              reduce using rule 74 (empty -> .)
+    PRINT           reduce using rule 74 (empty -> .)
+    WHILE           reduce using rule 74 (empty -> .)
+    IF              reduce using rule 74 (empty -> .)
+
+    variables                      shift and go to state 4
+    bloque                         shift and go to state 63
+    empty                          shift and go to state 60
+
+state 58
+
+    (7) lista_variables -> COMMA ID LEFTSB INT_CTE RIGHTSB lista_variables .
+
+    SEMICOLON       reduce using rule 7 (lista_variables -> COMMA ID LEFTSB INT_CTE RIGHTSB lista_variables .)
+
+
+state 59
+
+    (13) metodo -> METHOD tipo ID LEFTP params RIGHTP LEFTB variables_list bloque . RIGHTB
+    (19) bloque -> bloque . estatuto
+    (21) estatuto -> . return
+    (22) estatuto -> . lectura
+    (23) estatuto -> . escritura
+    (24) estatuto -> . llamada SEMICOLON
+    (25) estatuto -> . asignacion
+    (26) estatuto -> . ciclo
+    (27) estatuto -> . condicion
+    (28) return -> . RETURN exp SEMICOLON
+    (29) lectura -> . ID ASSIGN READ LEFTP RIGHTP SEMICOLON
+    (30) escritura -> . PRINT LEFTP exp RIGHTP SEMICOLON
+    (31) llamada -> . ID LEFTP llamada_list RIGHTP
+    (37) asignacion -> . ID ASSIGN exp SEMICOLON
+    (38) asignacion -> . ID LEFTSB exp RIGHTSB ASSIGN exp SEMICOLON
+    (39) ciclo -> . WHILE LEFTP exp RIGHTP LEFTB bloque RIGHTB
+    (40) condicion -> . IF LEFTP exp RIGHTP LEFTB bloque RIGHTB
+    (41) condicion -> . IF LEFTP exp RIGHTP LEFTB bloque RIGHTB ELSE LEFTB bloque RIGHTB
+
+    RIGHTB          shift and go to state 76
+    RETURN          shift and go to state 64
+    ID              shift and go to state 73
+    PRINT           shift and go to state 66
+    WHILE           shift and go to state 65
+    IF              shift and go to state 74
+
+    ciclo                          shift and go to state 67
+    return                         shift and go to state 72
+    asignacion                     shift and go to state 75
+    estatuto                       shift and go to state 68
+    llamada                        shift and go to state 69
+    condicion                      shift and go to state 70
+    lectura                        shift and go to state 71
+    escritura                      shift and go to state 77
+
+state 60
+
+    (20) bloque -> empty .
+
+    RIGHTB          reduce using rule 20 (bloque -> empty .)
+    RETURN          reduce using rule 20 (bloque -> empty .)
+    ID              reduce using rule 20 (bloque -> empty .)
+    PRINT           reduce using rule 20 (bloque -> empty .)
+    WHILE           reduce using rule 20 (bloque -> empty .)
+    IF              reduce using rule 20 (bloque -> empty .)
+
+
+state 61
+
+    (17) mas_parametros -> COMMA tipo . ID
+
+    ID              shift and go to state 78
+
+
+state 62
+
+    (12) metodo -> METHOD VOID ID LEFTP params RIGHTP LEFTB variables_list bloque . RIGHTB
+    (19) bloque -> bloque . estatuto
+    (21) estatuto -> . return
+    (22) estatuto -> . lectura
+    (23) estatuto -> . escritura
+    (24) estatuto -> . llamada SEMICOLON
+    (25) estatuto -> . asignacion
+    (26) estatuto -> . ciclo
+    (27) estatuto -> . condicion
+    (28) return -> . RETURN exp SEMICOLON
+    (29) lectura -> . ID ASSIGN READ LEFTP RIGHTP SEMICOLON
+    (30) escritura -> . PRINT LEFTP exp RIGHTP SEMICOLON
+    (31) llamada -> . ID LEFTP llamada_list RIGHTP
+    (37) asignacion -> . ID ASSIGN exp SEMICOLON
+    (38) asignacion -> . ID LEFTSB exp RIGHTSB ASSIGN exp SEMICOLON
+    (39) ciclo -> . WHILE LEFTP exp RIGHTP LEFTB bloque RIGHTB
+    (40) condicion -> . IF LEFTP exp RIGHTP LEFTB bloque RIGHTB
+    (41) condicion -> . IF LEFTP exp RIGHTP LEFTB bloque RIGHTB ELSE LEFTB bloque RIGHTB
+
+    RIGHTB          shift and go to state 79
+    RETURN          shift and go to state 64
+    ID              shift and go to state 73
+    PRINT           shift and go to state 66
+    WHILE           shift and go to state 65
+    IF              shift and go to state 74
+
+    return                         shift and go to state 72
+    ciclo                          shift and go to state 67
+    asignacion                     shift and go to state 75
+    estatuto                       shift and go to state 68
+    llamada                        shift and go to state 69
+    condicion                      shift and go to state 70
+    lectura                        shift and go to state 71
+    escritura                      shift and go to state 77
+
+state 63
+
+    (11) metodo -> METHOD VOID MAIN LEFTP params RIGHTP LEFTB variables_list bloque . RIGHTB
+    (19) bloque -> bloque . estatuto
+    (21) estatuto -> . return
+    (22) estatuto -> . lectura
+    (23) estatuto -> . escritura
+    (24) estatuto -> . llamada SEMICOLON
+    (25) estatuto -> . asignacion
+    (26) estatuto -> . ciclo
+    (27) estatuto -> . condicion
+    (28) return -> . RETURN exp SEMICOLON
+    (29) lectura -> . ID ASSIGN READ LEFTP RIGHTP SEMICOLON
+    (30) escritura -> . PRINT LEFTP exp RIGHTP SEMICOLON
+    (31) llamada -> . ID LEFTP llamada_list RIGHTP
+    (37) asignacion -> . ID ASSIGN exp SEMICOLON
+    (38) asignacion -> . ID LEFTSB exp RIGHTSB ASSIGN exp SEMICOLON
+    (39) ciclo -> . WHILE LEFTP exp RIGHTP LEFTB bloque RIGHTB
+    (40) condicion -> . IF LEFTP exp RIGHTP LEFTB bloque RIGHTB
+    (41) condicion -> . IF LEFTP exp RIGHTP LEFTB bloque RIGHTB ELSE LEFTB bloque RIGHTB
+
+    RIGHTB          shift and go to state 80
+    RETURN          shift and go to state 64
+    ID              shift and go to state 73
+    PRINT           shift and go to state 66
+    WHILE           shift and go to state 65
+    IF              shift and go to state 74
+
+    return                         shift and go to state 72
+    ciclo                          shift and go to state 67
+    asignacion                     shift and go to state 75
+    estatuto                       shift and go to state 68
+    llamada                        shift and go to state 69
+    condicion                      shift and go to state 70
+    lectura                        shift and go to state 71
+    escritura                      shift and go to state 77
+
+state 64
+
+    (28) return -> RETURN . exp SEMICOLON
+    (42) exp -> . llamada
+    (43) exp -> . expresion
+    (31) llamada -> . ID LEFTP llamada_list RIGHTP
+    (44) expresion -> . expresion1
+    (45) expresion -> . expresion1 TIMES expresion
+    (46) expresion -> . expresion1 DIVISION expresion
+    (47) expresion1 -> . expresion2
+    (48) expresion1 -> . expresion2 SUM expresion1
+    (49) expresion1 -> . expresion2 LESS expresion1
+    (50) expresion2 -> . expresion3
+    (51) expresion2 -> . expresion3 EQUALS expresion2
+    (52) expresion2 -> . expresion3 NOTEQUAL expresion2
+    (53) expresion2 -> . expresion3 GREATEREQUAL expresion2
+    (54) expresion2 -> . expresion3 GREATERTHAN expresion2
+    (55) expresion2 -> . expresion3 LESSTHAN expresion2
+    (56) expresion2 -> . expresion3 LESSEQUAL expresion2
+    (57) expresion3 -> . expresion4
+    (58) expresion3 -> . expresion4 AND expresion3
+    (59) expresion3 -> . expresion4 OR expresion3
+    (60) expresion4 -> . constante
+    (61) expresion4 -> . ID
+    (62) expresion4 -> . LEFTP expresion RIGHTP
+    (68) constante -> . INT_CTE
+    (69) constante -> . FLOAT_CTE
+    (70) constante -> . CHAR_CTE
+    (71) constante -> . STRING_CTE
+    (72) constante -> . TRUE
+    (73) constante -> . FALSE
+
+    ID              shift and go to state 92
+    LEFTP           shift and go to state 82
+    INT_CTE         shift and go to state 93
+    FLOAT_CTE       shift and go to state 95
+    CHAR_CTE        shift and go to state 84
+    STRING_CTE      shift and go to state 85
+    TRUE            shift and go to state 81
+    FALSE           shift and go to state 91
+
+    expresion                      shift and go to state 94
+    expresion1                     shift and go to state 86
+    expresion3                     shift and go to state 87
+    expresion2                     shift and go to state 88
+    expresion4                     shift and go to state 89
+    constante                      shift and go to state 90
+    llamada                        shift and go to state 83
+    exp                            shift and go to state 96
+
+state 65
+
+    (39) ciclo -> WHILE . LEFTP exp RIGHTP LEFTB bloque RIGHTB
+
+    LEFTP           shift and go to state 97
+
+
+state 66
+
+    (30) escritura -> PRINT . LEFTP exp RIGHTP SEMICOLON
+
+    LEFTP           shift and go to state 98
+
+
+state 67
+
+    (26) estatuto -> ciclo .
+
+    RIGHTB          reduce using rule 26 (estatuto -> ciclo .)
+    RETURN          reduce using rule 26 (estatuto -> ciclo .)
+    ID              reduce using rule 26 (estatuto -> ciclo .)
+    PRINT           reduce using rule 26 (estatuto -> ciclo .)
+    WHILE           reduce using rule 26 (estatuto -> ciclo .)
+    IF              reduce using rule 26 (estatuto -> ciclo .)
+
+
+state 68
+
+    (19) bloque -> bloque estatuto .
+
+    RIGHTB          reduce using rule 19 (bloque -> bloque estatuto .)
+    RETURN          reduce using rule 19 (bloque -> bloque estatuto .)
+    ID              reduce using rule 19 (bloque -> bloque estatuto .)
+    PRINT           reduce using rule 19 (bloque -> bloque estatuto .)
+    WHILE           reduce using rule 19 (bloque -> bloque estatuto .)
+    IF              reduce using rule 19 (bloque -> bloque estatuto .)
+
+
+state 69
+
+    (24) estatuto -> llamada . SEMICOLON
+
+    SEMICOLON       shift and go to state 99
+
+
+state 70
+
+    (27) estatuto -> condicion .
+
+    RIGHTB          reduce using rule 27 (estatuto -> condicion .)
+    RETURN          reduce using rule 27 (estatuto -> condicion .)
+    ID              reduce using rule 27 (estatuto -> condicion .)
+    PRINT           reduce using rule 27 (estatuto -> condicion .)
+    WHILE           reduce using rule 27 (estatuto -> condicion .)
+    IF              reduce using rule 27 (estatuto -> condicion .)
+
+
+state 71
+
+    (22) estatuto -> lectura .
+
+    RIGHTB          reduce using rule 22 (estatuto -> lectura .)
+    RETURN          reduce using rule 22 (estatuto -> lectura .)
+    ID              reduce using rule 22 (estatuto -> lectura .)
+    PRINT           reduce using rule 22 (estatuto -> lectura .)
+    WHILE           reduce using rule 22 (estatuto -> lectura .)
+    IF              reduce using rule 22 (estatuto -> lectura .)
+
+
+state 72
+
+    (21) estatuto -> return .
+
+    RIGHTB          reduce using rule 21 (estatuto -> return .)
+    RETURN          reduce using rule 21 (estatuto -> return .)
+    ID              reduce using rule 21 (estatuto -> return .)
+    PRINT           reduce using rule 21 (estatuto -> return .)
+    WHILE           reduce using rule 21 (estatuto -> return .)
+    IF              reduce using rule 21 (estatuto -> return .)
+
+
+state 73
+
+    (29) lectura -> ID . ASSIGN READ LEFTP RIGHTP SEMICOLON
+    (31) llamada -> ID . LEFTP llamada_list RIGHTP
+    (37) asignacion -> ID . ASSIGN exp SEMICOLON
+    (38) asignacion -> ID . LEFTSB exp RIGHTSB ASSIGN exp SEMICOLON
+
+    ASSIGN          shift and go to state 101
+    LEFTP           shift and go to state 102
+    LEFTSB          shift and go to state 100
+
+
+state 74
+
+    (40) condicion -> IF . LEFTP exp RIGHTP LEFTB bloque RIGHTB
+    (41) condicion -> IF . LEFTP exp RIGHTP LEFTB bloque RIGHTB ELSE LEFTB bloque RIGHTB
+
+    LEFTP           shift and go to state 103
+
+
+state 75
+
+    (25) estatuto -> asignacion .
+
+    RIGHTB          reduce using rule 25 (estatuto -> asignacion .)
+    RETURN          reduce using rule 25 (estatuto -> asignacion .)
+    ID              reduce using rule 25 (estatuto -> asignacion .)
+    PRINT           reduce using rule 25 (estatuto -> asignacion .)
+    WHILE           reduce using rule 25 (estatuto -> asignacion .)
+    IF              reduce using rule 25 (estatuto -> asignacion .)
+
+
+state 76
+
+    (13) metodo -> METHOD tipo ID LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB .
+
+    METHOD          reduce using rule 13 (metodo -> METHOD tipo ID LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB .)
+    $end            reduce using rule 13 (metodo -> METHOD tipo ID LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB .)
+
+
+state 77
+
+    (23) estatuto -> escritura .
+
+    RIGHTB          reduce using rule 23 (estatuto -> escritura .)
+    RETURN          reduce using rule 23 (estatuto -> escritura .)
+    ID              reduce using rule 23 (estatuto -> escritura .)
+    PRINT           reduce using rule 23 (estatuto -> escritura .)
+    WHILE           reduce using rule 23 (estatuto -> escritura .)
+    IF              reduce using rule 23 (estatuto -> escritura .)
+
+
+state 78
+
+    (17) mas_parametros -> COMMA tipo ID .
+
+    RIGHTP          reduce using rule 17 (mas_parametros -> COMMA tipo ID .)
+    INT             reduce using rule 17 (mas_parametros -> COMMA tipo ID .)
+    CHAR            reduce using rule 17 (mas_parametros -> COMMA tipo ID .)
+    BOOLEAN         reduce using rule 17 (mas_parametros -> COMMA tipo ID .)
+    FLOAT           reduce using rule 17 (mas_parametros -> COMMA tipo ID .)
+    STRING          reduce using rule 17 (mas_parametros -> COMMA tipo ID .)
+
+
+state 79
+
+    (12) metodo -> METHOD VOID ID LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB .
+
+    METHOD          reduce using rule 12 (metodo -> METHOD VOID ID LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB .)
+    $end            reduce using rule 12 (metodo -> METHOD VOID ID LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB .)
+
+
+state 80
+
+    (11) metodo -> METHOD VOID MAIN LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB .
+
+    METHOD          reduce using rule 11 (metodo -> METHOD VOID MAIN LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB .)
+    $end            reduce using rule 11 (metodo -> METHOD VOID MAIN LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB .)
+
+
+state 81
+
+    (72) constante -> TRUE .
+
+    AND             reduce using rule 72 (constante -> TRUE .)
+    OR              reduce using rule 72 (constante -> TRUE .)
+    EQUALS          reduce using rule 72 (constante -> TRUE .)
+    NOTEQUAL        reduce using rule 72 (constante -> TRUE .)
+    GREATEREQUAL    reduce using rule 72 (constante -> TRUE .)
+    GREATERTHAN     reduce using rule 72 (constante -> TRUE .)
+    LESSTHAN        reduce using rule 72 (constante -> TRUE .)
+    LESSEQUAL       reduce using rule 72 (constante -> TRUE .)
+    SUM             reduce using rule 72 (constante -> TRUE .)
+    LESS            reduce using rule 72 (constante -> TRUE .)
+    TIMES           reduce using rule 72 (constante -> TRUE .)
+    DIVISION        reduce using rule 72 (constante -> TRUE .)
+    SEMICOLON       reduce using rule 72 (constante -> TRUE .)
+    RIGHTP          reduce using rule 72 (constante -> TRUE .)
+    RIGHTSB         reduce using rule 72 (constante -> TRUE .)
+    COMMA           reduce using rule 72 (constante -> TRUE .)
+    ID              reduce using rule 72 (constante -> TRUE .)
+    LEFTP           reduce using rule 72 (constante -> TRUE .)
+    INT_CTE         reduce using rule 72 (constante -> TRUE .)
+    FLOAT_CTE       reduce using rule 72 (constante -> TRUE .)
+    CHAR_CTE        reduce using rule 72 (constante -> TRUE .)
+    STRING_CTE      reduce using rule 72 (constante -> TRUE .)
+    TRUE            reduce using rule 72 (constante -> TRUE .)
+    FALSE           reduce using rule 72 (constante -> TRUE .)
+
+
+state 82
+
+    (62) expresion4 -> LEFTP . expresion RIGHTP
+    (44) expresion -> . expresion1
+    (45) expresion -> . expresion1 TIMES expresion
+    (46) expresion -> . expresion1 DIVISION expresion
+    (47) expresion1 -> . expresion2
+    (48) expresion1 -> . expresion2 SUM expresion1
+    (49) expresion1 -> . expresion2 LESS expresion1
+    (50) expresion2 -> . expresion3
+    (51) expresion2 -> . expresion3 EQUALS expresion2
+    (52) expresion2 -> . expresion3 NOTEQUAL expresion2
+    (53) expresion2 -> . expresion3 GREATEREQUAL expresion2
+    (54) expresion2 -> . expresion3 GREATERTHAN expresion2
+    (55) expresion2 -> . expresion3 LESSTHAN expresion2
+    (56) expresion2 -> . expresion3 LESSEQUAL expresion2
+    (57) expresion3 -> . expresion4
+    (58) expresion3 -> . expresion4 AND expresion3
+    (59) expresion3 -> . expresion4 OR expresion3
+    (60) expresion4 -> . constante
+    (61) expresion4 -> . ID
+    (62) expresion4 -> . LEFTP expresion RIGHTP
+    (68) constante -> . INT_CTE
+    (69) constante -> . FLOAT_CTE
+    (70) constante -> . CHAR_CTE
+    (71) constante -> . STRING_CTE
+    (72) constante -> . TRUE
+    (73) constante -> . FALSE
+
+    ID              shift and go to state 104
+    LEFTP           shift and go to state 82
+    INT_CTE         shift and go to state 93
+    FLOAT_CTE       shift and go to state 95
+    CHAR_CTE        shift and go to state 84
+    STRING_CTE      shift and go to state 85
+    TRUE            shift and go to state 81
+    FALSE           shift and go to state 91
+
+    expresion                      shift and go to state 105
+    expresion1                     shift and go to state 86
+    expresion3                     shift and go to state 87
+    expresion2                     shift and go to state 88
+    expresion4                     shift and go to state 89
+    constante                      shift and go to state 90
+
+state 83
+
+    (42) exp -> llamada .
+
+    COMMA           reduce using rule 42 (exp -> llamada .)
+    RIGHTP          reduce using rule 42 (exp -> llamada .)
+    ID              reduce using rule 42 (exp -> llamada .)
+    LEFTP           reduce using rule 42 (exp -> llamada .)
+    INT_CTE         reduce using rule 42 (exp -> llamada .)
+    FLOAT_CTE       reduce using rule 42 (exp -> llamada .)
+    CHAR_CTE        reduce using rule 42 (exp -> llamada .)
+    STRING_CTE      reduce using rule 42 (exp -> llamada .)
+    TRUE            reduce using rule 42 (exp -> llamada .)
+    FALSE           reduce using rule 42 (exp -> llamada .)
+    SEMICOLON       reduce using rule 42 (exp -> llamada .)
+    RIGHTSB         reduce using rule 42 (exp -> llamada .)
+
+
+state 84
+
+    (70) constante -> CHAR_CTE .
+
+    AND             reduce using rule 70 (constante -> CHAR_CTE .)
+    OR              reduce using rule 70 (constante -> CHAR_CTE .)
+    EQUALS          reduce using rule 70 (constante -> CHAR_CTE .)
+    NOTEQUAL        reduce using rule 70 (constante -> CHAR_CTE .)
+    GREATEREQUAL    reduce using rule 70 (constante -> CHAR_CTE .)
+    GREATERTHAN     reduce using rule 70 (constante -> CHAR_CTE .)
+    LESSTHAN        reduce using rule 70 (constante -> CHAR_CTE .)
+    LESSEQUAL       reduce using rule 70 (constante -> CHAR_CTE .)
+    SUM             reduce using rule 70 (constante -> CHAR_CTE .)
+    LESS            reduce using rule 70 (constante -> CHAR_CTE .)
+    TIMES           reduce using rule 70 (constante -> CHAR_CTE .)
+    DIVISION        reduce using rule 70 (constante -> CHAR_CTE .)
+    SEMICOLON       reduce using rule 70 (constante -> CHAR_CTE .)
+    RIGHTP          reduce using rule 70 (constante -> CHAR_CTE .)
+    RIGHTSB         reduce using rule 70 (constante -> CHAR_CTE .)
+    COMMA           reduce using rule 70 (constante -> CHAR_CTE .)
+    ID              reduce using rule 70 (constante -> CHAR_CTE .)
+    LEFTP           reduce using rule 70 (constante -> CHAR_CTE .)
+    INT_CTE         reduce using rule 70 (constante -> CHAR_CTE .)
+    FLOAT_CTE       reduce using rule 70 (constante -> CHAR_CTE .)
+    CHAR_CTE        reduce using rule 70 (constante -> CHAR_CTE .)
+    STRING_CTE      reduce using rule 70 (constante -> CHAR_CTE .)
+    TRUE            reduce using rule 70 (constante -> CHAR_CTE .)
+    FALSE           reduce using rule 70 (constante -> CHAR_CTE .)
+
+
+state 85
+
+    (71) constante -> STRING_CTE .
+
+    AND             reduce using rule 71 (constante -> STRING_CTE .)
+    OR              reduce using rule 71 (constante -> STRING_CTE .)
+    EQUALS          reduce using rule 71 (constante -> STRING_CTE .)
+    NOTEQUAL        reduce using rule 71 (constante -> STRING_CTE .)
+    GREATEREQUAL    reduce using rule 71 (constante -> STRING_CTE .)
+    GREATERTHAN     reduce using rule 71 (constante -> STRING_CTE .)
+    LESSTHAN        reduce using rule 71 (constante -> STRING_CTE .)
+    LESSEQUAL       reduce using rule 71 (constante -> STRING_CTE .)
+    SUM             reduce using rule 71 (constante -> STRING_CTE .)
+    LESS            reduce using rule 71 (constante -> STRING_CTE .)
+    TIMES           reduce using rule 71 (constante -> STRING_CTE .)
+    DIVISION        reduce using rule 71 (constante -> STRING_CTE .)
+    SEMICOLON       reduce using rule 71 (constante -> STRING_CTE .)
+    RIGHTP          reduce using rule 71 (constante -> STRING_CTE .)
+    RIGHTSB         reduce using rule 71 (constante -> STRING_CTE .)
+    COMMA           reduce using rule 71 (constante -> STRING_CTE .)
+    ID              reduce using rule 71 (constante -> STRING_CTE .)
+    LEFTP           reduce using rule 71 (constante -> STRING_CTE .)
+    INT_CTE         reduce using rule 71 (constante -> STRING_CTE .)
+    FLOAT_CTE       reduce using rule 71 (constante -> STRING_CTE .)
+    CHAR_CTE        reduce using rule 71 (constante -> STRING_CTE .)
+    STRING_CTE      reduce using rule 71 (constante -> STRING_CTE .)
+    TRUE            reduce using rule 71 (constante -> STRING_CTE .)
+    FALSE           reduce using rule 71 (constante -> STRING_CTE .)
+
+
+state 86
+
+    (44) expresion -> expresion1 .
+    (45) expresion -> expresion1 . TIMES expresion
+    (46) expresion -> expresion1 . DIVISION expresion
+
+    COMMA           reduce using rule 44 (expresion -> expresion1 .)
+    RIGHTP          reduce using rule 44 (expresion -> expresion1 .)
+    ID              reduce using rule 44 (expresion -> expresion1 .)
+    LEFTP           reduce using rule 44 (expresion -> expresion1 .)
+    INT_CTE         reduce using rule 44 (expresion -> expresion1 .)
+    FLOAT_CTE       reduce using rule 44 (expresion -> expresion1 .)
+    CHAR_CTE        reduce using rule 44 (expresion -> expresion1 .)
+    STRING_CTE      reduce using rule 44 (expresion -> expresion1 .)
+    TRUE            reduce using rule 44 (expresion -> expresion1 .)
+    FALSE           reduce using rule 44 (expresion -> expresion1 .)
+    SEMICOLON       reduce using rule 44 (expresion -> expresion1 .)
+    RIGHTSB         reduce using rule 44 (expresion -> expresion1 .)
+    TIMES           shift and go to state 107
+    DIVISION        shift and go to state 106
+
+
+state 87
+
+    (50) expresion2 -> expresion3 .
+    (51) expresion2 -> expresion3 . EQUALS expresion2
+    (52) expresion2 -> expresion3 . NOTEQUAL expresion2
+    (53) expresion2 -> expresion3 . GREATEREQUAL expresion2
+    (54) expresion2 -> expresion3 . GREATERTHAN expresion2
+    (55) expresion2 -> expresion3 . LESSTHAN expresion2
+    (56) expresion2 -> expresion3 . LESSEQUAL expresion2
+
+    SUM             reduce using rule 50 (expresion2 -> expresion3 .)
+    LESS            reduce using rule 50 (expresion2 -> expresion3 .)
+    TIMES           reduce using rule 50 (expresion2 -> expresion3 .)
+    DIVISION        reduce using rule 50 (expresion2 -> expresion3 .)
+    SEMICOLON       reduce using rule 50 (expresion2 -> expresion3 .)
+    RIGHTP          reduce using rule 50 (expresion2 -> expresion3 .)
+    RIGHTSB         reduce using rule 50 (expresion2 -> expresion3 .)
+    COMMA           reduce using rule 50 (expresion2 -> expresion3 .)
+    ID              reduce using rule 50 (expresion2 -> expresion3 .)
+    LEFTP           reduce using rule 50 (expresion2 -> expresion3 .)
+    INT_CTE         reduce using rule 50 (expresion2 -> expresion3 .)
+    FLOAT_CTE       reduce using rule 50 (expresion2 -> expresion3 .)
+    CHAR_CTE        reduce using rule 50 (expresion2 -> expresion3 .)
+    STRING_CTE      reduce using rule 50 (expresion2 -> expresion3 .)
+    TRUE            reduce using rule 50 (expresion2 -> expresion3 .)
+    FALSE           reduce using rule 50 (expresion2 -> expresion3 .)
+    EQUALS          shift and go to state 109
+    NOTEQUAL        shift and go to state 108
+    GREATEREQUAL    shift and go to state 110
+    GREATERTHAN     shift and go to state 112
+    LESSTHAN        shift and go to state 111
+    LESSEQUAL       shift and go to state 113
+
+
+state 88
+
+    (47) expresion1 -> expresion2 .
+    (48) expresion1 -> expresion2 . SUM expresion1
+    (49) expresion1 -> expresion2 . LESS expresion1
+
+    TIMES           reduce using rule 47 (expresion1 -> expresion2 .)
+    DIVISION        reduce using rule 47 (expresion1 -> expresion2 .)
+    SEMICOLON       reduce using rule 47 (expresion1 -> expresion2 .)
+    RIGHTP          reduce using rule 47 (expresion1 -> expresion2 .)
+    RIGHTSB         reduce using rule 47 (expresion1 -> expresion2 .)
+    COMMA           reduce using rule 47 (expresion1 -> expresion2 .)
+    ID              reduce using rule 47 (expresion1 -> expresion2 .)
+    LEFTP           reduce using rule 47 (expresion1 -> expresion2 .)
+    INT_CTE         reduce using rule 47 (expresion1 -> expresion2 .)
+    FLOAT_CTE       reduce using rule 47 (expresion1 -> expresion2 .)
+    CHAR_CTE        reduce using rule 47 (expresion1 -> expresion2 .)
+    STRING_CTE      reduce using rule 47 (expresion1 -> expresion2 .)
+    TRUE            reduce using rule 47 (expresion1 -> expresion2 .)
+    FALSE           reduce using rule 47 (expresion1 -> expresion2 .)
+    SUM             shift and go to state 114
+    LESS            shift and go to state 115
+
+
+state 89
+
+    (57) expresion3 -> expresion4 .
+    (58) expresion3 -> expresion4 . AND expresion3
+    (59) expresion3 -> expresion4 . OR expresion3
+
+    EQUALS          reduce using rule 57 (expresion3 -> expresion4 .)
+    NOTEQUAL        reduce using rule 57 (expresion3 -> expresion4 .)
+    GREATEREQUAL    reduce using rule 57 (expresion3 -> expresion4 .)
+    GREATERTHAN     reduce using rule 57 (expresion3 -> expresion4 .)
+    LESSTHAN        reduce using rule 57 (expresion3 -> expresion4 .)
+    LESSEQUAL       reduce using rule 57 (expresion3 -> expresion4 .)
+    SUM             reduce using rule 57 (expresion3 -> expresion4 .)
+    LESS            reduce using rule 57 (expresion3 -> expresion4 .)
+    TIMES           reduce using rule 57 (expresion3 -> expresion4 .)
+    DIVISION        reduce using rule 57 (expresion3 -> expresion4 .)
+    SEMICOLON       reduce using rule 57 (expresion3 -> expresion4 .)
+    RIGHTP          reduce using rule 57 (expresion3 -> expresion4 .)
+    RIGHTSB         reduce using rule 57 (expresion3 -> expresion4 .)
+    COMMA           reduce using rule 57 (expresion3 -> expresion4 .)
+    ID              reduce using rule 57 (expresion3 -> expresion4 .)
+    LEFTP           reduce using rule 57 (expresion3 -> expresion4 .)
+    INT_CTE         reduce using rule 57 (expresion3 -> expresion4 .)
+    FLOAT_CTE       reduce using rule 57 (expresion3 -> expresion4 .)
+    CHAR_CTE        reduce using rule 57 (expresion3 -> expresion4 .)
+    STRING_CTE      reduce using rule 57 (expresion3 -> expresion4 .)
+    TRUE            reduce using rule 57 (expresion3 -> expresion4 .)
+    FALSE           reduce using rule 57 (expresion3 -> expresion4 .)
+    AND             shift and go to state 116
+    OR              shift and go to state 117
+
+
+state 90
+
+    (60) expresion4 -> constante .
+
+    AND             reduce using rule 60 (expresion4 -> constante .)
+    OR              reduce using rule 60 (expresion4 -> constante .)
+    EQUALS          reduce using rule 60 (expresion4 -> constante .)
+    NOTEQUAL        reduce using rule 60 (expresion4 -> constante .)
+    GREATEREQUAL    reduce using rule 60 (expresion4 -> constante .)
+    GREATERTHAN     reduce using rule 60 (expresion4 -> constante .)
+    LESSTHAN        reduce using rule 60 (expresion4 -> constante .)
+    LESSEQUAL       reduce using rule 60 (expresion4 -> constante .)
+    SUM             reduce using rule 60 (expresion4 -> constante .)
+    LESS            reduce using rule 60 (expresion4 -> constante .)
+    TIMES           reduce using rule 60 (expresion4 -> constante .)
+    DIVISION        reduce using rule 60 (expresion4 -> constante .)
+    SEMICOLON       reduce using rule 60 (expresion4 -> constante .)
+    RIGHTP          reduce using rule 60 (expresion4 -> constante .)
+    RIGHTSB         reduce using rule 60 (expresion4 -> constante .)
+    COMMA           reduce using rule 60 (expresion4 -> constante .)
+    ID              reduce using rule 60 (expresion4 -> constante .)
+    LEFTP           reduce using rule 60 (expresion4 -> constante .)
+    INT_CTE         reduce using rule 60 (expresion4 -> constante .)
+    FLOAT_CTE       reduce using rule 60 (expresion4 -> constante .)
+    CHAR_CTE        reduce using rule 60 (expresion4 -> constante .)
+    STRING_CTE      reduce using rule 60 (expresion4 -> constante .)
+    TRUE            reduce using rule 60 (expresion4 -> constante .)
+    FALSE           reduce using rule 60 (expresion4 -> constante .)
+
+
+state 91
+
+    (73) constante -> FALSE .
+
+    AND             reduce using rule 73 (constante -> FALSE .)
+    OR              reduce using rule 73 (constante -> FALSE .)
+    EQUALS          reduce using rule 73 (constante -> FALSE .)
+    NOTEQUAL        reduce using rule 73 (constante -> FALSE .)
+    GREATEREQUAL    reduce using rule 73 (constante -> FALSE .)
+    GREATERTHAN     reduce using rule 73 (constante -> FALSE .)
+    LESSTHAN        reduce using rule 73 (constante -> FALSE .)
+    LESSEQUAL       reduce using rule 73 (constante -> FALSE .)
+    SUM             reduce using rule 73 (constante -> FALSE .)
+    LESS            reduce using rule 73 (constante -> FALSE .)
+    TIMES           reduce using rule 73 (constante -> FALSE .)
+    DIVISION        reduce using rule 73 (constante -> FALSE .)
+    SEMICOLON       reduce using rule 73 (constante -> FALSE .)
+    RIGHTP          reduce using rule 73 (constante -> FALSE .)
+    RIGHTSB         reduce using rule 73 (constante -> FALSE .)
+    COMMA           reduce using rule 73 (constante -> FALSE .)
+    ID              reduce using rule 73 (constante -> FALSE .)
+    LEFTP           reduce using rule 73 (constante -> FALSE .)
+    INT_CTE         reduce using rule 73 (constante -> FALSE .)
+    FLOAT_CTE       reduce using rule 73 (constante -> FALSE .)
+    CHAR_CTE        reduce using rule 73 (constante -> FALSE .)
+    STRING_CTE      reduce using rule 73 (constante -> FALSE .)
+    TRUE            reduce using rule 73 (constante -> FALSE .)
+    FALSE           reduce using rule 73 (constante -> FALSE .)
+
+
+state 92
+
+    (31) llamada -> ID . LEFTP llamada_list RIGHTP
+    (61) expresion4 -> ID .
+
+  ! shift/reduce conflict for LEFTP resolved as shift
+    LEFTP           shift and go to state 102
+    AND             reduce using rule 61 (expresion4 -> ID .)
+    OR              reduce using rule 61 (expresion4 -> ID .)
+    EQUALS          reduce using rule 61 (expresion4 -> ID .)
+    NOTEQUAL        reduce using rule 61 (expresion4 -> ID .)
+    GREATEREQUAL    reduce using rule 61 (expresion4 -> ID .)
+    GREATERTHAN     reduce using rule 61 (expresion4 -> ID .)
+    LESSTHAN        reduce using rule 61 (expresion4 -> ID .)
+    LESSEQUAL       reduce using rule 61 (expresion4 -> ID .)
+    SUM             reduce using rule 61 (expresion4 -> ID .)
+    LESS            reduce using rule 61 (expresion4 -> ID .)
+    TIMES           reduce using rule 61 (expresion4 -> ID .)
+    DIVISION        reduce using rule 61 (expresion4 -> ID .)
+    RIGHTP          reduce using rule 61 (expresion4 -> ID .)
+    SEMICOLON       reduce using rule 61 (expresion4 -> ID .)
+    RIGHTSB         reduce using rule 61 (expresion4 -> ID .)
+    ID              reduce using rule 61 (expresion4 -> ID .)
+    INT_CTE         reduce using rule 61 (expresion4 -> ID .)
+    FLOAT_CTE       reduce using rule 61 (expresion4 -> ID .)
+    CHAR_CTE        reduce using rule 61 (expresion4 -> ID .)
+    STRING_CTE      reduce using rule 61 (expresion4 -> ID .)
+    TRUE            reduce using rule 61 (expresion4 -> ID .)
+    FALSE           reduce using rule 61 (expresion4 -> ID .)
+    COMMA           reduce using rule 61 (expresion4 -> ID .)
+
+  ! LEFTP           [ reduce using rule 61 (expresion4 -> ID .) ]
+
+
+state 93
+
+    (68) constante -> INT_CTE .
+
+    AND             reduce using rule 68 (constante -> INT_CTE .)
+    OR              reduce using rule 68 (constante -> INT_CTE .)
+    EQUALS          reduce using rule 68 (constante -> INT_CTE .)
+    NOTEQUAL        reduce using rule 68 (constante -> INT_CTE .)
+    GREATEREQUAL    reduce using rule 68 (constante -> INT_CTE .)
+    GREATERTHAN     reduce using rule 68 (constante -> INT_CTE .)
+    LESSTHAN        reduce using rule 68 (constante -> INT_CTE .)
+    LESSEQUAL       reduce using rule 68 (constante -> INT_CTE .)
+    SUM             reduce using rule 68 (constante -> INT_CTE .)
+    LESS            reduce using rule 68 (constante -> INT_CTE .)
+    TIMES           reduce using rule 68 (constante -> INT_CTE .)
+    DIVISION        reduce using rule 68 (constante -> INT_CTE .)
+    SEMICOLON       reduce using rule 68 (constante -> INT_CTE .)
+    RIGHTP          reduce using rule 68 (constante -> INT_CTE .)
+    RIGHTSB         reduce using rule 68 (constante -> INT_CTE .)
+    COMMA           reduce using rule 68 (constante -> INT_CTE .)
+    ID              reduce using rule 68 (constante -> INT_CTE .)
+    LEFTP           reduce using rule 68 (constante -> INT_CTE .)
+    INT_CTE         reduce using rule 68 (constante -> INT_CTE .)
+    FLOAT_CTE       reduce using rule 68 (constante -> INT_CTE .)
+    CHAR_CTE        reduce using rule 68 (constante -> INT_CTE .)
+    STRING_CTE      reduce using rule 68 (constante -> INT_CTE .)
+    TRUE            reduce using rule 68 (constante -> INT_CTE .)
+    FALSE           reduce using rule 68 (constante -> INT_CTE .)
+
+
+state 94
+
+    (43) exp -> expresion .
+
+    COMMA           reduce using rule 43 (exp -> expresion .)
+    RIGHTP          reduce using rule 43 (exp -> expresion .)
+    ID              reduce using rule 43 (exp -> expresion .)
+    LEFTP           reduce using rule 43 (exp -> expresion .)
+    INT_CTE         reduce using rule 43 (exp -> expresion .)
+    FLOAT_CTE       reduce using rule 43 (exp -> expresion .)
+    CHAR_CTE        reduce using rule 43 (exp -> expresion .)
+    STRING_CTE      reduce using rule 43 (exp -> expresion .)
+    TRUE            reduce using rule 43 (exp -> expresion .)
+    FALSE           reduce using rule 43 (exp -> expresion .)
+    SEMICOLON       reduce using rule 43 (exp -> expresion .)
+    RIGHTSB         reduce using rule 43 (exp -> expresion .)
+
+
+state 95
+
+    (69) constante -> FLOAT_CTE .
+
+    AND             reduce using rule 69 (constante -> FLOAT_CTE .)
+    OR              reduce using rule 69 (constante -> FLOAT_CTE .)
+    EQUALS          reduce using rule 69 (constante -> FLOAT_CTE .)
+    NOTEQUAL        reduce using rule 69 (constante -> FLOAT_CTE .)
+    GREATEREQUAL    reduce using rule 69 (constante -> FLOAT_CTE .)
+    GREATERTHAN     reduce using rule 69 (constante -> FLOAT_CTE .)
+    LESSTHAN        reduce using rule 69 (constante -> FLOAT_CTE .)
+    LESSEQUAL       reduce using rule 69 (constante -> FLOAT_CTE .)
+    SUM             reduce using rule 69 (constante -> FLOAT_CTE .)
+    LESS            reduce using rule 69 (constante -> FLOAT_CTE .)
+    TIMES           reduce using rule 69 (constante -> FLOAT_CTE .)
+    DIVISION        reduce using rule 69 (constante -> FLOAT_CTE .)
+    SEMICOLON       reduce using rule 69 (constante -> FLOAT_CTE .)
+    RIGHTP          reduce using rule 69 (constante -> FLOAT_CTE .)
+    RIGHTSB         reduce using rule 69 (constante -> FLOAT_CTE .)
+    COMMA           reduce using rule 69 (constante -> FLOAT_CTE .)
+    ID              reduce using rule 69 (constante -> FLOAT_CTE .)
+    LEFTP           reduce using rule 69 (constante -> FLOAT_CTE .)
+    INT_CTE         reduce using rule 69 (constante -> FLOAT_CTE .)
+    FLOAT_CTE       reduce using rule 69 (constante -> FLOAT_CTE .)
+    CHAR_CTE        reduce using rule 69 (constante -> FLOAT_CTE .)
+    STRING_CTE      reduce using rule 69 (constante -> FLOAT_CTE .)
+    TRUE            reduce using rule 69 (constante -> FLOAT_CTE .)
+    FALSE           reduce using rule 69 (constante -> FLOAT_CTE .)
+
+
+state 96
+
+    (28) return -> RETURN exp . SEMICOLON
+
+    SEMICOLON       shift and go to state 118
+
+
+state 97
+
+    (39) ciclo -> WHILE LEFTP . exp RIGHTP LEFTB bloque RIGHTB
+    (42) exp -> . llamada
+    (43) exp -> . expresion
+    (31) llamada -> . ID LEFTP llamada_list RIGHTP
+    (44) expresion -> . expresion1
+    (45) expresion -> . expresion1 TIMES expresion
+    (46) expresion -> . expresion1 DIVISION expresion
+    (47) expresion1 -> . expresion2
+    (48) expresion1 -> . expresion2 SUM expresion1
+    (49) expresion1 -> . expresion2 LESS expresion1
+    (50) expresion2 -> . expresion3
+    (51) expresion2 -> . expresion3 EQUALS expresion2
+    (52) expresion2 -> . expresion3 NOTEQUAL expresion2
+    (53) expresion2 -> . expresion3 GREATEREQUAL expresion2
+    (54) expresion2 -> . expresion3 GREATERTHAN expresion2
+    (55) expresion2 -> . expresion3 LESSTHAN expresion2
+    (56) expresion2 -> . expresion3 LESSEQUAL expresion2
+    (57) expresion3 -> . expresion4
+    (58) expresion3 -> . expresion4 AND expresion3
+    (59) expresion3 -> . expresion4 OR expresion3
+    (60) expresion4 -> . constante
+    (61) expresion4 -> . ID
+    (62) expresion4 -> . LEFTP expresion RIGHTP
+    (68) constante -> . INT_CTE
+    (69) constante -> . FLOAT_CTE
+    (70) constante -> . CHAR_CTE
+    (71) constante -> . STRING_CTE
+    (72) constante -> . TRUE
+    (73) constante -> . FALSE
+
+    ID              shift and go to state 92
+    LEFTP           shift and go to state 82
+    INT_CTE         shift and go to state 93
+    FLOAT_CTE       shift and go to state 95
+    CHAR_CTE        shift and go to state 84
+    STRING_CTE      shift and go to state 85
+    TRUE            shift and go to state 81
+    FALSE           shift and go to state 91
+
+    expresion                      shift and go to state 94
+    expresion1                     shift and go to state 86
+    expresion3                     shift and go to state 87
+    expresion2                     shift and go to state 88
+    expresion4                     shift and go to state 89
+    constante                      shift and go to state 90
+    llamada                        shift and go to state 83
+    exp                            shift and go to state 119
+
+state 98
+
+    (30) escritura -> PRINT LEFTP . exp RIGHTP SEMICOLON
+    (42) exp -> . llamada
+    (43) exp -> . expresion
+    (31) llamada -> . ID LEFTP llamada_list RIGHTP
+    (44) expresion -> . expresion1
+    (45) expresion -> . expresion1 TIMES expresion
+    (46) expresion -> . expresion1 DIVISION expresion
+    (47) expresion1 -> . expresion2
+    (48) expresion1 -> . expresion2 SUM expresion1
+    (49) expresion1 -> . expresion2 LESS expresion1
+    (50) expresion2 -> . expresion3
+    (51) expresion2 -> . expresion3 EQUALS expresion2
+    (52) expresion2 -> . expresion3 NOTEQUAL expresion2
+    (53) expresion2 -> . expresion3 GREATEREQUAL expresion2
+    (54) expresion2 -> . expresion3 GREATERTHAN expresion2
+    (55) expresion2 -> . expresion3 LESSTHAN expresion2
+    (56) expresion2 -> . expresion3 LESSEQUAL expresion2
+    (57) expresion3 -> . expresion4
+    (58) expresion3 -> . expresion4 AND expresion3
+    (59) expresion3 -> . expresion4 OR expresion3
+    (60) expresion4 -> . constante
+    (61) expresion4 -> . ID
+    (62) expresion4 -> . LEFTP expresion RIGHTP
+    (68) constante -> . INT_CTE
+    (69) constante -> . FLOAT_CTE
+    (70) constante -> . CHAR_CTE
+    (71) constante -> . STRING_CTE
+    (72) constante -> . TRUE
+    (73) constante -> . FALSE
+
+    ID              shift and go to state 92
+    LEFTP           shift and go to state 82
+    INT_CTE         shift and go to state 93
+    FLOAT_CTE       shift and go to state 95
+    CHAR_CTE        shift and go to state 84
+    STRING_CTE      shift and go to state 85
+    TRUE            shift and go to state 81
+    FALSE           shift and go to state 91
+
+    expresion                      shift and go to state 94
+    expresion1                     shift and go to state 86
+    expresion3                     shift and go to state 87
+    expresion2                     shift and go to state 88
+    expresion4                     shift and go to state 89
+    constante                      shift and go to state 90
+    llamada                        shift and go to state 83
+    exp                            shift and go to state 120
+
+state 99
+
+    (24) estatuto -> llamada SEMICOLON .
+
+    RIGHTB          reduce using rule 24 (estatuto -> llamada SEMICOLON .)
+    RETURN          reduce using rule 24 (estatuto -> llamada SEMICOLON .)
+    ID              reduce using rule 24 (estatuto -> llamada SEMICOLON .)
+    PRINT           reduce using rule 24 (estatuto -> llamada SEMICOLON .)
+    WHILE           reduce using rule 24 (estatuto -> llamada SEMICOLON .)
+    IF              reduce using rule 24 (estatuto -> llamada SEMICOLON .)
+
+
+state 100
+
+    (38) asignacion -> ID LEFTSB . exp RIGHTSB ASSIGN exp SEMICOLON
+    (42) exp -> . llamada
+    (43) exp -> . expresion
+    (31) llamada -> . ID LEFTP llamada_list RIGHTP
+    (44) expresion -> . expresion1
+    (45) expresion -> . expresion1 TIMES expresion
+    (46) expresion -> . expresion1 DIVISION expresion
+    (47) expresion1 -> . expresion2
+    (48) expresion1 -> . expresion2 SUM expresion1
+    (49) expresion1 -> . expresion2 LESS expresion1
+    (50) expresion2 -> . expresion3
+    (51) expresion2 -> . expresion3 EQUALS expresion2
+    (52) expresion2 -> . expresion3 NOTEQUAL expresion2
+    (53) expresion2 -> . expresion3 GREATEREQUAL expresion2
+    (54) expresion2 -> . expresion3 GREATERTHAN expresion2
+    (55) expresion2 -> . expresion3 LESSTHAN expresion2
+    (56) expresion2 -> . expresion3 LESSEQUAL expresion2
+    (57) expresion3 -> . expresion4
+    (58) expresion3 -> . expresion4 AND expresion3
+    (59) expresion3 -> . expresion4 OR expresion3
+    (60) expresion4 -> . constante
+    (61) expresion4 -> . ID
+    (62) expresion4 -> . LEFTP expresion RIGHTP
+    (68) constante -> . INT_CTE
+    (69) constante -> . FLOAT_CTE
+    (70) constante -> . CHAR_CTE
+    (71) constante -> . STRING_CTE
+    (72) constante -> . TRUE
+    (73) constante -> . FALSE
+
+    ID              shift and go to state 92
+    LEFTP           shift and go to state 82
+    INT_CTE         shift and go to state 93
+    FLOAT_CTE       shift and go to state 95
+    CHAR_CTE        shift and go to state 84
+    STRING_CTE      shift and go to state 85
+    TRUE            shift and go to state 81
+    FALSE           shift and go to state 91
+
+    expresion                      shift and go to state 94
+    expresion1                     shift and go to state 86
+    expresion3                     shift and go to state 87
+    expresion2                     shift and go to state 88
+    expresion4                     shift and go to state 89
+    constante                      shift and go to state 90
+    llamada                        shift and go to state 83
+    exp                            shift and go to state 121
+
+state 101
+
+    (29) lectura -> ID ASSIGN . READ LEFTP RIGHTP SEMICOLON
+    (37) asignacion -> ID ASSIGN . exp SEMICOLON
+    (42) exp -> . llamada
+    (43) exp -> . expresion
+    (31) llamada -> . ID LEFTP llamada_list RIGHTP
+    (44) expresion -> . expresion1
+    (45) expresion -> . expresion1 TIMES expresion
+    (46) expresion -> . expresion1 DIVISION expresion
+    (47) expresion1 -> . expresion2
+    (48) expresion1 -> . expresion2 SUM expresion1
+    (49) expresion1 -> . expresion2 LESS expresion1
+    (50) expresion2 -> . expresion3
+    (51) expresion2 -> . expresion3 EQUALS expresion2
+    (52) expresion2 -> . expresion3 NOTEQUAL expresion2
+    (53) expresion2 -> . expresion3 GREATEREQUAL expresion2
+    (54) expresion2 -> . expresion3 GREATERTHAN expresion2
+    (55) expresion2 -> . expresion3 LESSTHAN expresion2
+    (56) expresion2 -> . expresion3 LESSEQUAL expresion2
+    (57) expresion3 -> . expresion4
+    (58) expresion3 -> . expresion4 AND expresion3
+    (59) expresion3 -> . expresion4 OR expresion3
+    (60) expresion4 -> . constante
+    (61) expresion4 -> . ID
+    (62) expresion4 -> . LEFTP expresion RIGHTP
+    (68) constante -> . INT_CTE
+    (69) constante -> . FLOAT_CTE
+    (70) constante -> . CHAR_CTE
+    (71) constante -> . STRING_CTE
+    (72) constante -> . TRUE
+    (73) constante -> . FALSE
+
+    READ            shift and go to state 122
+    ID              shift and go to state 92
+    LEFTP           shift and go to state 82
+    INT_CTE         shift and go to state 93
+    FLOAT_CTE       shift and go to state 95
+    CHAR_CTE        shift and go to state 84
+    STRING_CTE      shift and go to state 85
+    TRUE            shift and go to state 81
+    FALSE           shift and go to state 91
+
+    expresion                      shift and go to state 94
+    expresion1                     shift and go to state 86
+    expresion3                     shift and go to state 87
+    expresion2                     shift and go to state 88
+    expresion4                     shift and go to state 89
+    constante                      shift and go to state 90
+    llamada                        shift and go to state 83
+    exp                            shift and go to state 123
+
+state 102
+
+    (31) llamada -> ID LEFTP . llamada_list RIGHTP
+    (32) llamada_list -> . llamada_list args
+    (33) llamada_list -> . empty
+    (74) empty -> .
+
+    RIGHTP          reduce using rule 74 (empty -> .)
+    ID              reduce using rule 74 (empty -> .)
+    LEFTP           reduce using rule 74 (empty -> .)
+    INT_CTE         reduce using rule 74 (empty -> .)
+    FLOAT_CTE       reduce using rule 74 (empty -> .)
+    CHAR_CTE        reduce using rule 74 (empty -> .)
+    STRING_CTE      reduce using rule 74 (empty -> .)
+    TRUE            reduce using rule 74 (empty -> .)
+    FALSE           reduce using rule 74 (empty -> .)
+
+    llamada_list                   shift and go to state 124
+    empty                          shift and go to state 125
+
+state 103
+
+    (40) condicion -> IF LEFTP . exp RIGHTP LEFTB bloque RIGHTB
+    (41) condicion -> IF LEFTP . exp RIGHTP LEFTB bloque RIGHTB ELSE LEFTB bloque RIGHTB
+    (42) exp -> . llamada
+    (43) exp -> . expresion
+    (31) llamada -> . ID LEFTP llamada_list RIGHTP
+    (44) expresion -> . expresion1
+    (45) expresion -> . expresion1 TIMES expresion
+    (46) expresion -> . expresion1 DIVISION expresion
+    (47) expresion1 -> . expresion2
+    (48) expresion1 -> . expresion2 SUM expresion1
+    (49) expresion1 -> . expresion2 LESS expresion1
+    (50) expresion2 -> . expresion3
+    (51) expresion2 -> . expresion3 EQUALS expresion2
+    (52) expresion2 -> . expresion3 NOTEQUAL expresion2
+    (53) expresion2 -> . expresion3 GREATEREQUAL expresion2
+    (54) expresion2 -> . expresion3 GREATERTHAN expresion2
+    (55) expresion2 -> . expresion3 LESSTHAN expresion2
+    (56) expresion2 -> . expresion3 LESSEQUAL expresion2
+    (57) expresion3 -> . expresion4
+    (58) expresion3 -> . expresion4 AND expresion3
+    (59) expresion3 -> . expresion4 OR expresion3
+    (60) expresion4 -> . constante
+    (61) expresion4 -> . ID
+    (62) expresion4 -> . LEFTP expresion RIGHTP
+    (68) constante -> . INT_CTE
+    (69) constante -> . FLOAT_CTE
+    (70) constante -> . CHAR_CTE
+    (71) constante -> . STRING_CTE
+    (72) constante -> . TRUE
+    (73) constante -> . FALSE
+
+    ID              shift and go to state 92
+    LEFTP           shift and go to state 82
+    INT_CTE         shift and go to state 93
+    FLOAT_CTE       shift and go to state 95
+    CHAR_CTE        shift and go to state 84
+    STRING_CTE      shift and go to state 85
+    TRUE            shift and go to state 81
+    FALSE           shift and go to state 91
+
+    expresion                      shift and go to state 94
+    expresion1                     shift and go to state 86
+    expresion3                     shift and go to state 87
+    expresion2                     shift and go to state 88
+    expresion4                     shift and go to state 89
+    constante                      shift and go to state 90
+    llamada                        shift and go to state 83
+    exp                            shift and go to state 126
+
+state 104
+
+    (61) expresion4 -> ID .
+
+    AND             reduce using rule 61 (expresion4 -> ID .)
+    OR              reduce using rule 61 (expresion4 -> ID .)
+    EQUALS          reduce using rule 61 (expresion4 -> ID .)
+    NOTEQUAL        reduce using rule 61 (expresion4 -> ID .)
+    GREATEREQUAL    reduce using rule 61 (expresion4 -> ID .)
+    GREATERTHAN     reduce using rule 61 (expresion4 -> ID .)
+    LESSTHAN        reduce using rule 61 (expresion4 -> ID .)
+    LESSEQUAL       reduce using rule 61 (expresion4 -> ID .)
+    SUM             reduce using rule 61 (expresion4 -> ID .)
+    LESS            reduce using rule 61 (expresion4 -> ID .)
+    TIMES           reduce using rule 61 (expresion4 -> ID .)
+    DIVISION        reduce using rule 61 (expresion4 -> ID .)
+    SEMICOLON       reduce using rule 61 (expresion4 -> ID .)
+    RIGHTP          reduce using rule 61 (expresion4 -> ID .)
+    RIGHTSB         reduce using rule 61 (expresion4 -> ID .)
+    COMMA           reduce using rule 61 (expresion4 -> ID .)
+    ID              reduce using rule 61 (expresion4 -> ID .)
+    LEFTP           reduce using rule 61 (expresion4 -> ID .)
+    INT_CTE         reduce using rule 61 (expresion4 -> ID .)
+    FLOAT_CTE       reduce using rule 61 (expresion4 -> ID .)
+    CHAR_CTE        reduce using rule 61 (expresion4 -> ID .)
+    STRING_CTE      reduce using rule 61 (expresion4 -> ID .)
+    TRUE            reduce using rule 61 (expresion4 -> ID .)
+    FALSE           reduce using rule 61 (expresion4 -> ID .)
+
+
+state 105
+
+    (62) expresion4 -> LEFTP expresion . RIGHTP
+
+    RIGHTP          shift and go to state 127
+
+
+state 106
+
+    (46) expresion -> expresion1 DIVISION . expresion
+    (44) expresion -> . expresion1
+    (45) expresion -> . expresion1 TIMES expresion
+    (46) expresion -> . expresion1 DIVISION expresion
+    (47) expresion1 -> . expresion2
+    (48) expresion1 -> . expresion2 SUM expresion1
+    (49) expresion1 -> . expresion2 LESS expresion1
+    (50) expresion2 -> . expresion3
+    (51) expresion2 -> . expresion3 EQUALS expresion2
+    (52) expresion2 -> . expresion3 NOTEQUAL expresion2
+    (53) expresion2 -> . expresion3 GREATEREQUAL expresion2
+    (54) expresion2 -> . expresion3 GREATERTHAN expresion2
+    (55) expresion2 -> . expresion3 LESSTHAN expresion2
+    (56) expresion2 -> . expresion3 LESSEQUAL expresion2
+    (57) expresion3 -> . expresion4
+    (58) expresion3 -> . expresion4 AND expresion3
+    (59) expresion3 -> . expresion4 OR expresion3
+    (60) expresion4 -> . constante
+    (61) expresion4 -> . ID
+    (62) expresion4 -> . LEFTP expresion RIGHTP
+    (68) constante -> . INT_CTE
+    (69) constante -> . FLOAT_CTE
+    (70) constante -> . CHAR_CTE
+    (71) constante -> . STRING_CTE
+    (72) constante -> . TRUE
+    (73) constante -> . FALSE
+
+    ID              shift and go to state 104
+    LEFTP           shift and go to state 82
+    INT_CTE         shift and go to state 93
+    FLOAT_CTE       shift and go to state 95
+    CHAR_CTE        shift and go to state 84
+    STRING_CTE      shift and go to state 85
+    TRUE            shift and go to state 81
+    FALSE           shift and go to state 91
+
+    expresion1                     shift and go to state 86
+    expresion                      shift and go to state 128
+    expresion3                     shift and go to state 87
+    expresion2                     shift and go to state 88
+    expresion4                     shift and go to state 89
+    constante                      shift and go to state 90
+
+state 107
+
+    (45) expresion -> expresion1 TIMES . expresion
+    (44) expresion -> . expresion1
+    (45) expresion -> . expresion1 TIMES expresion
+    (46) expresion -> . expresion1 DIVISION expresion
+    (47) expresion1 -> . expresion2
+    (48) expresion1 -> . expresion2 SUM expresion1
+    (49) expresion1 -> . expresion2 LESS expresion1
+    (50) expresion2 -> . expresion3
+    (51) expresion2 -> . expresion3 EQUALS expresion2
+    (52) expresion2 -> . expresion3 NOTEQUAL expresion2
+    (53) expresion2 -> . expresion3 GREATEREQUAL expresion2
+    (54) expresion2 -> . expresion3 GREATERTHAN expresion2
+    (55) expresion2 -> . expresion3 LESSTHAN expresion2
+    (56) expresion2 -> . expresion3 LESSEQUAL expresion2
+    (57) expresion3 -> . expresion4
+    (58) expresion3 -> . expresion4 AND expresion3
+    (59) expresion3 -> . expresion4 OR expresion3
+    (60) expresion4 -> . constante
+    (61) expresion4 -> . ID
+    (62) expresion4 -> . LEFTP expresion RIGHTP
+    (68) constante -> . INT_CTE
+    (69) constante -> . FLOAT_CTE
+    (70) constante -> . CHAR_CTE
+    (71) constante -> . STRING_CTE
+    (72) constante -> . TRUE
+    (73) constante -> . FALSE
+
+    ID              shift and go to state 104
+    LEFTP           shift and go to state 82
+    INT_CTE         shift and go to state 93
+    FLOAT_CTE       shift and go to state 95
+    CHAR_CTE        shift and go to state 84
+    STRING_CTE      shift and go to state 85
+    TRUE            shift and go to state 81
+    FALSE           shift and go to state 91
+
+    expresion1                     shift and go to state 86
+    expresion                      shift and go to state 129
+    expresion3                     shift and go to state 87
+    expresion2                     shift and go to state 88
+    expresion4                     shift and go to state 89
+    constante                      shift and go to state 90
+
+state 108
+
+    (52) expresion2 -> expresion3 NOTEQUAL . expresion2
+    (50) expresion2 -> . expresion3
+    (51) expresion2 -> . expresion3 EQUALS expresion2
+    (52) expresion2 -> . expresion3 NOTEQUAL expresion2
+    (53) expresion2 -> . expresion3 GREATEREQUAL expresion2
+    (54) expresion2 -> . expresion3 GREATERTHAN expresion2
+    (55) expresion2 -> . expresion3 LESSTHAN expresion2
+    (56) expresion2 -> . expresion3 LESSEQUAL expresion2
+    (57) expresion3 -> . expresion4
+    (58) expresion3 -> . expresion4 AND expresion3
+    (59) expresion3 -> . expresion4 OR expresion3
+    (60) expresion4 -> . constante
+    (61) expresion4 -> . ID
+    (62) expresion4 -> . LEFTP expresion RIGHTP
+    (68) constante -> . INT_CTE
+    (69) constante -> . FLOAT_CTE
+    (70) constante -> . CHAR_CTE
+    (71) constante -> . STRING_CTE
+    (72) constante -> . TRUE
+    (73) constante -> . FALSE
+
+    ID              shift and go to state 104
+    LEFTP           shift and go to state 82
+    INT_CTE         shift and go to state 93
+    FLOAT_CTE       shift and go to state 95
+    CHAR_CTE        shift and go to state 84
+    STRING_CTE      shift and go to state 85
+    TRUE            shift and go to state 81
+    FALSE           shift and go to state 91
+
+    constante                      shift and go to state 90
+    expresion3                     shift and go to state 87
+    expresion2                     shift and go to state 130
+    expresion4                     shift and go to state 89
+
+state 109
+
+    (51) expresion2 -> expresion3 EQUALS . expresion2
+    (50) expresion2 -> . expresion3
+    (51) expresion2 -> . expresion3 EQUALS expresion2
+    (52) expresion2 -> . expresion3 NOTEQUAL expresion2
+    (53) expresion2 -> . expresion3 GREATEREQUAL expresion2
+    (54) expresion2 -> . expresion3 GREATERTHAN expresion2
+    (55) expresion2 -> . expresion3 LESSTHAN expresion2
+    (56) expresion2 -> . expresion3 LESSEQUAL expresion2
+    (57) expresion3 -> . expresion4
+    (58) expresion3 -> . expresion4 AND expresion3
+    (59) expresion3 -> . expresion4 OR expresion3
+    (60) expresion4 -> . constante
+    (61) expresion4 -> . ID
+    (62) expresion4 -> . LEFTP expresion RIGHTP
+    (68) constante -> . INT_CTE
+    (69) constante -> . FLOAT_CTE
+    (70) constante -> . CHAR_CTE
+    (71) constante -> . STRING_CTE
+    (72) constante -> . TRUE
+    (73) constante -> . FALSE
+
+    ID              shift and go to state 104
+    LEFTP           shift and go to state 82
+    INT_CTE         shift and go to state 93
+    FLOAT_CTE       shift and go to state 95
+    CHAR_CTE        shift and go to state 84
+    STRING_CTE      shift and go to state 85
+    TRUE            shift and go to state 81
+    FALSE           shift and go to state 91
+
+    constante                      shift and go to state 90
+    expresion3                     shift and go to state 87
+    expresion2                     shift and go to state 131
+    expresion4                     shift and go to state 89
+
+state 110
+
+    (53) expresion2 -> expresion3 GREATEREQUAL . expresion2
+    (50) expresion2 -> . expresion3
+    (51) expresion2 -> . expresion3 EQUALS expresion2
+    (52) expresion2 -> . expresion3 NOTEQUAL expresion2
+    (53) expresion2 -> . expresion3 GREATEREQUAL expresion2
+    (54) expresion2 -> . expresion3 GREATERTHAN expresion2
+    (55) expresion2 -> . expresion3 LESSTHAN expresion2
+    (56) expresion2 -> . expresion3 LESSEQUAL expresion2
+    (57) expresion3 -> . expresion4
+    (58) expresion3 -> . expresion4 AND expresion3
+    (59) expresion3 -> . expresion4 OR expresion3
+    (60) expresion4 -> . constante
+    (61) expresion4 -> . ID
+    (62) expresion4 -> . LEFTP expresion RIGHTP
+    (68) constante -> . INT_CTE
+    (69) constante -> . FLOAT_CTE
+    (70) constante -> . CHAR_CTE
+    (71) constante -> . STRING_CTE
+    (72) constante -> . TRUE
+    (73) constante -> . FALSE
+
+    ID              shift and go to state 104
+    LEFTP           shift and go to state 82
+    INT_CTE         shift and go to state 93
+    FLOAT_CTE       shift and go to state 95
+    CHAR_CTE        shift and go to state 84
+    STRING_CTE      shift and go to state 85
+    TRUE            shift and go to state 81
+    FALSE           shift and go to state 91
+
+    constante                      shift and go to state 90
+    expresion3                     shift and go to state 87
+    expresion2                     shift and go to state 132
+    expresion4                     shift and go to state 89
+
+state 111
+
+    (55) expresion2 -> expresion3 LESSTHAN . expresion2
+    (50) expresion2 -> . expresion3
+    (51) expresion2 -> . expresion3 EQUALS expresion2
+    (52) expresion2 -> . expresion3 NOTEQUAL expresion2
+    (53) expresion2 -> . expresion3 GREATEREQUAL expresion2
+    (54) expresion2 -> . expresion3 GREATERTHAN expresion2
+    (55) expresion2 -> . expresion3 LESSTHAN expresion2
+    (56) expresion2 -> . expresion3 LESSEQUAL expresion2
+    (57) expresion3 -> . expresion4
+    (58) expresion3 -> . expresion4 AND expresion3
+    (59) expresion3 -> . expresion4 OR expresion3
+    (60) expresion4 -> . constante
+    (61) expresion4 -> . ID
+    (62) expresion4 -> . LEFTP expresion RIGHTP
+    (68) constante -> . INT_CTE
+    (69) constante -> . FLOAT_CTE
+    (70) constante -> . CHAR_CTE
+    (71) constante -> . STRING_CTE
+    (72) constante -> . TRUE
+    (73) constante -> . FALSE
+
+    ID              shift and go to state 104
+    LEFTP           shift and go to state 82
+    INT_CTE         shift and go to state 93
+    FLOAT_CTE       shift and go to state 95
+    CHAR_CTE        shift and go to state 84
+    STRING_CTE      shift and go to state 85
+    TRUE            shift and go to state 81
+    FALSE           shift and go to state 91
+
+    constante                      shift and go to state 90
+    expresion3                     shift and go to state 87
+    expresion2                     shift and go to state 133
+    expresion4                     shift and go to state 89
+
+state 112
+
+    (54) expresion2 -> expresion3 GREATERTHAN . expresion2
+    (50) expresion2 -> . expresion3
+    (51) expresion2 -> . expresion3 EQUALS expresion2
+    (52) expresion2 -> . expresion3 NOTEQUAL expresion2
+    (53) expresion2 -> . expresion3 GREATEREQUAL expresion2
+    (54) expresion2 -> . expresion3 GREATERTHAN expresion2
+    (55) expresion2 -> . expresion3 LESSTHAN expresion2
+    (56) expresion2 -> . expresion3 LESSEQUAL expresion2
+    (57) expresion3 -> . expresion4
+    (58) expresion3 -> . expresion4 AND expresion3
+    (59) expresion3 -> . expresion4 OR expresion3
+    (60) expresion4 -> . constante
+    (61) expresion4 -> . ID
+    (62) expresion4 -> . LEFTP expresion RIGHTP
+    (68) constante -> . INT_CTE
+    (69) constante -> . FLOAT_CTE
+    (70) constante -> . CHAR_CTE
+    (71) constante -> . STRING_CTE
+    (72) constante -> . TRUE
+    (73) constante -> . FALSE
+
+    ID              shift and go to state 104
+    LEFTP           shift and go to state 82
+    INT_CTE         shift and go to state 93
+    FLOAT_CTE       shift and go to state 95
+    CHAR_CTE        shift and go to state 84
+    STRING_CTE      shift and go to state 85
+    TRUE            shift and go to state 81
+    FALSE           shift and go to state 91
+
+    constante                      shift and go to state 90
+    expresion3                     shift and go to state 87
+    expresion2                     shift and go to state 134
+    expresion4                     shift and go to state 89
+
+state 113
+
+    (56) expresion2 -> expresion3 LESSEQUAL . expresion2
+    (50) expresion2 -> . expresion3
+    (51) expresion2 -> . expresion3 EQUALS expresion2
+    (52) expresion2 -> . expresion3 NOTEQUAL expresion2
+    (53) expresion2 -> . expresion3 GREATEREQUAL expresion2
+    (54) expresion2 -> . expresion3 GREATERTHAN expresion2
+    (55) expresion2 -> . expresion3 LESSTHAN expresion2
+    (56) expresion2 -> . expresion3 LESSEQUAL expresion2
+    (57) expresion3 -> . expresion4
+    (58) expresion3 -> . expresion4 AND expresion3
+    (59) expresion3 -> . expresion4 OR expresion3
+    (60) expresion4 -> . constante
+    (61) expresion4 -> . ID
+    (62) expresion4 -> . LEFTP expresion RIGHTP
+    (68) constante -> . INT_CTE
+    (69) constante -> . FLOAT_CTE
+    (70) constante -> . CHAR_CTE
+    (71) constante -> . STRING_CTE
+    (72) constante -> . TRUE
+    (73) constante -> . FALSE
+
+    ID              shift and go to state 104
+    LEFTP           shift and go to state 82
+    INT_CTE         shift and go to state 93
+    FLOAT_CTE       shift and go to state 95
+    CHAR_CTE        shift and go to state 84
+    STRING_CTE      shift and go to state 85
+    TRUE            shift and go to state 81
+    FALSE           shift and go to state 91
+
+    constante                      shift and go to state 90
+    expresion3                     shift and go to state 87
+    expresion2                     shift and go to state 135
+    expresion4                     shift and go to state 89
+
+state 114
+
+    (48) expresion1 -> expresion2 SUM . expresion1
+    (47) expresion1 -> . expresion2
+    (48) expresion1 -> . expresion2 SUM expresion1
+    (49) expresion1 -> . expresion2 LESS expresion1
+    (50) expresion2 -> . expresion3
+    (51) expresion2 -> . expresion3 EQUALS expresion2
+    (52) expresion2 -> . expresion3 NOTEQUAL expresion2
+    (53) expresion2 -> . expresion3 GREATEREQUAL expresion2
+    (54) expresion2 -> . expresion3 GREATERTHAN expresion2
+    (55) expresion2 -> . expresion3 LESSTHAN expresion2
+    (56) expresion2 -> . expresion3 LESSEQUAL expresion2
+    (57) expresion3 -> . expresion4
+    (58) expresion3 -> . expresion4 AND expresion3
+    (59) expresion3 -> . expresion4 OR expresion3
+    (60) expresion4 -> . constante
+    (61) expresion4 -> . ID
+    (62) expresion4 -> . LEFTP expresion RIGHTP
+    (68) constante -> . INT_CTE
+    (69) constante -> . FLOAT_CTE
+    (70) constante -> . CHAR_CTE
+    (71) constante -> . STRING_CTE
+    (72) constante -> . TRUE
+    (73) constante -> . FALSE
+
+    ID              shift and go to state 104
+    LEFTP           shift and go to state 82
+    INT_CTE         shift and go to state 93
+    FLOAT_CTE       shift and go to state 95
+    CHAR_CTE        shift and go to state 84
+    STRING_CTE      shift and go to state 85
+    TRUE            shift and go to state 81
+    FALSE           shift and go to state 91
+
+    expresion1                     shift and go to state 136
+    expresion3                     shift and go to state 87
+    expresion2                     shift and go to state 88
+    expresion4                     shift and go to state 89
+    constante                      shift and go to state 90
+
+state 115
+
+    (49) expresion1 -> expresion2 LESS . expresion1
+    (47) expresion1 -> . expresion2
+    (48) expresion1 -> . expresion2 SUM expresion1
+    (49) expresion1 -> . expresion2 LESS expresion1
+    (50) expresion2 -> . expresion3
+    (51) expresion2 -> . expresion3 EQUALS expresion2
+    (52) expresion2 -> . expresion3 NOTEQUAL expresion2
+    (53) expresion2 -> . expresion3 GREATEREQUAL expresion2
+    (54) expresion2 -> . expresion3 GREATERTHAN expresion2
+    (55) expresion2 -> . expresion3 LESSTHAN expresion2
+    (56) expresion2 -> . expresion3 LESSEQUAL expresion2
+    (57) expresion3 -> . expresion4
+    (58) expresion3 -> . expresion4 AND expresion3
+    (59) expresion3 -> . expresion4 OR expresion3
+    (60) expresion4 -> . constante
+    (61) expresion4 -> . ID
+    (62) expresion4 -> . LEFTP expresion RIGHTP
+    (68) constante -> . INT_CTE
+    (69) constante -> . FLOAT_CTE
+    (70) constante -> . CHAR_CTE
+    (71) constante -> . STRING_CTE
+    (72) constante -> . TRUE
+    (73) constante -> . FALSE
+
+    ID              shift and go to state 104
+    LEFTP           shift and go to state 82
+    INT_CTE         shift and go to state 93
+    FLOAT_CTE       shift and go to state 95
+    CHAR_CTE        shift and go to state 84
+    STRING_CTE      shift and go to state 85
+    TRUE            shift and go to state 81
+    FALSE           shift and go to state 91
+
+    expresion1                     shift and go to state 137
+    expresion3                     shift and go to state 87
+    expresion2                     shift and go to state 88
+    expresion4                     shift and go to state 89
+    constante                      shift and go to state 90
+
+state 116
+
+    (58) expresion3 -> expresion4 AND . expresion3
+    (57) expresion3 -> . expresion4
+    (58) expresion3 -> . expresion4 AND expresion3
+    (59) expresion3 -> . expresion4 OR expresion3
+    (60) expresion4 -> . constante
+    (61) expresion4 -> . ID
+    (62) expresion4 -> . LEFTP expresion RIGHTP
+    (68) constante -> . INT_CTE
+    (69) constante -> . FLOAT_CTE
+    (70) constante -> . CHAR_CTE
+    (71) constante -> . STRING_CTE
+    (72) constante -> . TRUE
+    (73) constante -> . FALSE
+
+    ID              shift and go to state 104
+    LEFTP           shift and go to state 82
+    INT_CTE         shift and go to state 93
+    FLOAT_CTE       shift and go to state 95
+    CHAR_CTE        shift and go to state 84
+    STRING_CTE      shift and go to state 85
+    TRUE            shift and go to state 81
+    FALSE           shift and go to state 91
+
+    constante                      shift and go to state 90
+    expresion3                     shift and go to state 138
+    expresion4                     shift and go to state 89
+
+state 117
+
+    (59) expresion3 -> expresion4 OR . expresion3
+    (57) expresion3 -> . expresion4
+    (58) expresion3 -> . expresion4 AND expresion3
+    (59) expresion3 -> . expresion4 OR expresion3
+    (60) expresion4 -> . constante
+    (61) expresion4 -> . ID
+    (62) expresion4 -> . LEFTP expresion RIGHTP
+    (68) constante -> . INT_CTE
+    (69) constante -> . FLOAT_CTE
+    (70) constante -> . CHAR_CTE
+    (71) constante -> . STRING_CTE
+    (72) constante -> . TRUE
+    (73) constante -> . FALSE
+
+    ID              shift and go to state 104
+    LEFTP           shift and go to state 82
+    INT_CTE         shift and go to state 93
+    FLOAT_CTE       shift and go to state 95
+    CHAR_CTE        shift and go to state 84
+    STRING_CTE      shift and go to state 85
+    TRUE            shift and go to state 81
+    FALSE           shift and go to state 91
+
+    constante                      shift and go to state 90
+    expresion3                     shift and go to state 139
+    expresion4                     shift and go to state 89
+
+state 118
+
+    (28) return -> RETURN exp SEMICOLON .
+
+    RIGHTB          reduce using rule 28 (return -> RETURN exp SEMICOLON .)
+    RETURN          reduce using rule 28 (return -> RETURN exp SEMICOLON .)
+    ID              reduce using rule 28 (return -> RETURN exp SEMICOLON .)
+    PRINT           reduce using rule 28 (return -> RETURN exp SEMICOLON .)
+    WHILE           reduce using rule 28 (return -> RETURN exp SEMICOLON .)
+    IF              reduce using rule 28 (return -> RETURN exp SEMICOLON .)
+
+
+state 119
+
+    (39) ciclo -> WHILE LEFTP exp . RIGHTP LEFTB bloque RIGHTB
+
+    RIGHTP          shift and go to state 140
+
+
+state 120
+
+    (30) escritura -> PRINT LEFTP exp . RIGHTP SEMICOLON
+
+    RIGHTP          shift and go to state 141
+
+
+state 121
+
+    (38) asignacion -> ID LEFTSB exp . RIGHTSB ASSIGN exp SEMICOLON
+
+    RIGHTSB         shift and go to state 142
+
+
+state 122
+
+    (29) lectura -> ID ASSIGN READ . LEFTP RIGHTP SEMICOLON
+
+    LEFTP           shift and go to state 143
+
+
+state 123
+
+    (37) asignacion -> ID ASSIGN exp . SEMICOLON
+
+    SEMICOLON       shift and go to state 144
+
+
+state 124
+
+    (31) llamada -> ID LEFTP llamada_list . RIGHTP
+    (32) llamada_list -> llamada_list . args
+    (34) args -> . exp mas_args
+    (42) exp -> . llamada
+    (43) exp -> . expresion
+    (31) llamada -> . ID LEFTP llamada_list RIGHTP
+    (44) expresion -> . expresion1
+    (45) expresion -> . expresion1 TIMES expresion
+    (46) expresion -> . expresion1 DIVISION expresion
+    (47) expresion1 -> . expresion2
+    (48) expresion1 -> . expresion2 SUM expresion1
+    (49) expresion1 -> . expresion2 LESS expresion1
+    (50) expresion2 -> . expresion3
+    (51) expresion2 -> . expresion3 EQUALS expresion2
+    (52) expresion2 -> . expresion3 NOTEQUAL expresion2
+    (53) expresion2 -> . expresion3 GREATEREQUAL expresion2
+    (54) expresion2 -> . expresion3 GREATERTHAN expresion2
+    (55) expresion2 -> . expresion3 LESSTHAN expresion2
+    (56) expresion2 -> . expresion3 LESSEQUAL expresion2
+    (57) expresion3 -> . expresion4
+    (58) expresion3 -> . expresion4 AND expresion3
+    (59) expresion3 -> . expresion4 OR expresion3
+    (60) expresion4 -> . constante
+    (61) expresion4 -> . ID
+    (62) expresion4 -> . LEFTP expresion RIGHTP
+    (68) constante -> . INT_CTE
+    (69) constante -> . FLOAT_CTE
+    (70) constante -> . CHAR_CTE
+    (71) constante -> . STRING_CTE
+    (72) constante -> . TRUE
+    (73) constante -> . FALSE
+
+    RIGHTP          shift and go to state 146
+    ID              shift and go to state 92
+    LEFTP           shift and go to state 82
+    INT_CTE         shift and go to state 93
+    FLOAT_CTE       shift and go to state 95
+    CHAR_CTE        shift and go to state 84
+    STRING_CTE      shift and go to state 85
+    TRUE            shift and go to state 81
+    FALSE           shift and go to state 91
+
+    expresion                      shift and go to state 94
+    expresion1                     shift and go to state 86
+    expresion3                     shift and go to state 87
+    expresion2                     shift and go to state 88
+    expresion4                     shift and go to state 89
+    constante                      shift and go to state 90
+    args                           shift and go to state 145
+    llamada                        shift and go to state 83
+    exp                            shift and go to state 147
+
+state 125
+
+    (33) llamada_list -> empty .
+
+    RIGHTP          reduce using rule 33 (llamada_list -> empty .)
+    ID              reduce using rule 33 (llamada_list -> empty .)
+    LEFTP           reduce using rule 33 (llamada_list -> empty .)
+    INT_CTE         reduce using rule 33 (llamada_list -> empty .)
+    FLOAT_CTE       reduce using rule 33 (llamada_list -> empty .)
+    CHAR_CTE        reduce using rule 33 (llamada_list -> empty .)
+    STRING_CTE      reduce using rule 33 (llamada_list -> empty .)
+    TRUE            reduce using rule 33 (llamada_list -> empty .)
+    FALSE           reduce using rule 33 (llamada_list -> empty .)
+
+
+state 126
+
+    (40) condicion -> IF LEFTP exp . RIGHTP LEFTB bloque RIGHTB
+    (41) condicion -> IF LEFTP exp . RIGHTP LEFTB bloque RIGHTB ELSE LEFTB bloque RIGHTB
+
+    RIGHTP          shift and go to state 148
+
+
+state 127
+
+    (62) expresion4 -> LEFTP expresion RIGHTP .
+
+    AND             reduce using rule 62 (expresion4 -> LEFTP expresion RIGHTP .)
+    OR              reduce using rule 62 (expresion4 -> LEFTP expresion RIGHTP .)
+    EQUALS          reduce using rule 62 (expresion4 -> LEFTP expresion RIGHTP .)
+    NOTEQUAL        reduce using rule 62 (expresion4 -> LEFTP expresion RIGHTP .)
+    GREATEREQUAL    reduce using rule 62 (expresion4 -> LEFTP expresion RIGHTP .)
+    GREATERTHAN     reduce using rule 62 (expresion4 -> LEFTP expresion RIGHTP .)
+    LESSTHAN        reduce using rule 62 (expresion4 -> LEFTP expresion RIGHTP .)
+    LESSEQUAL       reduce using rule 62 (expresion4 -> LEFTP expresion RIGHTP .)
+    SUM             reduce using rule 62 (expresion4 -> LEFTP expresion RIGHTP .)
+    LESS            reduce using rule 62 (expresion4 -> LEFTP expresion RIGHTP .)
+    TIMES           reduce using rule 62 (expresion4 -> LEFTP expresion RIGHTP .)
+    DIVISION        reduce using rule 62 (expresion4 -> LEFTP expresion RIGHTP .)
+    SEMICOLON       reduce using rule 62 (expresion4 -> LEFTP expresion RIGHTP .)
+    RIGHTP          reduce using rule 62 (expresion4 -> LEFTP expresion RIGHTP .)
+    RIGHTSB         reduce using rule 62 (expresion4 -> LEFTP expresion RIGHTP .)
+    COMMA           reduce using rule 62 (expresion4 -> LEFTP expresion RIGHTP .)
+    ID              reduce using rule 62 (expresion4 -> LEFTP expresion RIGHTP .)
+    LEFTP           reduce using rule 62 (expresion4 -> LEFTP expresion RIGHTP .)
+    INT_CTE         reduce using rule 62 (expresion4 -> LEFTP expresion RIGHTP .)
+    FLOAT_CTE       reduce using rule 62 (expresion4 -> LEFTP expresion RIGHTP .)
+    CHAR_CTE        reduce using rule 62 (expresion4 -> LEFTP expresion RIGHTP .)
+    STRING_CTE      reduce using rule 62 (expresion4 -> LEFTP expresion RIGHTP .)
+    TRUE            reduce using rule 62 (expresion4 -> LEFTP expresion RIGHTP .)
+    FALSE           reduce using rule 62 (expresion4 -> LEFTP expresion RIGHTP .)
+
+
+state 128
+
+    (46) expresion -> expresion1 DIVISION expresion .
+
+    COMMA           reduce using rule 46 (expresion -> expresion1 DIVISION expresion .)
+    RIGHTP          reduce using rule 46 (expresion -> expresion1 DIVISION expresion .)
+    ID              reduce using rule 46 (expresion -> expresion1 DIVISION expresion .)
+    LEFTP           reduce using rule 46 (expresion -> expresion1 DIVISION expresion .)
+    INT_CTE         reduce using rule 46 (expresion -> expresion1 DIVISION expresion .)
+    FLOAT_CTE       reduce using rule 46 (expresion -> expresion1 DIVISION expresion .)
+    CHAR_CTE        reduce using rule 46 (expresion -> expresion1 DIVISION expresion .)
+    STRING_CTE      reduce using rule 46 (expresion -> expresion1 DIVISION expresion .)
+    TRUE            reduce using rule 46 (expresion -> expresion1 DIVISION expresion .)
+    FALSE           reduce using rule 46 (expresion -> expresion1 DIVISION expresion .)
+    SEMICOLON       reduce using rule 46 (expresion -> expresion1 DIVISION expresion .)
+    RIGHTSB         reduce using rule 46 (expresion -> expresion1 DIVISION expresion .)
+
+
+state 129
+
+    (45) expresion -> expresion1 TIMES expresion .
+
+    COMMA           reduce using rule 45 (expresion -> expresion1 TIMES expresion .)
+    RIGHTP          reduce using rule 45 (expresion -> expresion1 TIMES expresion .)
+    ID              reduce using rule 45 (expresion -> expresion1 TIMES expresion .)
+    LEFTP           reduce using rule 45 (expresion -> expresion1 TIMES expresion .)
+    INT_CTE         reduce using rule 45 (expresion -> expresion1 TIMES expresion .)
+    FLOAT_CTE       reduce using rule 45 (expresion -> expresion1 TIMES expresion .)
+    CHAR_CTE        reduce using rule 45 (expresion -> expresion1 TIMES expresion .)
+    STRING_CTE      reduce using rule 45 (expresion -> expresion1 TIMES expresion .)
+    TRUE            reduce using rule 45 (expresion -> expresion1 TIMES expresion .)
+    FALSE           reduce using rule 45 (expresion -> expresion1 TIMES expresion .)
+    SEMICOLON       reduce using rule 45 (expresion -> expresion1 TIMES expresion .)
+    RIGHTSB         reduce using rule 45 (expresion -> expresion1 TIMES expresion .)
+
+
+state 130
+
+    (52) expresion2 -> expresion3 NOTEQUAL expresion2 .
+
+    SUM             reduce using rule 52 (expresion2 -> expresion3 NOTEQUAL expresion2 .)
+    LESS            reduce using rule 52 (expresion2 -> expresion3 NOTEQUAL expresion2 .)
+    TIMES           reduce using rule 52 (expresion2 -> expresion3 NOTEQUAL expresion2 .)
+    DIVISION        reduce using rule 52 (expresion2 -> expresion3 NOTEQUAL expresion2 .)
+    SEMICOLON       reduce using rule 52 (expresion2 -> expresion3 NOTEQUAL expresion2 .)
+    RIGHTP          reduce using rule 52 (expresion2 -> expresion3 NOTEQUAL expresion2 .)
+    RIGHTSB         reduce using rule 52 (expresion2 -> expresion3 NOTEQUAL expresion2 .)
+    COMMA           reduce using rule 52 (expresion2 -> expresion3 NOTEQUAL expresion2 .)
+    ID              reduce using rule 52 (expresion2 -> expresion3 NOTEQUAL expresion2 .)
+    LEFTP           reduce using rule 52 (expresion2 -> expresion3 NOTEQUAL expresion2 .)
+    INT_CTE         reduce using rule 52 (expresion2 -> expresion3 NOTEQUAL expresion2 .)
+    FLOAT_CTE       reduce using rule 52 (expresion2 -> expresion3 NOTEQUAL expresion2 .)
+    CHAR_CTE        reduce using rule 52 (expresion2 -> expresion3 NOTEQUAL expresion2 .)
+    STRING_CTE      reduce using rule 52 (expresion2 -> expresion3 NOTEQUAL expresion2 .)
+    TRUE            reduce using rule 52 (expresion2 -> expresion3 NOTEQUAL expresion2 .)
+    FALSE           reduce using rule 52 (expresion2 -> expresion3 NOTEQUAL expresion2 .)
+
+
+state 131
+
+    (51) expresion2 -> expresion3 EQUALS expresion2 .
+
+    SUM             reduce using rule 51 (expresion2 -> expresion3 EQUALS expresion2 .)
+    LESS            reduce using rule 51 (expresion2 -> expresion3 EQUALS expresion2 .)
+    TIMES           reduce using rule 51 (expresion2 -> expresion3 EQUALS expresion2 .)
+    DIVISION        reduce using rule 51 (expresion2 -> expresion3 EQUALS expresion2 .)
+    SEMICOLON       reduce using rule 51 (expresion2 -> expresion3 EQUALS expresion2 .)
+    RIGHTP          reduce using rule 51 (expresion2 -> expresion3 EQUALS expresion2 .)
+    RIGHTSB         reduce using rule 51 (expresion2 -> expresion3 EQUALS expresion2 .)
+    COMMA           reduce using rule 51 (expresion2 -> expresion3 EQUALS expresion2 .)
+    ID              reduce using rule 51 (expresion2 -> expresion3 EQUALS expresion2 .)
+    LEFTP           reduce using rule 51 (expresion2 -> expresion3 EQUALS expresion2 .)
+    INT_CTE         reduce using rule 51 (expresion2 -> expresion3 EQUALS expresion2 .)
+    FLOAT_CTE       reduce using rule 51 (expresion2 -> expresion3 EQUALS expresion2 .)
+    CHAR_CTE        reduce using rule 51 (expresion2 -> expresion3 EQUALS expresion2 .)
+    STRING_CTE      reduce using rule 51 (expresion2 -> expresion3 EQUALS expresion2 .)
+    TRUE            reduce using rule 51 (expresion2 -> expresion3 EQUALS expresion2 .)
+    FALSE           reduce using rule 51 (expresion2 -> expresion3 EQUALS expresion2 .)
+
+
+state 132
+
+    (53) expresion2 -> expresion3 GREATEREQUAL expresion2 .
+
+    SUM             reduce using rule 53 (expresion2 -> expresion3 GREATEREQUAL expresion2 .)
+    LESS            reduce using rule 53 (expresion2 -> expresion3 GREATEREQUAL expresion2 .)
+    TIMES           reduce using rule 53 (expresion2 -> expresion3 GREATEREQUAL expresion2 .)
+    DIVISION        reduce using rule 53 (expresion2 -> expresion3 GREATEREQUAL expresion2 .)
+    SEMICOLON       reduce using rule 53 (expresion2 -> expresion3 GREATEREQUAL expresion2 .)
+    RIGHTP          reduce using rule 53 (expresion2 -> expresion3 GREATEREQUAL expresion2 .)
+    RIGHTSB         reduce using rule 53 (expresion2 -> expresion3 GREATEREQUAL expresion2 .)
+    COMMA           reduce using rule 53 (expresion2 -> expresion3 GREATEREQUAL expresion2 .)
+    ID              reduce using rule 53 (expresion2 -> expresion3 GREATEREQUAL expresion2 .)
+    LEFTP           reduce using rule 53 (expresion2 -> expresion3 GREATEREQUAL expresion2 .)
+    INT_CTE         reduce using rule 53 (expresion2 -> expresion3 GREATEREQUAL expresion2 .)
+    FLOAT_CTE       reduce using rule 53 (expresion2 -> expresion3 GREATEREQUAL expresion2 .)
+    CHAR_CTE        reduce using rule 53 (expresion2 -> expresion3 GREATEREQUAL expresion2 .)
+    STRING_CTE      reduce using rule 53 (expresion2 -> expresion3 GREATEREQUAL expresion2 .)
+    TRUE            reduce using rule 53 (expresion2 -> expresion3 GREATEREQUAL expresion2 .)
+    FALSE           reduce using rule 53 (expresion2 -> expresion3 GREATEREQUAL expresion2 .)
+
+
+state 133
+
+    (55) expresion2 -> expresion3 LESSTHAN expresion2 .
+
+    SUM             reduce using rule 55 (expresion2 -> expresion3 LESSTHAN expresion2 .)
+    LESS            reduce using rule 55 (expresion2 -> expresion3 LESSTHAN expresion2 .)
+    TIMES           reduce using rule 55 (expresion2 -> expresion3 LESSTHAN expresion2 .)
+    DIVISION        reduce using rule 55 (expresion2 -> expresion3 LESSTHAN expresion2 .)
+    SEMICOLON       reduce using rule 55 (expresion2 -> expresion3 LESSTHAN expresion2 .)
+    RIGHTP          reduce using rule 55 (expresion2 -> expresion3 LESSTHAN expresion2 .)
+    RIGHTSB         reduce using rule 55 (expresion2 -> expresion3 LESSTHAN expresion2 .)
+    COMMA           reduce using rule 55 (expresion2 -> expresion3 LESSTHAN expresion2 .)
+    ID              reduce using rule 55 (expresion2 -> expresion3 LESSTHAN expresion2 .)
+    LEFTP           reduce using rule 55 (expresion2 -> expresion3 LESSTHAN expresion2 .)
+    INT_CTE         reduce using rule 55 (expresion2 -> expresion3 LESSTHAN expresion2 .)
+    FLOAT_CTE       reduce using rule 55 (expresion2 -> expresion3 LESSTHAN expresion2 .)
+    CHAR_CTE        reduce using rule 55 (expresion2 -> expresion3 LESSTHAN expresion2 .)
+    STRING_CTE      reduce using rule 55 (expresion2 -> expresion3 LESSTHAN expresion2 .)
+    TRUE            reduce using rule 55 (expresion2 -> expresion3 LESSTHAN expresion2 .)
+    FALSE           reduce using rule 55 (expresion2 -> expresion3 LESSTHAN expresion2 .)
+
+
+state 134
+
+    (54) expresion2 -> expresion3 GREATERTHAN expresion2 .
+
+    SUM             reduce using rule 54 (expresion2 -> expresion3 GREATERTHAN expresion2 .)
+    LESS            reduce using rule 54 (expresion2 -> expresion3 GREATERTHAN expresion2 .)
+    TIMES           reduce using rule 54 (expresion2 -> expresion3 GREATERTHAN expresion2 .)
+    DIVISION        reduce using rule 54 (expresion2 -> expresion3 GREATERTHAN expresion2 .)
+    SEMICOLON       reduce using rule 54 (expresion2 -> expresion3 GREATERTHAN expresion2 .)
+    RIGHTP          reduce using rule 54 (expresion2 -> expresion3 GREATERTHAN expresion2 .)
+    RIGHTSB         reduce using rule 54 (expresion2 -> expresion3 GREATERTHAN expresion2 .)
+    COMMA           reduce using rule 54 (expresion2 -> expresion3 GREATERTHAN expresion2 .)
+    ID              reduce using rule 54 (expresion2 -> expresion3 GREATERTHAN expresion2 .)
+    LEFTP           reduce using rule 54 (expresion2 -> expresion3 GREATERTHAN expresion2 .)
+    INT_CTE         reduce using rule 54 (expresion2 -> expresion3 GREATERTHAN expresion2 .)
+    FLOAT_CTE       reduce using rule 54 (expresion2 -> expresion3 GREATERTHAN expresion2 .)
+    CHAR_CTE        reduce using rule 54 (expresion2 -> expresion3 GREATERTHAN expresion2 .)
+    STRING_CTE      reduce using rule 54 (expresion2 -> expresion3 GREATERTHAN expresion2 .)
+    TRUE            reduce using rule 54 (expresion2 -> expresion3 GREATERTHAN expresion2 .)
+    FALSE           reduce using rule 54 (expresion2 -> expresion3 GREATERTHAN expresion2 .)
+
+
+state 135
+
+    (56) expresion2 -> expresion3 LESSEQUAL expresion2 .
+
+    SUM             reduce using rule 56 (expresion2 -> expresion3 LESSEQUAL expresion2 .)
+    LESS            reduce using rule 56 (expresion2 -> expresion3 LESSEQUAL expresion2 .)
+    TIMES           reduce using rule 56 (expresion2 -> expresion3 LESSEQUAL expresion2 .)
+    DIVISION        reduce using rule 56 (expresion2 -> expresion3 LESSEQUAL expresion2 .)
+    SEMICOLON       reduce using rule 56 (expresion2 -> expresion3 LESSEQUAL expresion2 .)
+    RIGHTP          reduce using rule 56 (expresion2 -> expresion3 LESSEQUAL expresion2 .)
+    RIGHTSB         reduce using rule 56 (expresion2 -> expresion3 LESSEQUAL expresion2 .)
+    COMMA           reduce using rule 56 (expresion2 -> expresion3 LESSEQUAL expresion2 .)
+    ID              reduce using rule 56 (expresion2 -> expresion3 LESSEQUAL expresion2 .)
+    LEFTP           reduce using rule 56 (expresion2 -> expresion3 LESSEQUAL expresion2 .)
+    INT_CTE         reduce using rule 56 (expresion2 -> expresion3 LESSEQUAL expresion2 .)
+    FLOAT_CTE       reduce using rule 56 (expresion2 -> expresion3 LESSEQUAL expresion2 .)
+    CHAR_CTE        reduce using rule 56 (expresion2 -> expresion3 LESSEQUAL expresion2 .)
+    STRING_CTE      reduce using rule 56 (expresion2 -> expresion3 LESSEQUAL expresion2 .)
+    TRUE            reduce using rule 56 (expresion2 -> expresion3 LESSEQUAL expresion2 .)
+    FALSE           reduce using rule 56 (expresion2 -> expresion3 LESSEQUAL expresion2 .)
+
+
+state 136
+
+    (48) expresion1 -> expresion2 SUM expresion1 .
+
+    TIMES           reduce using rule 48 (expresion1 -> expresion2 SUM expresion1 .)
+    DIVISION        reduce using rule 48 (expresion1 -> expresion2 SUM expresion1 .)
+    SEMICOLON       reduce using rule 48 (expresion1 -> expresion2 SUM expresion1 .)
+    RIGHTP          reduce using rule 48 (expresion1 -> expresion2 SUM expresion1 .)
+    RIGHTSB         reduce using rule 48 (expresion1 -> expresion2 SUM expresion1 .)
+    COMMA           reduce using rule 48 (expresion1 -> expresion2 SUM expresion1 .)
+    ID              reduce using rule 48 (expresion1 -> expresion2 SUM expresion1 .)
+    LEFTP           reduce using rule 48 (expresion1 -> expresion2 SUM expresion1 .)
+    INT_CTE         reduce using rule 48 (expresion1 -> expresion2 SUM expresion1 .)
+    FLOAT_CTE       reduce using rule 48 (expresion1 -> expresion2 SUM expresion1 .)
+    CHAR_CTE        reduce using rule 48 (expresion1 -> expresion2 SUM expresion1 .)
+    STRING_CTE      reduce using rule 48 (expresion1 -> expresion2 SUM expresion1 .)
+    TRUE            reduce using rule 48 (expresion1 -> expresion2 SUM expresion1 .)
+    FALSE           reduce using rule 48 (expresion1 -> expresion2 SUM expresion1 .)
+
+
+state 137
+
+    (49) expresion1 -> expresion2 LESS expresion1 .
+
+    TIMES           reduce using rule 49 (expresion1 -> expresion2 LESS expresion1 .)
+    DIVISION        reduce using rule 49 (expresion1 -> expresion2 LESS expresion1 .)
+    SEMICOLON       reduce using rule 49 (expresion1 -> expresion2 LESS expresion1 .)
+    RIGHTP          reduce using rule 49 (expresion1 -> expresion2 LESS expresion1 .)
+    RIGHTSB         reduce using rule 49 (expresion1 -> expresion2 LESS expresion1 .)
+    COMMA           reduce using rule 49 (expresion1 -> expresion2 LESS expresion1 .)
+    ID              reduce using rule 49 (expresion1 -> expresion2 LESS expresion1 .)
+    LEFTP           reduce using rule 49 (expresion1 -> expresion2 LESS expresion1 .)
+    INT_CTE         reduce using rule 49 (expresion1 -> expresion2 LESS expresion1 .)
+    FLOAT_CTE       reduce using rule 49 (expresion1 -> expresion2 LESS expresion1 .)
+    CHAR_CTE        reduce using rule 49 (expresion1 -> expresion2 LESS expresion1 .)
+    STRING_CTE      reduce using rule 49 (expresion1 -> expresion2 LESS expresion1 .)
+    TRUE            reduce using rule 49 (expresion1 -> expresion2 LESS expresion1 .)
+    FALSE           reduce using rule 49 (expresion1 -> expresion2 LESS expresion1 .)
+
+
+state 138
+
+    (58) expresion3 -> expresion4 AND expresion3 .
+
+    EQUALS          reduce using rule 58 (expresion3 -> expresion4 AND expresion3 .)
+    NOTEQUAL        reduce using rule 58 (expresion3 -> expresion4 AND expresion3 .)
+    GREATEREQUAL    reduce using rule 58 (expresion3 -> expresion4 AND expresion3 .)
+    GREATERTHAN     reduce using rule 58 (expresion3 -> expresion4 AND expresion3 .)
+    LESSTHAN        reduce using rule 58 (expresion3 -> expresion4 AND expresion3 .)
+    LESSEQUAL       reduce using rule 58 (expresion3 -> expresion4 AND expresion3 .)
+    SUM             reduce using rule 58 (expresion3 -> expresion4 AND expresion3 .)
+    LESS            reduce using rule 58 (expresion3 -> expresion4 AND expresion3 .)
+    TIMES           reduce using rule 58 (expresion3 -> expresion4 AND expresion3 .)
+    DIVISION        reduce using rule 58 (expresion3 -> expresion4 AND expresion3 .)
+    SEMICOLON       reduce using rule 58 (expresion3 -> expresion4 AND expresion3 .)
+    RIGHTP          reduce using rule 58 (expresion3 -> expresion4 AND expresion3 .)
+    RIGHTSB         reduce using rule 58 (expresion3 -> expresion4 AND expresion3 .)
+    COMMA           reduce using rule 58 (expresion3 -> expresion4 AND expresion3 .)
+    ID              reduce using rule 58 (expresion3 -> expresion4 AND expresion3 .)
+    LEFTP           reduce using rule 58 (expresion3 -> expresion4 AND expresion3 .)
+    INT_CTE         reduce using rule 58 (expresion3 -> expresion4 AND expresion3 .)
+    FLOAT_CTE       reduce using rule 58 (expresion3 -> expresion4 AND expresion3 .)
+    CHAR_CTE        reduce using rule 58 (expresion3 -> expresion4 AND expresion3 .)
+    STRING_CTE      reduce using rule 58 (expresion3 -> expresion4 AND expresion3 .)
+    TRUE            reduce using rule 58 (expresion3 -> expresion4 AND expresion3 .)
+    FALSE           reduce using rule 58 (expresion3 -> expresion4 AND expresion3 .)
+
+
+state 139
+
+    (59) expresion3 -> expresion4 OR expresion3 .
+
+    EQUALS          reduce using rule 59 (expresion3 -> expresion4 OR expresion3 .)
+    NOTEQUAL        reduce using rule 59 (expresion3 -> expresion4 OR expresion3 .)
+    GREATEREQUAL    reduce using rule 59 (expresion3 -> expresion4 OR expresion3 .)
+    GREATERTHAN     reduce using rule 59 (expresion3 -> expresion4 OR expresion3 .)
+    LESSTHAN        reduce using rule 59 (expresion3 -> expresion4 OR expresion3 .)
+    LESSEQUAL       reduce using rule 59 (expresion3 -> expresion4 OR expresion3 .)
+    SUM             reduce using rule 59 (expresion3 -> expresion4 OR expresion3 .)
+    LESS            reduce using rule 59 (expresion3 -> expresion4 OR expresion3 .)
+    TIMES           reduce using rule 59 (expresion3 -> expresion4 OR expresion3 .)
+    DIVISION        reduce using rule 59 (expresion3 -> expresion4 OR expresion3 .)
+    SEMICOLON       reduce using rule 59 (expresion3 -> expresion4 OR expresion3 .)
+    RIGHTP          reduce using rule 59 (expresion3 -> expresion4 OR expresion3 .)
+    RIGHTSB         reduce using rule 59 (expresion3 -> expresion4 OR expresion3 .)
+    COMMA           reduce using rule 59 (expresion3 -> expresion4 OR expresion3 .)
+    ID              reduce using rule 59 (expresion3 -> expresion4 OR expresion3 .)
+    LEFTP           reduce using rule 59 (expresion3 -> expresion4 OR expresion3 .)
+    INT_CTE         reduce using rule 59 (expresion3 -> expresion4 OR expresion3 .)
+    FLOAT_CTE       reduce using rule 59 (expresion3 -> expresion4 OR expresion3 .)
+    CHAR_CTE        reduce using rule 59 (expresion3 -> expresion4 OR expresion3 .)
+    STRING_CTE      reduce using rule 59 (expresion3 -> expresion4 OR expresion3 .)
+    TRUE            reduce using rule 59 (expresion3 -> expresion4 OR expresion3 .)
+    FALSE           reduce using rule 59 (expresion3 -> expresion4 OR expresion3 .)
+
+
+state 140
+
+    (39) ciclo -> WHILE LEFTP exp RIGHTP . LEFTB bloque RIGHTB
+
+    LEFTB           shift and go to state 149
+
+
+state 141
+
+    (30) escritura -> PRINT LEFTP exp RIGHTP . SEMICOLON
+
+    SEMICOLON       shift and go to state 150
+
+
+state 142
+
+    (38) asignacion -> ID LEFTSB exp RIGHTSB . ASSIGN exp SEMICOLON
+
+    ASSIGN          shift and go to state 151
+
+
+state 143
+
+    (29) lectura -> ID ASSIGN READ LEFTP . RIGHTP SEMICOLON
+
+    RIGHTP          shift and go to state 152
+
+
+state 144
+
+    (37) asignacion -> ID ASSIGN exp SEMICOLON .
+
+    RIGHTB          reduce using rule 37 (asignacion -> ID ASSIGN exp SEMICOLON .)
+    RETURN          reduce using rule 37 (asignacion -> ID ASSIGN exp SEMICOLON .)
+    ID              reduce using rule 37 (asignacion -> ID ASSIGN exp SEMICOLON .)
+    PRINT           reduce using rule 37 (asignacion -> ID ASSIGN exp SEMICOLON .)
+    WHILE           reduce using rule 37 (asignacion -> ID ASSIGN exp SEMICOLON .)
+    IF              reduce using rule 37 (asignacion -> ID ASSIGN exp SEMICOLON .)
+
+
+state 145
+
+    (32) llamada_list -> llamada_list args .
+
+    RIGHTP          reduce using rule 32 (llamada_list -> llamada_list args .)
+    ID              reduce using rule 32 (llamada_list -> llamada_list args .)
+    LEFTP           reduce using rule 32 (llamada_list -> llamada_list args .)
+    INT_CTE         reduce using rule 32 (llamada_list -> llamada_list args .)
+    FLOAT_CTE       reduce using rule 32 (llamada_list -> llamada_list args .)
+    CHAR_CTE        reduce using rule 32 (llamada_list -> llamada_list args .)
+    STRING_CTE      reduce using rule 32 (llamada_list -> llamada_list args .)
+    TRUE            reduce using rule 32 (llamada_list -> llamada_list args .)
+    FALSE           reduce using rule 32 (llamada_list -> llamada_list args .)
+
+
+state 146
+
+    (31) llamada -> ID LEFTP llamada_list RIGHTP .
+
+    SEMICOLON       reduce using rule 31 (llamada -> ID LEFTP llamada_list RIGHTP .)
+    RIGHTSB         reduce using rule 31 (llamada -> ID LEFTP llamada_list RIGHTP .)
+    RIGHTP          reduce using rule 31 (llamada -> ID LEFTP llamada_list RIGHTP .)
+    ID              reduce using rule 31 (llamada -> ID LEFTP llamada_list RIGHTP .)
+    LEFTP           reduce using rule 31 (llamada -> ID LEFTP llamada_list RIGHTP .)
+    INT_CTE         reduce using rule 31 (llamada -> ID LEFTP llamada_list RIGHTP .)
+    FLOAT_CTE       reduce using rule 31 (llamada -> ID LEFTP llamada_list RIGHTP .)
+    CHAR_CTE        reduce using rule 31 (llamada -> ID LEFTP llamada_list RIGHTP .)
+    STRING_CTE      reduce using rule 31 (llamada -> ID LEFTP llamada_list RIGHTP .)
+    TRUE            reduce using rule 31 (llamada -> ID LEFTP llamada_list RIGHTP .)
+    FALSE           reduce using rule 31 (llamada -> ID LEFTP llamada_list RIGHTP .)
+    COMMA           reduce using rule 31 (llamada -> ID LEFTP llamada_list RIGHTP .)
+
+
+state 147
+
+    (34) args -> exp . mas_args
+    (35) mas_args -> . COMMA exp
+    (36) mas_args -> . empty
+    (74) empty -> .
+
+    COMMA           shift and go to state 154
+    RIGHTP          reduce using rule 74 (empty -> .)
+    ID              reduce using rule 74 (empty -> .)
+    LEFTP           reduce using rule 74 (empty -> .)
+    INT_CTE         reduce using rule 74 (empty -> .)
+    FLOAT_CTE       reduce using rule 74 (empty -> .)
+    CHAR_CTE        reduce using rule 74 (empty -> .)
+    STRING_CTE      reduce using rule 74 (empty -> .)
+    TRUE            reduce using rule 74 (empty -> .)
+    FALSE           reduce using rule 74 (empty -> .)
+
+    mas_args                       shift and go to state 153
+    empty                          shift and go to state 155
+
+state 148
+
+    (40) condicion -> IF LEFTP exp RIGHTP . LEFTB bloque RIGHTB
+    (41) condicion -> IF LEFTP exp RIGHTP . LEFTB bloque RIGHTB ELSE LEFTB bloque RIGHTB
+
+    LEFTB           shift and go to state 156
+
+
+state 149
+
+    (39) ciclo -> WHILE LEFTP exp RIGHTP LEFTB . bloque RIGHTB
+    (19) bloque -> . bloque estatuto
+    (20) bloque -> . empty
+    (74) empty -> .
+
+    RIGHTB          reduce using rule 74 (empty -> .)
+    RETURN          reduce using rule 74 (empty -> .)
+    ID              reduce using rule 74 (empty -> .)
+    PRINT           reduce using rule 74 (empty -> .)
+    WHILE           reduce using rule 74 (empty -> .)
+    IF              reduce using rule 74 (empty -> .)
+
+    bloque                         shift and go to state 157
+    empty                          shift and go to state 60
+
+state 150
+
+    (30) escritura -> PRINT LEFTP exp RIGHTP SEMICOLON .
+
+    RIGHTB          reduce using rule 30 (escritura -> PRINT LEFTP exp RIGHTP SEMICOLON .)
+    RETURN          reduce using rule 30 (escritura -> PRINT LEFTP exp RIGHTP SEMICOLON .)
+    ID              reduce using rule 30 (escritura -> PRINT LEFTP exp RIGHTP SEMICOLON .)
+    PRINT           reduce using rule 30 (escritura -> PRINT LEFTP exp RIGHTP SEMICOLON .)
+    WHILE           reduce using rule 30 (escritura -> PRINT LEFTP exp RIGHTP SEMICOLON .)
+    IF              reduce using rule 30 (escritura -> PRINT LEFTP exp RIGHTP SEMICOLON .)
+
+
+state 151
+
+    (38) asignacion -> ID LEFTSB exp RIGHTSB ASSIGN . exp SEMICOLON
+    (42) exp -> . llamada
+    (43) exp -> . expresion
+    (31) llamada -> . ID LEFTP llamada_list RIGHTP
+    (44) expresion -> . expresion1
+    (45) expresion -> . expresion1 TIMES expresion
+    (46) expresion -> . expresion1 DIVISION expresion
+    (47) expresion1 -> . expresion2
+    (48) expresion1 -> . expresion2 SUM expresion1
+    (49) expresion1 -> . expresion2 LESS expresion1
+    (50) expresion2 -> . expresion3
+    (51) expresion2 -> . expresion3 EQUALS expresion2
+    (52) expresion2 -> . expresion3 NOTEQUAL expresion2
+    (53) expresion2 -> . expresion3 GREATEREQUAL expresion2
+    (54) expresion2 -> . expresion3 GREATERTHAN expresion2
+    (55) expresion2 -> . expresion3 LESSTHAN expresion2
+    (56) expresion2 -> . expresion3 LESSEQUAL expresion2
+    (57) expresion3 -> . expresion4
+    (58) expresion3 -> . expresion4 AND expresion3
+    (59) expresion3 -> . expresion4 OR expresion3
+    (60) expresion4 -> . constante
+    (61) expresion4 -> . ID
+    (62) expresion4 -> . LEFTP expresion RIGHTP
+    (68) constante -> . INT_CTE
+    (69) constante -> . FLOAT_CTE
+    (70) constante -> . CHAR_CTE
+    (71) constante -> . STRING_CTE
+    (72) constante -> . TRUE
+    (73) constante -> . FALSE
+
+    ID              shift and go to state 92
+    LEFTP           shift and go to state 82
+    INT_CTE         shift and go to state 93
+    FLOAT_CTE       shift and go to state 95
+    CHAR_CTE        shift and go to state 84
+    STRING_CTE      shift and go to state 85
+    TRUE            shift and go to state 81
+    FALSE           shift and go to state 91
+
+    expresion                      shift and go to state 94
+    expresion1                     shift and go to state 86
+    expresion3                     shift and go to state 87
+    expresion2                     shift and go to state 88
+    expresion4                     shift and go to state 89
+    constante                      shift and go to state 90
+    llamada                        shift and go to state 83
+    exp                            shift and go to state 158
+
+state 152
+
+    (29) lectura -> ID ASSIGN READ LEFTP RIGHTP . SEMICOLON
+
+    SEMICOLON       shift and go to state 159
+
+
+state 153
+
+    (34) args -> exp mas_args .
+
+    RIGHTP          reduce using rule 34 (args -> exp mas_args .)
+    ID              reduce using rule 34 (args -> exp mas_args .)
+    LEFTP           reduce using rule 34 (args -> exp mas_args .)
+    INT_CTE         reduce using rule 34 (args -> exp mas_args .)
+    FLOAT_CTE       reduce using rule 34 (args -> exp mas_args .)
+    CHAR_CTE        reduce using rule 34 (args -> exp mas_args .)
+    STRING_CTE      reduce using rule 34 (args -> exp mas_args .)
+    TRUE            reduce using rule 34 (args -> exp mas_args .)
+    FALSE           reduce using rule 34 (args -> exp mas_args .)
+
+
+state 154
+
+    (35) mas_args -> COMMA . exp
+    (42) exp -> . llamada
+    (43) exp -> . expresion
+    (31) llamada -> . ID LEFTP llamada_list RIGHTP
+    (44) expresion -> . expresion1
+    (45) expresion -> . expresion1 TIMES expresion
+    (46) expresion -> . expresion1 DIVISION expresion
+    (47) expresion1 -> . expresion2
+    (48) expresion1 -> . expresion2 SUM expresion1
+    (49) expresion1 -> . expresion2 LESS expresion1
+    (50) expresion2 -> . expresion3
+    (51) expresion2 -> . expresion3 EQUALS expresion2
+    (52) expresion2 -> . expresion3 NOTEQUAL expresion2
+    (53) expresion2 -> . expresion3 GREATEREQUAL expresion2
+    (54) expresion2 -> . expresion3 GREATERTHAN expresion2
+    (55) expresion2 -> . expresion3 LESSTHAN expresion2
+    (56) expresion2 -> . expresion3 LESSEQUAL expresion2
+    (57) expresion3 -> . expresion4
+    (58) expresion3 -> . expresion4 AND expresion3
+    (59) expresion3 -> . expresion4 OR expresion3
+    (60) expresion4 -> . constante
+    (61) expresion4 -> . ID
+    (62) expresion4 -> . LEFTP expresion RIGHTP
+    (68) constante -> . INT_CTE
+    (69) constante -> . FLOAT_CTE
+    (70) constante -> . CHAR_CTE
+    (71) constante -> . STRING_CTE
+    (72) constante -> . TRUE
+    (73) constante -> . FALSE
+
+    ID              shift and go to state 92
+    LEFTP           shift and go to state 82
+    INT_CTE         shift and go to state 93
+    FLOAT_CTE       shift and go to state 95
+    CHAR_CTE        shift and go to state 84
+    STRING_CTE      shift and go to state 85
+    TRUE            shift and go to state 81
+    FALSE           shift and go to state 91
+
+    expresion                      shift and go to state 94
+    expresion1                     shift and go to state 86
+    expresion3                     shift and go to state 87
+    expresion2                     shift and go to state 88
+    expresion4                     shift and go to state 89
+    constante                      shift and go to state 90
+    llamada                        shift and go to state 83
+    exp                            shift and go to state 160
+
+state 155
+
+    (36) mas_args -> empty .
+
+    RIGHTP          reduce using rule 36 (mas_args -> empty .)
+    ID              reduce using rule 36 (mas_args -> empty .)
+    LEFTP           reduce using rule 36 (mas_args -> empty .)
+    INT_CTE         reduce using rule 36 (mas_args -> empty .)
+    FLOAT_CTE       reduce using rule 36 (mas_args -> empty .)
+    CHAR_CTE        reduce using rule 36 (mas_args -> empty .)
+    STRING_CTE      reduce using rule 36 (mas_args -> empty .)
+    TRUE            reduce using rule 36 (mas_args -> empty .)
+    FALSE           reduce using rule 36 (mas_args -> empty .)
+
+
+state 156
+
+    (40) condicion -> IF LEFTP exp RIGHTP LEFTB . bloque RIGHTB
+    (41) condicion -> IF LEFTP exp RIGHTP LEFTB . bloque RIGHTB ELSE LEFTB bloque RIGHTB
+    (19) bloque -> . bloque estatuto
+    (20) bloque -> . empty
+    (74) empty -> .
+
+    RIGHTB          reduce using rule 74 (empty -> .)
+    RETURN          reduce using rule 74 (empty -> .)
+    ID              reduce using rule 74 (empty -> .)
+    PRINT           reduce using rule 74 (empty -> .)
+    WHILE           reduce using rule 74 (empty -> .)
+    IF              reduce using rule 74 (empty -> .)
+
+    bloque                         shift and go to state 161
+    empty                          shift and go to state 60
+
+state 157
+
+    (39) ciclo -> WHILE LEFTP exp RIGHTP LEFTB bloque . RIGHTB
+    (19) bloque -> bloque . estatuto
+    (21) estatuto -> . return
+    (22) estatuto -> . lectura
+    (23) estatuto -> . escritura
+    (24) estatuto -> . llamada SEMICOLON
+    (25) estatuto -> . asignacion
+    (26) estatuto -> . ciclo
+    (27) estatuto -> . condicion
+    (28) return -> . RETURN exp SEMICOLON
+    (29) lectura -> . ID ASSIGN READ LEFTP RIGHTP SEMICOLON
+    (30) escritura -> . PRINT LEFTP exp RIGHTP SEMICOLON
+    (31) llamada -> . ID LEFTP llamada_list RIGHTP
+    (37) asignacion -> . ID ASSIGN exp SEMICOLON
+    (38) asignacion -> . ID LEFTSB exp RIGHTSB ASSIGN exp SEMICOLON
+    (39) ciclo -> . WHILE LEFTP exp RIGHTP LEFTB bloque RIGHTB
+    (40) condicion -> . IF LEFTP exp RIGHTP LEFTB bloque RIGHTB
+    (41) condicion -> . IF LEFTP exp RIGHTP LEFTB bloque RIGHTB ELSE LEFTB bloque RIGHTB
+
+    RIGHTB          shift and go to state 162
+    RETURN          shift and go to state 64
+    ID              shift and go to state 73
+    PRINT           shift and go to state 66
+    WHILE           shift and go to state 65
+    IF              shift and go to state 74
+
+    return                         shift and go to state 72
+    ciclo                          shift and go to state 67
+    asignacion                     shift and go to state 75
+    estatuto                       shift and go to state 68
+    llamada                        shift and go to state 69
+    condicion                      shift and go to state 70
+    lectura                        shift and go to state 71
+    escritura                      shift and go to state 77
+
+state 158
+
+    (38) asignacion -> ID LEFTSB exp RIGHTSB ASSIGN exp . SEMICOLON
+
+    SEMICOLON       shift and go to state 163
+
+
+state 159
+
+    (29) lectura -> ID ASSIGN READ LEFTP RIGHTP SEMICOLON .
+
+    RIGHTB          reduce using rule 29 (lectura -> ID ASSIGN READ LEFTP RIGHTP SEMICOLON .)
+    RETURN          reduce using rule 29 (lectura -> ID ASSIGN READ LEFTP RIGHTP SEMICOLON .)
+    ID              reduce using rule 29 (lectura -> ID ASSIGN READ LEFTP RIGHTP SEMICOLON .)
+    PRINT           reduce using rule 29 (lectura -> ID ASSIGN READ LEFTP RIGHTP SEMICOLON .)
+    WHILE           reduce using rule 29 (lectura -> ID ASSIGN READ LEFTP RIGHTP SEMICOLON .)
+    IF              reduce using rule 29 (lectura -> ID ASSIGN READ LEFTP RIGHTP SEMICOLON .)
+
+
+state 160
+
+    (35) mas_args -> COMMA exp .
+
+    RIGHTP          reduce using rule 35 (mas_args -> COMMA exp .)
+    ID              reduce using rule 35 (mas_args -> COMMA exp .)
+    LEFTP           reduce using rule 35 (mas_args -> COMMA exp .)
+    INT_CTE         reduce using rule 35 (mas_args -> COMMA exp .)
+    FLOAT_CTE       reduce using rule 35 (mas_args -> COMMA exp .)
+    CHAR_CTE        reduce using rule 35 (mas_args -> COMMA exp .)
+    STRING_CTE      reduce using rule 35 (mas_args -> COMMA exp .)
+    TRUE            reduce using rule 35 (mas_args -> COMMA exp .)
+    FALSE           reduce using rule 35 (mas_args -> COMMA exp .)
+
+
+state 161
+
+    (40) condicion -> IF LEFTP exp RIGHTP LEFTB bloque . RIGHTB
+    (41) condicion -> IF LEFTP exp RIGHTP LEFTB bloque . RIGHTB ELSE LEFTB bloque RIGHTB
+    (19) bloque -> bloque . estatuto
+    (21) estatuto -> . return
+    (22) estatuto -> . lectura
+    (23) estatuto -> . escritura
+    (24) estatuto -> . llamada SEMICOLON
+    (25) estatuto -> . asignacion
+    (26) estatuto -> . ciclo
+    (27) estatuto -> . condicion
+    (28) return -> . RETURN exp SEMICOLON
+    (29) lectura -> . ID ASSIGN READ LEFTP RIGHTP SEMICOLON
+    (30) escritura -> . PRINT LEFTP exp RIGHTP SEMICOLON
+    (31) llamada -> . ID LEFTP llamada_list RIGHTP
+    (37) asignacion -> . ID ASSIGN exp SEMICOLON
+    (38) asignacion -> . ID LEFTSB exp RIGHTSB ASSIGN exp SEMICOLON
+    (39) ciclo -> . WHILE LEFTP exp RIGHTP LEFTB bloque RIGHTB
+    (40) condicion -> . IF LEFTP exp RIGHTP LEFTB bloque RIGHTB
+    (41) condicion -> . IF LEFTP exp RIGHTP LEFTB bloque RIGHTB ELSE LEFTB bloque RIGHTB
+
+    RIGHTB          shift and go to state 164
+    RETURN          shift and go to state 64
+    ID              shift and go to state 73
+    PRINT           shift and go to state 66
+    WHILE           shift and go to state 65
+    IF              shift and go to state 74
+
+    return                         shift and go to state 72
+    ciclo                          shift and go to state 67
+    asignacion                     shift and go to state 75
+    estatuto                       shift and go to state 68
+    llamada                        shift and go to state 69
+    condicion                      shift and go to state 70
+    lectura                        shift and go to state 71
+    escritura                      shift and go to state 77
+
+state 162
+
+    (39) ciclo -> WHILE LEFTP exp RIGHTP LEFTB bloque RIGHTB .
+
+    RIGHTB          reduce using rule 39 (ciclo -> WHILE LEFTP exp RIGHTP LEFTB bloque RIGHTB .)
+    RETURN          reduce using rule 39 (ciclo -> WHILE LEFTP exp RIGHTP LEFTB bloque RIGHTB .)
+    ID              reduce using rule 39 (ciclo -> WHILE LEFTP exp RIGHTP LEFTB bloque RIGHTB .)
+    PRINT           reduce using rule 39 (ciclo -> WHILE LEFTP exp RIGHTP LEFTB bloque RIGHTB .)
+    WHILE           reduce using rule 39 (ciclo -> WHILE LEFTP exp RIGHTP LEFTB bloque RIGHTB .)
+    IF              reduce using rule 39 (ciclo -> WHILE LEFTP exp RIGHTP LEFTB bloque RIGHTB .)
+
+
+state 163
+
+    (38) asignacion -> ID LEFTSB exp RIGHTSB ASSIGN exp SEMICOLON .
+
+    RIGHTB          reduce using rule 38 (asignacion -> ID LEFTSB exp RIGHTSB ASSIGN exp SEMICOLON .)
+    RETURN          reduce using rule 38 (asignacion -> ID LEFTSB exp RIGHTSB ASSIGN exp SEMICOLON .)
+    ID              reduce using rule 38 (asignacion -> ID LEFTSB exp RIGHTSB ASSIGN exp SEMICOLON .)
+    PRINT           reduce using rule 38 (asignacion -> ID LEFTSB exp RIGHTSB ASSIGN exp SEMICOLON .)
+    WHILE           reduce using rule 38 (asignacion -> ID LEFTSB exp RIGHTSB ASSIGN exp SEMICOLON .)
+    IF              reduce using rule 38 (asignacion -> ID LEFTSB exp RIGHTSB ASSIGN exp SEMICOLON .)
+
+
+state 164
+
+    (40) condicion -> IF LEFTP exp RIGHTP LEFTB bloque RIGHTB .
+    (41) condicion -> IF LEFTP exp RIGHTP LEFTB bloque RIGHTB . ELSE LEFTB bloque RIGHTB
+
+    RIGHTB          reduce using rule 40 (condicion -> IF LEFTP exp RIGHTP LEFTB bloque RIGHTB .)
+    RETURN          reduce using rule 40 (condicion -> IF LEFTP exp RIGHTP LEFTB bloque RIGHTB .)
+    ID              reduce using rule 40 (condicion -> IF LEFTP exp RIGHTP LEFTB bloque RIGHTB .)
+    PRINT           reduce using rule 40 (condicion -> IF LEFTP exp RIGHTP LEFTB bloque RIGHTB .)
+    WHILE           reduce using rule 40 (condicion -> IF LEFTP exp RIGHTP LEFTB bloque RIGHTB .)
+    IF              reduce using rule 40 (condicion -> IF LEFTP exp RIGHTP LEFTB bloque RIGHTB .)
+    ELSE            shift and go to state 165
+
+
+state 165
+
+    (41) condicion -> IF LEFTP exp RIGHTP LEFTB bloque RIGHTB ELSE . LEFTB bloque RIGHTB
+
+    LEFTB           shift and go to state 166
+
+
+state 166
+
+    (41) condicion -> IF LEFTP exp RIGHTP LEFTB bloque RIGHTB ELSE LEFTB . bloque RIGHTB
+    (19) bloque -> . bloque estatuto
+    (20) bloque -> . empty
+    (74) empty -> .
+
+    RIGHTB          reduce using rule 74 (empty -> .)
+    RETURN          reduce using rule 74 (empty -> .)
+    ID              reduce using rule 74 (empty -> .)
+    PRINT           reduce using rule 74 (empty -> .)
+    WHILE           reduce using rule 74 (empty -> .)
+    IF              reduce using rule 74 (empty -> .)
+
+    bloque                         shift and go to state 167
+    empty                          shift and go to state 60
+
+state 167
+
+    (41) condicion -> IF LEFTP exp RIGHTP LEFTB bloque RIGHTB ELSE LEFTB bloque . RIGHTB
+    (19) bloque -> bloque . estatuto
+    (21) estatuto -> . return
+    (22) estatuto -> . lectura
+    (23) estatuto -> . escritura
+    (24) estatuto -> . llamada SEMICOLON
+    (25) estatuto -> . asignacion
+    (26) estatuto -> . ciclo
+    (27) estatuto -> . condicion
+    (28) return -> . RETURN exp SEMICOLON
+    (29) lectura -> . ID ASSIGN READ LEFTP RIGHTP SEMICOLON
+    (30) escritura -> . PRINT LEFTP exp RIGHTP SEMICOLON
+    (31) llamada -> . ID LEFTP llamada_list RIGHTP
+    (37) asignacion -> . ID ASSIGN exp SEMICOLON
+    (38) asignacion -> . ID LEFTSB exp RIGHTSB ASSIGN exp SEMICOLON
+    (39) ciclo -> . WHILE LEFTP exp RIGHTP LEFTB bloque RIGHTB
+    (40) condicion -> . IF LEFTP exp RIGHTP LEFTB bloque RIGHTB
+    (41) condicion -> . IF LEFTP exp RIGHTP LEFTB bloque RIGHTB ELSE LEFTB bloque RIGHTB
+
+    RIGHTB          shift and go to state 168
+    RETURN          shift and go to state 64
+    ID              shift and go to state 73
+    PRINT           shift and go to state 66
+    WHILE           shift and go to state 65
+    IF              shift and go to state 74
+
+    return                         shift and go to state 72
+    ciclo                          shift and go to state 67
+    asignacion                     shift and go to state 75
+    estatuto                       shift and go to state 68
+    llamada                        shift and go to state 69
+    condicion                      shift and go to state 70
+    lectura                        shift and go to state 71
+    escritura                      shift and go to state 77
+
+state 168
+
+    (41) condicion -> IF LEFTP exp RIGHTP LEFTB bloque RIGHTB ELSE LEFTB bloque RIGHTB .
+
+    RIGHTB          reduce using rule 41 (condicion -> IF LEFTP exp RIGHTP LEFTB bloque RIGHTB ELSE LEFTB bloque RIGHTB .)
+    RETURN          reduce using rule 41 (condicion -> IF LEFTP exp RIGHTP LEFTB bloque RIGHTB ELSE LEFTB bloque RIGHTB .)
+    ID              reduce using rule 41 (condicion -> IF LEFTP exp RIGHTP LEFTB bloque RIGHTB ELSE LEFTB bloque RIGHTB .)
+    PRINT           reduce using rule 41 (condicion -> IF LEFTP exp RIGHTP LEFTB bloque RIGHTB ELSE LEFTB bloque RIGHTB .)
+    WHILE           reduce using rule 41 (condicion -> IF LEFTP exp RIGHTP LEFTB bloque RIGHTB ELSE LEFTB bloque RIGHTB .)
+    IF              reduce using rule 41 (condicion -> IF LEFTP exp RIGHTP LEFTB bloque RIGHTB ELSE LEFTB bloque RIGHTB .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for LEFTP in state 92 resolved as shift
