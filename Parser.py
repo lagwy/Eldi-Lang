@@ -16,52 +16,51 @@ tokens = Scanner.tokens   # Need token list
 globales_int = {}
 globales_int_cont = 0
 globales_float = {}
-globales_float_cont = 0
+globales_float_cont = 200
 globales_char = {}
-globales_char_cont = 0
+globales_char_cont = 400
 globales_string = {}
-globales_string_cont = 0
+globales_string_cont = 600
 globales_boolean = {}
-globales_boolean_cont = 0
+globales_boolean_cont = 800
 
 # Variables locales
 locales_int = {}
-locales_int_cont = 0
+locales_int_cont = 1000
 locales_float = {}
-locales_float_cont = 0
+locales_float_cont = 1200
 locales_char = {}
-locales_char_cont = 0
+locales_char_cont = 1400
 locales_string = {}
-locales_string_cont = 0
+locales_string_cont = 1600
 locales_boolean = {}
-locales_boolean_cont = 0
+locales_boolean_cont = 1800
 
 # Variables temporales
 temporales_int = {}
-temporales_int_cont = 0
+temporales_int_cont = 2000
 temporales_float = {}
-temporales_float_cont = 0
+temporales_float_cont = 2200
 temporales_char = {}
-temporales_char_cont = 0
+temporales_char_cont = 2400
 temporales_string = {}
-temporales_string_cont = 0
+temporales_string_cont = 2600
 temporales_boolean = {}
-temporales_boolean_cont = 0
+temporales_boolean_cont = 2800
 
 # Variables constantes
 constantes_int = {}
-constantes_int_cont = 0
+constantes_int_cont = 3000
 constantes_float = {}
-constantes_float_cont = 0
+constantes_float_cont = 3200
 constantes_char = {}
-constantes_char_cont = 0
+constantes_char_cont = 3400
 constantes_string = {}
-constantes_string_cont = 0
+constantes_string_cont = 3600
 constantes_boolean = {}
-constantes_boolean_cont = 0
+constantes_boolean_cont = 3800
 
-actual = ""
-state = "variables"
+state = 0
 
 def p_programa(p):
     '''programa : variables_list metodos'''
@@ -73,7 +72,7 @@ def p_variables_list(p):
 def p_variables(p):
     '''variables : VAR tipo ID lista_variables SEMICOLON
         | VAR tipo ID LEFTSB INT_CTE RIGHTSB lista_variables SEMICOLON'''
-    if  state == "variables":
+    if  state == 0:
         print p[3]
 
 def p_lista_variables(p):
@@ -85,7 +84,7 @@ def p_metodos(p):
     '''metodos : metodos metodo
         | empty'''
     global state
-    state = "metodos"
+    state = 1
 
 def p_metodo(p):
     '''metodo : METHOD VOID MAIN LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB
@@ -189,7 +188,7 @@ def p_tipo(p):
         | BOOLEAN
         | FLOAT
         | STRING'''
-    if state == "variables":
+    if state == 0:
         print p[1]
 
 def p_constante(p):
