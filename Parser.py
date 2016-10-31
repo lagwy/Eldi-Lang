@@ -8,8 +8,9 @@
 #   @date 12/10/2016
 ###########################################################################
 import ply.yacc as yacc
-import Scanner            # Import lexer information
-tokens = Scanner.tokens   # Need token list
+import Scanner            # Importar el analizador léxico
+from Cubo import *        # Importar los identificadores numéricos asignados
+tokens = Scanner.tokens   # Lista de tokens
 
 # Creación de los diccionarios de tipos con sus contadores
 # Variables globales
@@ -61,6 +62,26 @@ constantes_boolean = {}
 constantes_boolean_cont = 3800
 
 state = 0
+actualType = None
+
+###########################################################################
+#   getNumericalType
+#   Regresa el código numérico del último tipo a analizar
+###########################################################################
+def getNumericalType(type):
+    # global __int, __char, __boolean, __float, __string, __error
+    if type == "int":
+        return INT
+    elif type == "char":
+        return CHAR
+    elif type == "boolean":
+        return BOOLEAN
+    elif type == "float":
+        return FLOAT
+    elif type == "string":
+        return STRING
+    else:
+        return ERROR
 
 def p_programa(p):
     '''programa : variables_list metodos'''
@@ -73,7 +94,7 @@ def p_variables(p):
     '''variables : VAR tipo ID lista_variables SEMICOLON
         | VAR tipo ID LEFTSB INT_CTE RIGHTSB lista_variables SEMICOLON'''
     if  state == 0:
-        print p[3]
+        print str(actualType) + " " + p[3]
 
 def p_lista_variables(p):
     '''lista_variables : COMMA ID lista_variables
@@ -188,8 +209,9 @@ def p_tipo(p):
         | BOOLEAN
         | FLOAT
         | STRING'''
+    global actualType
     if state == 0:
-        print p[1]
+        actualType = getNumericalType(p[1])
 
 def p_constante(p):
     '''constante : INT_CTE

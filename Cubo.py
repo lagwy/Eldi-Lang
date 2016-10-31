@@ -1,29 +1,29 @@
 # -*- coding: utf-8 -*-
 # Identificadores de los tipos
-__entero  = 0
-__decimal = 1
-__char = 2
-__string = 3
-__boolean = 4
-__error = -1
+INT = 0
+FLOAT = 1
+CHAR = 2
+STRING = 3
+BOOLEAN = 4
+ERROR = -1
 
 # Identificadores de las operaciones
-__suma = 0
-__menos = 1
-__division = 2
-__multi = 3
-__concatenation = 4
-__mayor = 5
-__menor = 6
-__igual = 7
-__diferente = 8
-__mayorigual = 9
-__menorigual = 10
-__aand = 11
-__oor = 12
+SUMA = 0
+RESTA = 1
+DIVISION = 2
+MULTIPLICACION = 3
+CONCATENACION = 4
+MAYORQUE = 5
+MENORQUE = 6
+IGUAL = 7
+DIFERENTE = 8
+MAYORIGUAL = 9
+MENORIGUAL = 10
+BWAND = 11
+BWOR = 12
 
 # Semantica de operadores y operandos
-__cubo = [
+CUBO = [
     [ 0, 0,  0,  0,  0,  0, -1,  4,  4,  4,  4,  4,  4, -1, -1 ],
     [ 0, 1,  1,  1,  1,  1, -1,  4,  4,  4,  4,  4,  4, -1, -1 ],
     [ 0, 2, -1, -1, -1, -1,  3, -1, -1, -1, -1, -1, -1, -1, -1 ],
@@ -57,6 +57,6 @@ __cubo = [
 def resultante (tipo1, tipo2, operador):
     ren = tipo1 * 5 + tipo2
     col = operador + 2
-    return __cubo[ren][col]
+    return CUBO[ren][col]
 
 # print resultante(2, 3, 4)

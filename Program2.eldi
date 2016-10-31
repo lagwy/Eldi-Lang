@@ -1,5 +1,7 @@
 var int nombre, mas, uno, arreglo[3];
 var int nombre2[-1];
+var char caracter;
+var string cadena_de_caracteres;
 
 method char nombre(int x, int y){
 
