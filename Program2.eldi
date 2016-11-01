@@ -1,6 +1,6 @@
-var int nombre, mas, uno, arreglo[3];
-var int nombre2[-1];
-var char caracter;
+var int nombre, mas, uno, arreglo;
+var int nombre2;
+var char caracter, otro_caracter;
 var string cadena_de_caracteres;
 
 method char nombre(int x, int y){
@@ -10,7 +10,7 @@ method char nombre(int x, int y){
 # Metodo main
 # Comentario del programa
 method void main(){
-  var int otra[-1];
+  var int otra;
   return r;
   x = read();
   print (4);

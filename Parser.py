@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ###########################################################################
 #   Scanner.py
-#   Análisis léxico para el lenguaje Eldi
+#   Análisis sintáctico para el lenguaje Eldi
 #
 #   @author Luis Angel Martinez
 #   @author Daniel Garcia Mena
@@ -84,6 +84,38 @@ def getNumericalType(type):
     else:
         return ERROR
 
+def addVariable(identificador, tipo):
+    if tipo == INT:
+        variable = {}
+        # Valores temporales para estos campos
+        variable['valor'] = None
+        variable['direccionMemoria'] = None
+        globales_int[ identificador ] = variable
+    elif tipo == FLOAT:
+        variable = {}
+        # Valores temporales para estos campos
+        variable['valor'] = None
+        variable['direccionMemoria'] = None
+        globales_float[ identificador ] = variable
+    elif tipo == CHAR:
+        variable = {}
+        # Valores temporales para estos campos
+        variable['valor'] = None
+        variable['direccionMemoria'] = None
+        globales_char[ identificador ] = variable
+    elif tipo == STRING:
+        variable = {}
+        # Valores temporales para estos campos
+        variable['valor'] = None
+        variable['direccionMemoria'] = None
+        globales_string[ identificador ] = variable
+    elif tipo == BOOLEAN:
+        variable = {}
+        # Valores temporales para estos campos
+        variable['valor'] = None
+        variable['direccionMemoria'] = None
+        globales_boolean[ identificador ] = variable
+
 def p_programa(p):
     '''programa : variables_list metodos'''
 
@@ -95,18 +127,18 @@ def p_variables(p):
     '''variables : VAR tipo ID lista_variables SEMICOLON
         | VAR tipo ID LEFTSB INT_CTE RIGHTSB lista_variables SEMICOLON'''
     if  state == 0:
-        print str(actualType) + " " + p[3]
-        if actualType == INT:
-            variable = {}
-            variable['valor'] = None
-            variable['scope'] = "global"
-            variable['direccionMemoria'] = None
-            globales_int[ p[3] ] = variable
+        # Agregar los identificadores a la lista
+        addVariable(p[3], actualType)
 
 def p_lista_variables(p):
     '''lista_variables : COMMA ID lista_variables
         | COMMA ID LEFTSB INT_CTE RIGHTSB lista_variables
         | empty'''
+    if state == 0:
+        if len(p) > 0:
+            if len(p) != 2:
+                # Agregar más identificadores del mismo tipo a los arreglos
+                addVariable(p[2],actualType)
 
 def p_metodos(p):
     '''metodos : metodos metodo
@@ -115,6 +147,14 @@ def p_metodos(p):
     if state == 0:
         print globales_int
         print len(globales_int)
+        print globales_float
+        print len(globales_float)
+        print globales_char
+        print len(globales_char)
+        print globales_string
+        print len(globales_string)
+        print globales_boolean
+        print len(globales_boolean)
     state = 1
 
 
