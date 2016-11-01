@@ -11,6 +11,7 @@ import ply.yacc as yacc
 import Scanner            # Importar el analizador léxico
 from Cubo import *        # Importar los identificadores numéricos asignados
 tokens = Scanner.tokens   # Lista de tokens
+import sys
 
 # Creación de los diccionarios de tipos con sus contadores
 # Variables globales
@@ -70,7 +71,6 @@ scope = None
 #   Regresa el código numérico del último tipo a analizar
 ###########################################################################
 def getNumericalType(type):
-    # global __int, __char, __boolean, __float, __string, __error
     if type == "int":
         return INT
     elif type == "char":
@@ -84,37 +84,64 @@ def getNumericalType(type):
     else:
         return ERROR
 
+###########################################################################
+#   checkVariableGlobal
+#   Revisar si un identificador ya existe en las variables globales declaradas
+###########################################################################
+def checkVariableGlobal(id):
+    if id in globales_int:
+        return True
+    elif id in globales_float:
+        return True
+    elif id in globales_char:
+        return True
+    elif id in globales_string:
+        return True
+    elif id in globales_boolean:
+        return True
+    return False
+
+###########################################################################
+#   addVariable
+#   Añadir una variable global al diccionario dependiendo de su tipo
+###########################################################################
 def addVariable(identificador, tipo):
-    if tipo == INT:
-        variable = {}
-        # Valores temporales para estos campos
-        variable['valor'] = None
-        variable['direccionMemoria'] = None
-        globales_int[ identificador ] = variable
-    elif tipo == FLOAT:
-        variable = {}
-        # Valores temporales para estos campos
-        variable['valor'] = None
-        variable['direccionMemoria'] = None
-        globales_float[ identificador ] = variable
-    elif tipo == CHAR:
-        variable = {}
-        # Valores temporales para estos campos
-        variable['valor'] = None
-        variable['direccionMemoria'] = None
-        globales_char[ identificador ] = variable
-    elif tipo == STRING:
-        variable = {}
-        # Valores temporales para estos campos
-        variable['valor'] = None
-        variable['direccionMemoria'] = None
-        globales_string[ identificador ] = variable
-    elif tipo == BOOLEAN:
-        variable = {}
-        # Valores temporales para estos campos
-        variable['valor'] = None
-        variable['direccionMemoria'] = None
-        globales_boolean[ identificador ] = variable
+    # Revisar si la variable ya había sido declarada con anterioridad
+    if checkVariableGlobal(identificador):
+        print "El identificador " + identificador + " ya había sido declarado."
+        sys.exit()
+    else:
+        # Si no había sido declarada, añadirla a su diccionario de variables
+        if tipo == INT:
+            variable = {}
+            # Valores temporales para estos campos
+            variable['valor'] = None
+            variable['direccionMemoria'] = None
+            globales_int[ identificador ] = variable
+        elif tipo == FLOAT:
+            variable = {}
+            # Valores temporales para estos campos
+            variable['valor'] = None
+            variable['direccionMemoria'] = None
+            globales_float[ identificador ] = variable
+        elif tipo == CHAR:
+            variable = {}
+            # Valores temporales para estos campos
+            variable['valor'] = None
+            variable['direccionMemoria'] = None
+            globales_char[ identificador ] = variable
+        elif tipo == STRING:
+            variable = {}
+            # Valores temporales para estos campos
+            variable['valor'] = None
+            variable['direccionMemoria'] = None
+            globales_string[ identificador ] = variable
+        elif tipo == BOOLEAN:
+            variable = {}
+            # Valores temporales para estos campos
+            variable['valor'] = None
+            variable['direccionMemoria'] = None
+            globales_boolean[ identificador ] = variable
 
 def p_programa(p):
     '''programa : variables_list metodos'''
@@ -144,6 +171,7 @@ def p_metodos(p):
     '''metodos : metodos metodo
         | empty'''
     global state
+    """
     if state == 0:
         print globales_int
         print len(globales_int)
@@ -155,6 +183,7 @@ def p_metodos(p):
         print len(globales_string)
         print globales_boolean
         print len(globales_boolean)
+        """
     state = 1
 
 

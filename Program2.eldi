@@ -16,7 +16,7 @@ method void main(){
   print (4);
   llamada();
   variable = x * 3 - 4 && 4 > 4;
-  arreglo[pos] = 5 > 4 * 25 && ((23 * 2) < 120);
+  arreglo = 5 > 4 * 25 && ((23 * 2) < 120);
   while ((otro > 5) && ((4) + 3 * 25 * 3 * 2 + 5 * 2 + 3 + 3 - 2)) {
     x = read();
   }
