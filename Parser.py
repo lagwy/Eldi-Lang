@@ -111,37 +111,45 @@ def addVariable(identificador, tipo):
         print "El identificador " + identificador + " ya había sido declarado."
         sys.exit()
     else:
+        # Utilizar las variables globales que contienen los contadores
+        global globales_int_cont, globales_float_cont, globales_char_cont
+        global globales_string_cont, globales_boolean_cont
         # Si no había sido declarada, añadirla a su diccionario de variables
         if tipo == INT:
             variable = {}
             # Valores temporales para estos campos
             variable['valor'] = None
-            variable['direccionMemoria'] = None
+            variable['direccionMemoria'] = globales_int_cont
             globales_int[ identificador ] = variable
+            globales_int_cont += 1
         elif tipo == FLOAT:
             variable = {}
             # Valores temporales para estos campos
             variable['valor'] = None
-            variable['direccionMemoria'] = None
+            variable['direccionMemoria'] = globales_float_cont
             globales_float[ identificador ] = variable
+            globales_float_cont += 1
         elif tipo == CHAR:
             variable = {}
             # Valores temporales para estos campos
             variable['valor'] = None
-            variable['direccionMemoria'] = None
+            variable['direccionMemoria'] = globales_char_cont
             globales_char[ identificador ] = variable
+            globales_char_cont += 1
         elif tipo == STRING:
             variable = {}
             # Valores temporales para estos campos
             variable['valor'] = None
-            variable['direccionMemoria'] = None
+            variable['direccionMemoria'] = globales_string_cont
             globales_string[ identificador ] = variable
+            globales_string_cont += 1
         elif tipo == BOOLEAN:
             variable = {}
             # Valores temporales para estos campos
             variable['valor'] = None
-            variable['direccionMemoria'] = None
+            variable['direccionMemoria'] = globales_boolean_cont
             globales_boolean[ identificador ] = variable
+            globales_boolean_cont +=1
 
 def p_programa(p):
     '''programa : variables_list metodos'''
@@ -171,7 +179,6 @@ def p_metodos(p):
     '''metodos : metodos metodo
         | empty'''
     global state
-    """
     if state == 0:
         print globales_int
         print len(globales_int)
@@ -183,7 +190,6 @@ def p_metodos(p):
         print len(globales_string)
         print globales_boolean
         print len(globales_boolean)
-        """
     state = 1
 
 
