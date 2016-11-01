@@ -63,6 +63,7 @@ constantes_boolean_cont = 3800
 
 state = 0
 actualType = None
+scope = None
 
 ###########################################################################
 #   getNumericalType
@@ -95,6 +96,12 @@ def p_variables(p):
         | VAR tipo ID LEFTSB INT_CTE RIGHTSB lista_variables SEMICOLON'''
     if  state == 0:
         print str(actualType) + " " + p[3]
+        if actualType == INT:
+            variable = {}
+            variable['valor'] = None
+            variable['scope'] = "global"
+            variable['direccionMemoria'] = None
+            globales_int[ p[3] ] = variable
 
 def p_lista_variables(p):
     '''lista_variables : COMMA ID lista_variables
@@ -105,7 +112,11 @@ def p_metodos(p):
     '''metodos : metodos metodo
         | empty'''
     global state
+    if state == 0:
+        print globales_int
+        print len(globales_int)
     state = 1
+
 
 def p_metodo(p):
     '''metodo : METHOD VOID MAIN LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB
