@@ -62,8 +62,11 @@ constantes_string_cont = 3600
 constantes_boolean = {}
 constantes_boolean_cont = 3800
 
+# Declaración de variables globales
 state = 0
 actualType = None
+methodType = None
+paramType = None
 scope = None
 
 ###########################################################################
@@ -102,13 +105,13 @@ def checkVariableGlobal(id):
     return False
 
 ###########################################################################
-#   addVariable
+#   addVariableGlobal
 #   Añadir una variable global al diccionario dependiendo de su tipo
 ###########################################################################
-def addVariable(identificador, tipo):
+def addVariableGlobal(identificador, tipo):
     # Revisar si la variable ya había sido declarada con anterioridad
     if checkVariableGlobal(identificador):
-        print "El identificador " + identificador + " ya había sido declarado."
+        print "El identificador <<" + identificador + ">> ya había sido declarado."
         sys.exit()
     else:
         # Utilizar las variables globales que contienen los contadores
@@ -163,7 +166,7 @@ def p_variables(p):
         | VAR tipo ID LEFTSB INT_CTE RIGHTSB lista_variables SEMICOLON'''
     if  state == 0:
         # Agregar los identificadores a la lista
-        addVariable(p[3], actualType)
+        addVariableGlobal(p[3], actualType)
 
 def p_lista_variables(p):
     '''lista_variables : COMMA ID lista_variables
@@ -173,12 +176,13 @@ def p_lista_variables(p):
         if len(p) > 0:
             if len(p) != 2:
                 # Agregar más identificadores del mismo tipo a los arreglos
-                addVariable(p[2],actualType)
+                addVariableGlobal(p[2],actualType)
 
 def p_metodos(p):
     '''metodos : metodos metodo
         | empty'''
     global state
+    """ Mostrar las variables globales
     if state == 0:
         print globales_int
         print len(globales_int)
@@ -190,6 +194,7 @@ def p_metodos(p):
         print len(globales_string)
         print globales_boolean
         print len(globales_boolean)
+    """
     state = 1
 
 
@@ -197,17 +202,38 @@ def p_metodo(p):
     '''metodo : METHOD VOID MAIN LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB
         | METHOD VOID ID LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB
         | METHOD tipo ID LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB'''
+    global state, actualType, methodType
+    if state == 1:
+        if p[2] == None:
+            # Quiere decir que el método tiene un tipo
+            print str(methodType) + " " + p[3]
+            # Regresar el tipo de método a vacío por si existen más funciones
+            methodType = None
+            # Cambiar el estado a lectura de parámetros
+            state = 2
+        else:
+            # La función es void
+            print p[2] + " " + p[3]
+            state = 2
+
 
 def p_params(p):
     '''params : params parametro
+        | params COMMA parametro
         | empty'''
+
 
 def p_parametro(p):
-    '''parametro : tipo ID mas_parametros'''
-
-def p_mas_parametros(p):
-    '''mas_parametros : COMMA tipo ID
-        | empty'''
+    '''parametro : tipo ID'''
+    print str(paramType) + " " + p[2]
+    """
+    # Salvar el parámetro del método
+    variable = {}
+    # Valores temporales para estos campos
+    variable['valor'] = None
+    variable['direccionMemoria'] = globales_boolean_cont
+    globales_boolean[ identificador ] = variable
+    globales_boolean_cont +=1"""
 
 def p_bloque(p):
     '''bloque : bloque estatuto
@@ -295,9 +321,15 @@ def p_tipo(p):
         | BOOLEAN
         | FLOAT
         | STRING'''
-    global actualType
+    global actualType, methodType, paramType
     if state == 0:
         actualType = getNumericalType(p[1])
+    elif state == 1:
+        # Si es diferente de vacío guardarlo
+        if methodType == None:
+            methodType = getNumericalType(p[1])
+        else:
+            paramType = getNumericalType(p[1])
 
 def p_constante(p):
     '''constante : INT_CTE
@@ -315,6 +347,7 @@ def p_empty(p):
 def p_error(p):
     if p:
         print("Syntax error at '%s'" % p.value)
+        sys.exit()
     else:
         print("Syntax error at EOF")
 

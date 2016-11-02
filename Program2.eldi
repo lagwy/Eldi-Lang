@@ -1,10 +1,18 @@
 var int nombre, mas, uno, arreglo;
 var int nombre2;
 var char caracter, otro_caracter;
-var string cadena_de_caracteres, masstring;
+var string cadena_de_caracteres;
 
-method char nombre(int x, int y){
+method char nombre(int x, int y, char cha, string s, boolean e){
+  var string primer_float;
+}
 
+method float suma(float w, float z, boolean comp){
+  return w + z;
+}
+
+method boolean sonIguales(int a, int b){
+  return a == b;
 }
 
 # Metodo main
