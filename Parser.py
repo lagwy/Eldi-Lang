@@ -406,11 +406,15 @@ def p_expresion(p):
     '''expresion : expresion1
         | expresion1 TIMES expresion
         | expresion1 DIVISION expresion'''
+    if len(p) == 4:
+        print p[2]
 
 def p_expresion1(p):
     '''expresion1 : expresion2
         | expresion2 SUM expresion1
         | expresion2 LESS expresion1'''
+    if len(p) == 4:
+        print p[2]
 
 def p_expresion2(p):
     '''expresion2 : expresion3
@@ -420,16 +424,22 @@ def p_expresion2(p):
         | expresion3 GREATERTHAN expresion2
         | expresion3 LESSTHAN expresion2
         | expresion3 LESSEQUAL expresion2'''
+    if len(p) == 4:
+        print p[2]
 
 def p_expresion3(p):
     '''expresion3 : expresion4
         | expresion4 AND expresion3
         | expresion4 OR expresion3'''
+    if len(p) == 4:
+        print p[2]
 
 def p_expresion4(p):
     '''expresion4 : constante
         | ID
         | LEFTP expresion RIGHTP'''
+    if len(p) == 2 and p[1] <> None:
+        print p[1]
 
 def p_tipo(p):
     '''tipo : INT
@@ -454,6 +464,7 @@ def p_constante(p):
         | STRING_CTE
         | TRUE
         | FALSE'''
+    print p[1]
 
 #VACIO
 def p_empty(p):
