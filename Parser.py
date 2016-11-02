@@ -69,6 +69,7 @@ methodType = None
 paramType = None
 scope = None
 parametros = {} # Diccionario de parámetros para cada método
+cont_param = 0 # Contador de la cantidad de parámetros
 
 ###########################################################################
 #   getNumericalType
@@ -117,6 +118,10 @@ def checkParametros(id):
     # El identificador no se ha utilizado
     return False
 
+###########################################################################
+#   Añadir una variable local al diccionario dependiendo de su tipo, y a una
+#   una lista de parámetros que será asignada al método
+###########################################################################
 def addVariableLocal(id, tipo):
     if checkParametros(id):
         print "El identificador <<" + id + ">> ya es utilzado como parámetro en este método."
@@ -130,6 +135,7 @@ def addVariableLocal(id, tipo):
             # Valores temporales para estos campos
             variable['valor'] = None
             variable['direccionMemoria'] = locales_int_cont
+            variable['posicion'] = cont_param
             variable['type'] = tipo
             parametros[ id ] = variable
             locales_int[ id ] = variable
@@ -139,6 +145,7 @@ def addVariableLocal(id, tipo):
             # Valores temporales para estos campos
             variable['valor'] = None
             variable['direccionMemoria'] = locales_float_cont
+            variable['posicion'] = cont_param
             variable['type'] = tipo
             parametros[ id ] = variable
             locales_float[ id ] = variable
@@ -148,6 +155,7 @@ def addVariableLocal(id, tipo):
             # Valores temporales para estos campos
             variable['valor'] = None
             variable['direccionMemoria'] = locales_char_cont
+            variable['posicion'] = cont_param
             variable['type'] = tipo
             parametros[ id ] = variable
             locales_char[ id ] = variable
@@ -157,6 +165,7 @@ def addVariableLocal(id, tipo):
             # Valores temporales para estos campos
             variable['valor'] = None
             variable['direccionMemoria'] = locales_string_cont
+            variable['posicion'] = cont_param
             variable['type'] = tipo
             parametros[ id ] = variable
             locales_string[ id ] = variable
@@ -166,10 +175,12 @@ def addVariableLocal(id, tipo):
             # Valores temporales para estos campos
             variable['valor'] = None
             variable['direccionMemoria'] = locales_boolean_cont
+            variable['posicion'] = cont_param
             variable['type'] = tipo
             parametros[ id ] = variable
             locales_boolean[ id ] = variable
             locales_boolean_cont += 1
+
 
 ###########################################################################
 #   addVariableGlobal
@@ -271,7 +282,7 @@ def p_metodo(p):
         | METHOD tipo ID LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB'''
     global state, actualType, methodType, parametros
     global locales_int_cont, locales_char_cont, locales_float_cont
-    global locales_string_cont, locales_boolean_cont
+    global locales_string_cont, locales_boolean_cont, cont_param
     if state == 1:
         if p[2] == None:
             # Quiere decir que el método tiene un tipo
@@ -290,6 +301,7 @@ def p_metodo(p):
     locales_char_cont = 1400
     locales_string_cont = 1600
     locales_boolean_cont = 1800
+    cont_param = 0 # Resetear el contador de parámetros
     parametros.clear() # Aquí también se deben resetear los contadores de locales
 
 
@@ -300,9 +312,10 @@ def p_params(p):
 
 def p_parametro(p):
     '''parametro : tipo ID'''
-    global parametros
+    global parametros, cont_param
     # print str(paramType) + " " + p[2]
     addVariableLocal(p[2], paramType )
+    cont_param += 1
 
 def p_bloque(p):
     '''bloque : bloque estatuto
