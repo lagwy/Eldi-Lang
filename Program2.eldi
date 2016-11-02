@@ -7,7 +7,7 @@ method char nombre(int x, int y, char cha, string s, boolean e){
   var string primer_float;
 }
 
-method float suma(float w, float z, boolean comp){
+method float nombre(float w, float z, boolean comp){
   return w + z;
 }
 

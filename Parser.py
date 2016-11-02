@@ -62,6 +62,9 @@ constantes_string_cont = 3600
 constantes_boolean = {}
 constantes_boolean_cont = 3800
 
+# Diccionario de métodos
+diccionario_metodos = {}
+
 # Declaración de variables globales
 state = 0
 actualType = None
@@ -284,10 +287,12 @@ def p_metodo(p):
     global state, actualType, methodType, parametros
     global locales_int_cont, locales_char_cont, locales_float_cont
     global locales_string_cont, locales_boolean_cont, cont_param
+    var_metodo = {}
     if state == 1:
         if p[2] == None:
             # Quiere decir que el método tiene un tipo
             print str(methodType) + " " + p[3]
+            var_metodo['tipoRetorno'] = methodType
             # Regresar el tipo de método a vacío por si existen más funciones
             methodType = None
             # Cambiar el estado a lectura de parámetros
@@ -295,15 +300,29 @@ def p_metodo(p):
         else:
             # La función es void
             print p[2] + " " + p[3]
+            var_metodo['tipoRetorno'] = 5
             state = 2
     print parametros
+    # Creación del método para guardarlo
+    var_metodo['cantidadParametros'] = len(parametros)
+    var_metodo['lineaComienzo'] = None # Temporalmente none
+    var_metodo['parametrosMetodo'] = parametros.copy()
+    var_metodo['size'] = None
+    # Utilizar como llave el nombre de la función y guardar el método
+    diccionario_metodos[ p[3] ] = var_metodo
+
+    # Resetear las variables utilizadas para guardar los parámetros
     locales_int_cont = 1000
     locales_float_cont = 1200
     locales_char_cont = 1400
     locales_string_cont = 1600
     locales_boolean_cont = 1800
     cont_param = 0 # Resetear el contador de parámetros
-    parametros.clear() # Aquí también se deben resetear los contadores de locales
+    parametros.clear()
+    # Imprimir el diccionario de métodos
+    print "Diccionario de metodos"
+    print diccionario_metodos
+    print "Termina diccionario de metodos"
 
 
 def p_params(p):

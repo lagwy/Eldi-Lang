@@ -6,6 +6,7 @@ CHAR = 2
 STRING = 3
 BOOLEAN = 4
 ERROR = -1
+# El identificador 5 es para void (utilizado en métodos)
 
 # Identificadores de las operaciones
 SUMA = 0
