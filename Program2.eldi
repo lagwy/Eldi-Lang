@@ -3,11 +3,11 @@ var int nombre2;
 var char caracter, otro_caracter;
 var string cadena_de_caracteres;
 
-method char nombre(int x, int y, char cha, string s, boolean e){
+method char nombre_metodo(int x, int y, char cha, string s, boolean e){
   var string primer_float;
 }
 
-method float nombre(float w, float z, boolean comp){
+method float nombre_float(float w, float z, boolean comp){
   return w + z;
 }
 

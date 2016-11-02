@@ -122,6 +122,16 @@ def checkParametros(id):
     return False
 
 ###########################################################################
+#   checkMetodos
+#   Función para revisar si un identificador fue empleado anteriormente
+#   como nombre de método
+###########################################################################
+def checkMetodos(id):
+    if id in diccionario_metodos:
+        return True
+    return False
+
+###########################################################################
 #   addVariableLocal
 #   Añadir una variable local al diccionario dependiendo de su tipo, y a una
 #   una lista de parámetros que será asignada al método
@@ -291,7 +301,6 @@ def p_metodo(p):
     if state == 1:
         if p[2] == None:
             # Quiere decir que el método tiene un tipo
-            print str(methodType) + " " + p[3]
             var_metodo['tipoRetorno'] = methodType
             # Regresar el tipo de método a vacío por si existen más funciones
             methodType = None
@@ -299,30 +308,35 @@ def p_metodo(p):
             state = 2
         else:
             # La función es void
-            print p[2] + " " + p[3]
             var_metodo['tipoRetorno'] = 5
             state = 2
-    print parametros
-    # Creación del método para guardarlo
-    var_metodo['cantidadParametros'] = len(parametros)
-    var_metodo['lineaComienzo'] = None # Temporalmente none
-    var_metodo['parametrosMetodo'] = parametros.copy()
-    var_metodo['size'] = None
-    # Utilizar como llave el nombre de la función y guardar el método
-    diccionario_metodos[ p[3] ] = var_metodo
+    # print parametros
+    # Verificar que el nombre del método no  esta entre los otros identificadores
+    if checkVariableGlobal( p[3] ) == True or checkMetodos( p[3] ):
+        print "El identificador <<" + p[3] + ">> ya está en uso."
+        sys.exit()
+    else:
+        # Creación del método para guardarlo
+        var_metodo['cantidadParametros'] = len(parametros)
+        var_metodo['lineaComienzo'] = None # Temporalmente none
+        var_metodo['parametrosMetodo'] = parametros.copy()
+        var_metodo['size'] = None
+        # Utilizar como llave el nombre de la función y guardar el método
+        diccionario_metodos[ p[3] ] = var_metodo
 
-    # Resetear las variables utilizadas para guardar los parámetros
-    locales_int_cont = 1000
-    locales_float_cont = 1200
-    locales_char_cont = 1400
-    locales_string_cont = 1600
-    locales_boolean_cont = 1800
-    cont_param = 0 # Resetear el contador de parámetros
-    parametros.clear()
-    # Imprimir el diccionario de métodos
-    print "Diccionario de metodos"
-    print diccionario_metodos
-    print "Termina diccionario de metodos"
+        # Resetear las variables utilizadas para guardar los parámetros
+        locales_int_cont = 1000
+        locales_float_cont = 1200
+        locales_char_cont = 1400
+        locales_string_cont = 1600
+        locales_boolean_cont = 1800
+        cont_param = 0 # Resetear el contador de parámetros
+        parametros.clear()
+        """
+        # Imprimir el diccionario de métodos
+        print "Diccionario de metodos"
+        print diccionario_metodos
+        print "Termina diccionario de metodos" """
 
 
 def p_params(p):
