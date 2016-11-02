@@ -68,6 +68,7 @@ actualType = None
 methodType = None
 paramType = None
 scope = None
+parametros = {} # Diccionario de parámetros para cada método
 
 ###########################################################################
 #   getNumericalType
@@ -202,7 +203,7 @@ def p_metodo(p):
     '''metodo : METHOD VOID MAIN LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB
         | METHOD VOID ID LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB
         | METHOD tipo ID LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB'''
-    global state, actualType, methodType
+    global state, actualType, methodType, parametros
     if state == 1:
         if p[2] == None:
             # Quiere decir que el método tiene un tipo
@@ -215,6 +216,8 @@ def p_metodo(p):
             # La función es void
             print p[2] + " " + p[3]
             state = 2
+    print parametros
+    parametros.clear()
 
 
 def p_params(p):
@@ -222,18 +225,17 @@ def p_params(p):
         | params COMMA parametro
         | empty'''
 
-
 def p_parametro(p):
     '''parametro : tipo ID'''
-    print str(paramType) + " " + p[2]
-    """
+    global parametros
+    # print str(paramType) + " " + p[2]
     # Salvar el parámetro del método
     variable = {}
     # Valores temporales para estos campos
     variable['valor'] = None
-    variable['direccionMemoria'] = globales_boolean_cont
-    globales_boolean[ identificador ] = variable
-    globales_boolean_cont +=1"""
+    variable['direccionMemoria'] = None
+    variable['type'] = paramType
+    parametros[ p[2] ] = variable
 
 def p_bloque(p):
     '''bloque : bloque estatuto
