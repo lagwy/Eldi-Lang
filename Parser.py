@@ -119,6 +119,7 @@ def checkParametros(id):
     return False
 
 ###########################################################################
+#   addVariableLocal
 #   Añadir una variable local al diccionario dependiendo de su tipo, y a una
 #   una lista de parámetros que será asignada al método
 ###########################################################################
