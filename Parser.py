@@ -73,6 +73,7 @@ paramType = None
 scope = None
 parametros = {} # Diccionario de parámetros para cada método
 cont_param = 0 # Contador de la cantidad de parámetros
+operacion = "" # Operación a realizar en notación polaca
 
 ###########################################################################
 #   getNumericalType
@@ -366,12 +367,18 @@ def p_estatuto(p):
 
 def p_return(p):
     '''return : RETURN exp SEMICOLON'''
+    global operacion
+    print operacion
+    operacion = ""
 
 def p_lectura(p):
     '''lectura : ID ASSIGN READ LEFTP RIGHTP SEMICOLON'''
 
 def p_escritura(p):
     '''escritura : PRINT LEFTP exp RIGHTP SEMICOLON'''
+    global operacion
+    print operacion
+    operacion = ""
 
 def p_llamada(p):
     '''llamada : ID LEFTP llamada_list RIGHTP'''
@@ -390,13 +397,22 @@ def p_mas_args(p):
 def p_asignacion(p):
     '''asignacion : ID ASSIGN exp SEMICOLON
         | ID LEFTSB exp RIGHTSB ASSIGN exp SEMICOLON'''
+    global operacion
+    print operacion
+    operacion = ""
 
 def p_ciclo(p):
     '''ciclo : WHILE LEFTP exp RIGHTP LEFTB bloque RIGHTB'''
+    global operacion
+    print operacion
+    operacion = ""
 
 def p_condicion(p):
     '''condicion : IF LEFTP exp RIGHTP LEFTB bloque RIGHTB
         | IF LEFTP exp RIGHTP LEFTB bloque RIGHTB ELSE LEFTB bloque RIGHTB'''
+    global operacion
+    print operacion
+    operacion = ""
 
 def p_exp(p):
     '''exp : llamada
@@ -406,15 +422,19 @@ def p_expresion(p):
     '''expresion : expresion1
         | expresion1 TIMES expresion
         | expresion1 DIVISION expresion'''
+    global state, operacion
+    state = 3
     if len(p) == 4:
-        print p[2]
+        operacion += str( p[2] ) + " "
+    state = 4
 
 def p_expresion1(p):
     '''expresion1 : expresion2
         | expresion2 SUM expresion1
         | expresion2 LESS expresion1'''
+    global operacion
     if len(p) == 4:
-        print p[2]
+        operacion += str(p[2]) + " "
 
 def p_expresion2(p):
     '''expresion2 : expresion3
@@ -424,22 +444,25 @@ def p_expresion2(p):
         | expresion3 GREATERTHAN expresion2
         | expresion3 LESSTHAN expresion2
         | expresion3 LESSEQUAL expresion2'''
+    global operacion
     if len(p) == 4:
-        print p[2]
+        operacion += str(p[2]) + " "
 
 def p_expresion3(p):
     '''expresion3 : expresion4
         | expresion4 AND expresion3
         | expresion4 OR expresion3'''
+    global operacion
     if len(p) == 4:
-        print p[2]
+        operacion += str(p[2]) + " "
 
 def p_expresion4(p):
     '''expresion4 : constante
         | ID
         | LEFTP expresion RIGHTP'''
+    global operacion
     if len(p) == 2 and p[1] <> None:
-        print p[1]
+        operacion += str(p[1]) + " "
 
 def p_tipo(p):
     '''tipo : INT
@@ -464,7 +487,8 @@ def p_constante(p):
         | STRING_CTE
         | TRUE
         | FALSE'''
-    print p[1]
+    global operacion
+    operacion += str(p[1]) + " "
 
 #VACIO
 def p_empty(p):
