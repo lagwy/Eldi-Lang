@@ -196,7 +196,6 @@ def addVariableLocal(id, tipo):
             locales_boolean[ id ] = variable
             locales_boolean_cont += 1
 
-
 ###########################################################################
 #   addVariableGlobal
 #   Añadir una variable global al diccionario dependiendo de su tipo
@@ -355,6 +354,10 @@ def p_parametro(p):
 def p_bloque(p):
     '''bloque : bloque estatuto
         | empty'''
+    global operacion
+    if operacion != "":
+        print operacion
+        operacion = ""
 
 def p_estatuto(p):
     '''estatuto : return
@@ -368,8 +371,9 @@ def p_estatuto(p):
 def p_return(p):
     '''return : RETURN exp SEMICOLON'''
     global operacion
-    print operacion
-    operacion = ""
+    if operacion != "":
+        print operacion
+        operacion = ""
 
 def p_lectura(p):
     '''lectura : ID ASSIGN READ LEFTP RIGHTP SEMICOLON'''
@@ -377,8 +381,9 @@ def p_lectura(p):
 def p_escritura(p):
     '''escritura : PRINT LEFTP exp RIGHTP SEMICOLON'''
     global operacion
-    print operacion
-    operacion = ""
+    if operacion != "":
+        print operacion
+        operacion = ""
 
 def p_llamada(p):
     '''llamada : ID LEFTP llamada_list RIGHTP'''
@@ -386,6 +391,10 @@ def p_llamada(p):
 def p_llamada_list(p):
     '''llamada_list : llamada_list args
         | empty'''
+    global operacion
+    if operacion != "":
+        print operacion
+        operacion = ""
 
 def p_args(p):
     '''args : exp mas_args'''
@@ -398,21 +407,24 @@ def p_asignacion(p):
     '''asignacion : ID ASSIGN exp SEMICOLON
         | ID LEFTSB exp RIGHTSB ASSIGN exp SEMICOLON'''
     global operacion
-    print operacion
-    operacion = ""
+    if operacion != "":
+        print operacion
+        operacion = ""
 
 def p_ciclo(p):
     '''ciclo : WHILE LEFTP exp RIGHTP LEFTB bloque RIGHTB'''
     global operacion
-    print operacion
-    operacion = ""
+    if operacion != "":
+        print operacion
+        operacion = ""
 
 def p_condicion(p):
     '''condicion : IF LEFTP exp RIGHTP LEFTB bloque RIGHTB
         | IF LEFTP exp RIGHTP LEFTB bloque RIGHTB ELSE LEFTB bloque RIGHTB'''
-    global operacion
-    print operacion
-    operacion = ""
+    global operacion, state
+    if operacion != "":
+        print operacion
+        operacion = ""
 
 def p_exp(p):
     '''exp : llamada

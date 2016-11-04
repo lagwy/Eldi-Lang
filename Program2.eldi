@@ -22,10 +22,11 @@ method void main(){
   return r;
   x = read();
   print (4);
-  llamada();
+  llamada(6+7, 3+2);
   variable = x * 3;
   arreglo = 4 - (5 + 4) * 3 ;
   while (5 > 2) {
+    y = 4 + 3;
     x = read();
   }
   if ((4 * 3) == 12){
@@ -35,6 +36,8 @@ method void main(){
     x = llamada(4+2,4);
   } else {
     y = 4;
+    x = 3 + 2;
+    lol = (3 * 2) > 26;
     x = read();
   }
 }
