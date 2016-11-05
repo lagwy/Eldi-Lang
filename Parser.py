@@ -391,10 +391,6 @@ def p_llamada(p):
 def p_llamada_list(p):
     '''llamada_list : llamada_list args
         | empty'''
-    global operacion
-    if operacion != "":
-        print operacion
-        operacion = ""
 
 def p_args(p):
     '''args : exp mas_args'''
@@ -429,6 +425,10 @@ def p_condicion(p):
 def p_exp(p):
     '''exp : llamada
         | expresion'''
+    global operacion
+    if operacion != "":
+        print operacion
+        operacion = ""
 
 def p_expresion(p):
     '''expresion : expresion1
