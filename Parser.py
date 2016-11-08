@@ -123,6 +123,16 @@ def checkParametros(id):
     return False
 
 ###########################################################################
+#   operacionActual
+#   Función que contiene la última expresión reconocida en el programa
+###########################################################################
+def operacionActual():
+    global operacion
+    operacion = operacion[:-1]
+    print operacion
+    operacion = ""
+
+###########################################################################
 #   checkMetodos
 #   Función para revisar si un identificador fue empleado anteriormente
 #   como nombre de método
@@ -356,8 +366,7 @@ def p_bloque(p):
         | empty'''
     global operacion
     if operacion != "":
-        print operacion
-        operacion = ""
+        operacionActual()
 
 def p_estatuto(p):
     '''estatuto : return
@@ -372,8 +381,7 @@ def p_return(p):
     '''return : RETURN exp SEMICOLON'''
     global operacion
     if operacion != "":
-        print operacion
-        operacion = ""
+        operacionActual()
 
 def p_lectura(p):
     '''lectura : ID ASSIGN READ LEFTP RIGHTP SEMICOLON'''
@@ -382,8 +390,7 @@ def p_escritura(p):
     '''escritura : PRINT LEFTP exp RIGHTP SEMICOLON'''
     global operacion
     if operacion != "":
-        print operacion
-        operacion = ""
+        operacionActual()
 
 def p_llamada(p):
     '''llamada : ID LEFTP llamada_list RIGHTP'''
@@ -404,31 +411,27 @@ def p_asignacion(p):
         | ID LEFTSB exp RIGHTSB ASSIGN exp SEMICOLON'''
     global operacion
     if operacion != "":
-        print operacion
-        operacion = ""
+        operacionActual()
 
 def p_ciclo(p):
     '''ciclo : WHILE LEFTP exp RIGHTP LEFTB bloque RIGHTB'''
     global operacion
     if operacion != "":
-        print operacion
-        operacion = ""
+        operacionActual()
 
 def p_condicion(p):
     '''condicion : IF LEFTP exp RIGHTP LEFTB bloque RIGHTB
         | IF LEFTP exp RIGHTP LEFTB bloque RIGHTB ELSE LEFTB bloque RIGHTB'''
     global operacion, state
     if operacion != "":
-        print operacion
-        operacion = ""
+        operacionActual()
 
 def p_exp(p):
     '''exp : llamada
         | expresion'''
     global operacion
     if operacion != "":
-        print operacion
-        operacion = ""
+        operacionActual()
 
 def p_expresion(p):
     '''expresion : expresion1
@@ -475,6 +478,8 @@ def p_expresion4(p):
     global operacion
     if len(p) == 2 and p[1] <> None:
         operacion += str(p[1]) + " "
+    # elif len(p) > 2:
+    #    print "Al momento " + operacion
 
 def p_tipo(p):
     '''tipo : INT

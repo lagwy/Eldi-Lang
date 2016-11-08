@@ -12,7 +12,7 @@ method float nombre_float(float w, float z, boolean comp){
 }
 
 method boolean sonIguales(int a, int b){
-  return a == b;
+  return 3 == 2;
 }
 
 # Metodo main
@@ -29,7 +29,7 @@ method void main(){
     y = 4 + 3;
     x = read();
   }
-  if ((4 * 3) == 12){
+  if (2 + (4 * 3) == 12){
     x = 4;
   }
   if (true){
@@ -38,7 +38,7 @@ method void main(){
   } else {
     y = 4;
     x = 3 + 2;
-    lol = (3 * 2) > 26;
+    lol = 5 * 2 - (3 * 2) > 26;
     x = read();
   }
 }
