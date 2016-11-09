@@ -19,6 +19,7 @@ method boolean sonIguales(int a, int b){
 # Comentario del programa
 method void main(){
   var int otra;
+  var string otra_mas;
   return r;
   x = read();
   print (4);

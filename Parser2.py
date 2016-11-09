@@ -15,8 +15,10 @@ precedence = (
     ('left', 'TIMES', 'DIVISION'),
 )
 
-
-
+###########################################################################
+#   isfloat
+#   Revisa si el parámetro recibido es un número flotante
+###########################################################################
 def isfloat(x):
     try:
         a = float(x)
@@ -25,6 +27,10 @@ def isfloat(x):
     else:
         return True
 
+###########################################################################
+#   isint
+#   Revisa si el parámetro recibido es un número entero
+###########################################################################
 def isint(x):
     try:
         a = float(x)
@@ -34,6 +40,10 @@ def isint(x):
     else:
         return a == b
 
+###########################################################################
+#   castVariable
+#   Convierte la variable de string a numérica
+###########################################################################
 def castVariable(num):
     if isint(num):
         result = int(num)
@@ -63,19 +73,55 @@ def getNumericalType(type):
 
 def p_programa(p):
     '''programa : variables_list metodos'''
+    print p[1]
 
 def p_variables_list(p):
     '''variables_list : variables_list variables
         | empty'''
+    if len(p) == 3:
+        variables = []
+        if p[1] == None:
+            variables.append(p[2])
+        else:
+            p[1].append(p[2])
+            variables = p[1]
+        p[0] = variables
+
+
 
 def p_variables(p):
     '''variables : VAR tipo ID lista_variables SEMICOLON
         | VAR tipo ID LEFTSB INT_CTE RIGHTSB lista_variables SEMICOLON'''
+    # Recibir las variables cuando hay una lista
+    if len(p) == 6:
+        if p[4] <> None:
+            vars = []
+            vars.append(p[2])
+            vars.append(p[3])
+            vars = vars + p[4]
+            p[0] = vars
+        else:
+            vars = []
+            vars.append(p[2])
+            vars.append(p[3])
+            p[0] = vars
+    # print p[0]
+
 
 def p_lista_variables(p):
     '''lista_variables : COMMA ID lista_variables
         | COMMA ID LEFTSB INT_CTE RIGHTSB lista_variables
         | empty'''
+    if len(p) == 4:
+        vars = []
+        vars.append( p[2] )
+        if p[3] <> None:
+            p[0] = vars + p[3]
+        else:
+            p[0] = vars
+    # elif len(p) == 6:
+    #    vars = []
+
 
 def p_metodos(p):
     '''metodos : metodos metodo
@@ -85,6 +131,8 @@ def p_metodo(p):
     '''metodo : METHOD VOID MAIN LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB
         | METHOD VOID ID LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB
         | METHOD tipo ID LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB'''
+    if p[8] <> None:
+        print p[8]
 
 def p_params(p):
     '''params : params parametro
@@ -133,8 +181,8 @@ def p_mas_args(p):
 def p_asignacion(p):
     '''asignacion : ID ASSIGN exp SEMICOLON
         | ID LEFTSB exp RIGHTSB ASSIGN exp SEMICOLON'''
-    if len(p) == 5:
-        print p[3]
+    # if len(p) == 5:
+    #    print p[3]
 
 def p_ciclo(p):
     '''ciclo : WHILE LEFTP exp RIGHTP LEFTB bloque RIGHTB'''
