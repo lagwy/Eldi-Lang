@@ -65,6 +65,8 @@ constantes_boolean_cont = 3800
 # Diccionario de métodos
 diccionario_metodos = {}
 
+
+
 # Declaración de variables globales
 state = 0
 actualType = None
@@ -507,7 +509,7 @@ def p_constante(p):
     global operacion
     operacion += str(p[1]) + " "
 
-#VACIO
+# Elemento vacío
 def p_empty(p):
     'empty :'
     pass

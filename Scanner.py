@@ -103,6 +103,10 @@ def t_ID(t):
         t.type = reserved[ t.value ]
     return t
 
+def t_newline(t):
+    r'\n+'
+    t.lexer.lineno += len(t.value)
+
 ###########################################################################
 #   t_error
 #   Error al procesar los tokens, token no identificado entre los que
