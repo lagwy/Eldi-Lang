@@ -15,6 +15,59 @@ precedence = (
     ('left', 'TIMES', 'DIVISION'),
 )
 
+
+# Creación de los diccionarios de tipos con sus contadores
+# Variables globales
+globales_int = {}
+globales_int_cont = 0
+globales_float = {}
+globales_float_cont = 200
+globales_char = {}
+globales_char_cont = 400
+globales_string = {}
+globales_string_cont = 600
+globales_boolean = {}
+globales_boolean_cont = 800
+
+# Variables locales
+locales_int = {}
+locales_int_cont = 1000
+locales_float = {}
+locales_float_cont = 1200
+locales_char = {}
+locales_char_cont = 1400
+locales_string = {}
+locales_string_cont = 1600
+locales_boolean = {}
+locales_boolean_cont = 1800
+
+# Variables temporales
+temporales_int = {}
+temporales_int_cont = 2000
+temporales_float = {}
+temporales_float_cont = 2200
+temporales_char = {}
+temporales_char_cont = 2400
+temporales_string = {}
+temporales_string_cont = 2600
+temporales_boolean = {}
+temporales_boolean_cont = 2800
+
+# Variables constantes
+constantes_int = {}
+constantes_int_cont = 3000
+constantes_float = {}
+constantes_float_cont = 3200
+constantes_char = {}
+constantes_char_cont = 3400
+constantes_string = {}
+constantes_string_cont = 3600
+constantes_boolean = {}
+constantes_boolean_cont = 3800
+
+# Diccionario de métodos
+diccionario_metodos = {}
+
 ###########################################################################
 #   isfloat
 #   Revisa si el parámetro recibido es un número flotante
@@ -54,6 +107,69 @@ def castVariable(num):
     return result
 
 ###########################################################################
+#   checkVariableGlobal
+#   Revisar si un identificador ya existe en las variables globales declaradas
+###########################################################################
+def checkVariableGlobal(id):
+    if id in globales_int:
+        return True
+    elif id in globales_float:
+        return True
+    elif id in globales_char:
+        return True
+    elif id in globales_string:
+        return True
+    elif id in globales_boolean:
+        return True
+    return False
+
+def addVariableGlobal(identificador, tipo):
+    # Revisar si la variable ya había sido declarada con anterioridad
+    if checkVariableGlobal(identificador):
+        print "El identificador <<" + identificador + ">> ya había sido declarado."
+        sys.exit()
+    else:
+        # Utilizar las variables globales que contienen los contadores
+        global globales_int_cont, globales_float_cont, globales_char_cont
+        global globales_string_cont, globales_boolean_cont
+        # Si no había sido declarada, añadirla a su diccionario de variables
+        if tipo == INT:
+            variable = {}
+            # Valores temporales para estos campos
+            variable['valor'] = None
+            variable['direccionMemoria'] = globales_int_cont
+            globales_int[ identificador ] = variable
+            globales_int_cont += 1
+        elif tipo == FLOAT:
+            variable = {}
+            # Valores temporales para estos campos
+            variable['valor'] = None
+            variable['direccionMemoria'] = globales_float_cont
+            globales_float[ identificador ] = variable
+            globales_float_cont += 1
+        elif tipo == CHAR:
+            variable = {}
+            # Valores temporales para estos campos
+            variable['valor'] = None
+            variable['direccionMemoria'] = globales_char_cont
+            globales_char[ identificador ] = variable
+            globales_char_cont += 1
+        elif tipo == STRING:
+            variable = {}
+            # Valores temporales para estos campos
+            variable['valor'] = None
+            variable['direccionMemoria'] = globales_string_cont
+            globales_string[ identificador ] = variable
+            globales_string_cont += 1
+        elif tipo == BOOLEAN:
+            variable = {}
+            # Valores temporales para estos campos
+            variable['valor'] = None
+            variable['direccionMemoria'] = globales_boolean_cont
+            globales_boolean[ identificador ] = variable
+            globales_boolean_cont +=1
+
+###########################################################################
 #   getNumericalType
 #   Regresa el código numérico del último tipo a analizar
 ###########################################################################
@@ -71,9 +187,32 @@ def getNumericalType(type):
     else:
         return ERROR
 
+def addGlobalVars(lista):
+    for declaracion in lista:
+        # Ciclo para leer los identificadores, estos se encuentran
+        # a partir del segundo elemento (casilla 1)
+        for i in range(1, len(declaracion)):
+            # Añadir variable global
+            addVariableGlobal(declaracion[i], declaracion[0])
+
+
 def p_programa(p):
     '''programa : variables_list metodos'''
-    print p[1]
+    # En este lugar ya se tienen las variables que son globales
+    # Añadir las variables globales
+    addGlobalVars(p[1])
+    ''' Imprimir las variables globales
+    print globales_int
+    print len(globales_int)
+    print globales_float
+    print len(globales_float)
+    print globales_char
+    print len(globales_char)
+    print globales_string
+    print len(globales_string)
+    print globales_boolean
+    print len(globales_boolean)
+    '''
 
 def p_variables_list(p):
     '''variables_list : variables_list variables
@@ -131,8 +270,8 @@ def p_metodo(p):
     '''metodo : METHOD VOID MAIN LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB
         | METHOD VOID ID LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB
         | METHOD tipo ID LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB'''
-    if p[8] <> None:
-        print p[8]
+    # if p[8] <> None:
+    #    print p[8]
 
 def p_params(p):
     '''params : params parametro
