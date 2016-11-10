@@ -11,7 +11,7 @@ method float nombre_float(float w, float z, boolean comp){
   return 2 + 3;
 }
 
-method boolean sonIguales(int a, int b){
+method boolean sonIguales(int a){
   return 3 == 2;
 }
 

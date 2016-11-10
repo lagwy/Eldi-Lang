@@ -272,14 +272,35 @@ def p_metodo(p):
         | METHOD tipo ID LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB'''
     # if p[8] <> None:
     #    print p[8]
+    print str(p[2]) + " " + p[3]
+    if p[5] <> None:
+        print "Parametros:"
+        print p[5]
 
 def p_params(p):
     '''params : params parametro
         | params COMMA parametro
         | empty'''
+    if len(p) == 3:
+        if p[1] <> None:
+            p[0] = p[1]
+        else:
+            p[0] = []
+        p[0].append( p[2] )
+    elif len(p) == 4:
+        if p[1] <> None:
+            p[0] = p[1]
+        else:
+            p[0] = []
+        p[0].append( p[3] )
+
 
 def p_parametro(p):
     '''parametro : tipo ID'''
+    p[0] = []
+    p[0].append(p[1])
+    p[0].append(p[2])
+    # print p[0]
 
 def p_bloque(p):
     '''bloque : bloque estatuto
@@ -374,6 +395,8 @@ def p_expresion(p):
         p[0] = p[1] and p[3]
     elif p[2] == '||':
         p[0] = p[1] or p[3]
+    # Imprimir la operación que se esta realizando
+    # print str(p[1]) + p[2] + str(p[3])
 
 def p_expresion2(p):
     '''expresion : constante
