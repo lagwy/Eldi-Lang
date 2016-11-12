@@ -7,7 +7,7 @@ method char nombre_metodo(int x, int y, char cha, string s, boolean e){
   var string primer_float;
 }
 
-method float nombre_float(float w, float z, boolean comp){
+method float nombre_float(int primera, float w, float z, boolean comp){
   return 2 + 3;
 }
 
@@ -17,7 +17,7 @@ method boolean sonIguales(int a){
 
 # Metodo main
 # Comentario del programa
-method void main(){
+method void main(int parametro){
   var int otra;
   var string otra_mas;
   return r;

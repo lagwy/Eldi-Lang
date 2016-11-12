@@ -15,7 +15,6 @@ precedence = (
     ('left', 'TIMES', 'DIVISION'),
 )
 
-
 # Creación de los diccionarios de tipos con sus contadores
 # Variables globales
 globales_int = {}
@@ -67,6 +66,14 @@ constantes_boolean_cont = 3800
 
 # Diccionario de métodos
 diccionario_metodos = {}
+# Diccionario de parámetros para cada método
+parametros = {}
+def checkParametros(id):
+    if id in parametros:
+        # Si existe el parámetro
+        return True
+    # El identificador no se ha utilizado
+    return False
 
 ###########################################################################
 #   isfloat
@@ -79,6 +86,20 @@ def isfloat(x):
         return False
     else:
         return True
+
+def resetVariablesLocales():
+    global locales_int_cont, locales_char_cont, locales_float_cont
+    global locales_string_cont, locales_boolean_cont
+    locales_int_cont = 1000
+    locales_float_cont = 1200
+    locales_char_cont = 1400
+    locales_string_cont = 1600
+    locales_boolean_cont = 1800
+    locales_int.clear()
+    locales_char.clear()
+    locales_float.clear()
+    locales_string.clear()
+    locales_boolean.clear()
 
 ###########################################################################
 #   isint
@@ -126,7 +147,7 @@ def checkVariableGlobal(id):
 def addVariableGlobal(identificador, tipo):
     # Revisar si la variable ya había sido declarada con anterioridad
     if checkVariableGlobal(identificador):
-        print "El identificador <<" + identificador + ">> ya había sido declarado."
+        print "El identificador <<" + identificador + ">> ya había sido declarado como variable global"
         sys.exit()
     else:
         # Utilizar las variables globales que contienen los contadores
@@ -168,6 +189,70 @@ def addVariableGlobal(identificador, tipo):
             variable['direccionMemoria'] = globales_boolean_cont
             globales_boolean[ identificador ] = variable
             globales_boolean_cont +=1
+
+###########################################################################
+#   addVariableLocal
+#   Añadir una variable local al diccionario dependiendo de su tipo, y a una
+#   una lista de parámetros que será asignada al método
+###########################################################################
+def addVariableLocal(id, tipo, posicion):
+    if checkParametros(id):
+        print "El identificador <<" + id + ">> ya es utilzado como parámetro en este método."
+        sys.exit()
+    else:
+        global locales_int_cont, locales_float_cont, locales_char_cont
+        global locales_string_cont, locales_boolean_cont
+        # Añadir a las variables locales
+        if tipo == INT:
+            variable = {}
+            # Valores temporales para estos campos
+            variable['valor'] = None
+            variable['direccionMemoria'] = locales_int_cont
+            variable['posicion'] = posicion
+            variable['type'] = tipo
+            parametros[ id ] = variable
+            locales_int[ id ] = variable
+            locales_int_cont += 1
+        elif tipo == FLOAT:
+            variable = {}
+            # Valores temporales para estos campos
+            variable['valor'] = None
+            variable['direccionMemoria'] = locales_float_cont
+            variable['posicion'] = posicion
+            variable['type'] = tipo
+            parametros[ id ] = variable
+            locales_float[ id ] = variable
+            locales_float_cont += 1
+        elif tipo == CHAR:
+            variable = {}
+            # Valores temporales para estos campos
+            variable['valor'] = None
+            variable['direccionMemoria'] = locales_char_cont
+            variable['posicion'] = posicion
+            variable['type'] = tipo
+            parametros[ id ] = variable
+            locales_char[ id ] = variable
+            locales_char_cont += 1
+        elif tipo == STRING:
+            variable = {}
+            # Valores temporales para estos campos
+            variable['valor'] = None
+            variable['direccionMemoria'] = locales_string_cont
+            variable['posicion'] = posicion
+            variable['type'] = tipo
+            parametros[ id ] = variable
+            locales_string[ id ] = variable
+            locales_string_cont += 1
+        elif tipo == BOOLEAN:
+            variable = {}
+            # Valores temporales para estos campos
+            variable['valor'] = None
+            variable['direccionMemoria'] = locales_boolean_cont
+            variable['posicion'] = posicion
+            variable['type'] = tipo
+            parametros[ id ] = variable
+            locales_boolean[ id ] = variable
+            locales_boolean_cont += 1
 
 ###########################################################################
 #   getNumericalType
@@ -226,8 +311,6 @@ def p_variables_list(p):
             variables = p[1]
         p[0] = variables
 
-
-
 def p_variables(p):
     '''variables : VAR tipo ID lista_variables SEMICOLON
         | VAR tipo ID LEFTSB INT_CTE RIGHTSB lista_variables SEMICOLON'''
@@ -261,7 +344,6 @@ def p_lista_variables(p):
     # elif len(p) == 6:
     #    vars = []
 
-
 def p_metodos(p):
     '''metodos : metodos metodo
         | empty'''
@@ -275,7 +357,26 @@ def p_metodo(p):
     print str(p[2]) + " " + p[3]
     if p[5] <> None:
         print "Parametros:"
+        posicion = 1
+        for parametro in p[5]:
+            # Ciclo para leer los parámetros
+            # a partir del segundo elemento (casilla 1, pues el primero tiene el id)
+            print "Tipo " + str(parametro[0]) + ", Id " + parametro[1]
+            '''for i in range(1, len(parametro)):
+                # Añadir variable global
+                addVariableGlobal(declaracion[i], declaracion[0])'''
+            addVariableLocal(parametro[1], parametro[0], posicion)
+            posicion += 1
         print p[5]
+    if p[8] <> None:
+        print "Variables:"
+        for variable in p[8]:
+            addVariableLocal(variable[1], variable[0], 0)
+        print p[8]
+    print "Variables locales:"
+    print parametros
+    resetVariablesLocales()
+    parametros.clear()
 
 def p_params(p):
     '''params : params parametro
