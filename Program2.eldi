@@ -12,6 +12,7 @@ method float nombre_float(int primera, float w, float z, boolean comp){
 }
 
 method boolean sonIguales(int a){
+  var int b;
   return 3 == 2;
 }
 

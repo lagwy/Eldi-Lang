@@ -68,6 +68,14 @@ constantes_boolean_cont = 3800
 diccionario_metodos = {}
 # Diccionario de parámetros para cada método
 parametros = {}
+
+# Debe revisar si existe en metodos, variables globales
+def checkMetodos(id):
+    if id in diccionario_metodos:
+        return True
+    return False
+
+# Debe revisar si existe en los parametros, y en los metodos
 def checkParametros(id):
     if id in parametros:
         # Si existe el parámetro
@@ -146,7 +154,7 @@ def checkVariableGlobal(id):
 
 def addVariableGlobal(identificador, tipo):
     # Revisar si la variable ya había sido declarada con anterioridad
-    if checkVariableGlobal(identificador):
+    if checkVariableGlobal(identificador) or checkMetodos(identificador):
         print "El identificador <<" + identificador + ">> ya había sido declarado como variable global"
         sys.exit()
     else:
@@ -196,8 +204,8 @@ def addVariableGlobal(identificador, tipo):
 #   una lista de parámetros que será asignada al método
 ###########################################################################
 def addVariableLocal(id, tipo, posicion):
-    if checkParametros(id):
-        print "El identificador <<" + id + ">> ya es utilzado como parámetro en este método."
+    if checkParametros(id) or checkMetodos(id):
+        print "El identificador <<" + id + ">> ya es está en uso."
         sys.exit()
     else:
         global locales_int_cont, locales_float_cont, locales_char_cont
@@ -354,7 +362,13 @@ def p_metodo(p):
         | METHOD tipo ID LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB'''
     # if p[8] <> None:
     #    print p[8]
-    print str(p[2]) + " " + p[3]
+    # print str(p[2]) + " " + p[3]
+    if ( checkMetodos(p[3]) or checkVariableGlobal(p[3]) ):
+        print "El identificador " + p[3] + " ya está en uso."
+        sys.exit()
+    else:
+        diccionario_metodos[ p[3] ] = 1
+
     if p[5] <> None:
         print "Parametros:"
         posicion = 1
@@ -367,14 +381,14 @@ def p_metodo(p):
                 addVariableGlobal(declaracion[i], declaracion[0])'''
             addVariableLocal(parametro[1], parametro[0], posicion)
             posicion += 1
-        print p[5]
+        # print p[5]
     if p[8] <> None:
         print "Variables:"
         for variable in p[8]:
             addVariableLocal(variable[1], variable[0], 0)
-        print p[8]
-    print "Variables locales:"
-    print parametros
+    #    print p[8]
+    #print "Variables locales:"
+    #print parametros
     resetVariablesLocales()
     parametros.clear()
 
