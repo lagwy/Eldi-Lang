@@ -1,17 +1,19 @@
 # -*- coding: utf-8 -*-
-###########################################################################
-#   Scanner.py
-#   Análisis sintáctico para el lenguaje Eldi
-#
-#   @author Luis Angel Martinez
-#   @author Daniel Garcia Mena
-#   @date 12/10/2016
-###########################################################################
 import ply.yacc as yacc
 import Scanner            # Importar el analizador léxico
 from Cubo import *        # Importar los identificadores numéricos asignados
 tokens = Scanner.tokens   # Lista de tokens
 import sys
+
+# Precedencia de los operadores
+precedence = (
+    ('right', 'ASSIGN'),
+    ('left', 'AND', 'OR'),
+    ('left', 'EQUALS', 'NOTEQUAL'),
+    ('left', 'GREATERTHAN', 'GREATEREQUAL', 'LESSTHAN', 'LESSEQUAL'),
+    ('left', 'SUM', 'LESS'),
+    ('left', 'TIMES', 'DIVISION'),
+)
 
 # Creación de los diccionarios de tipos con sus contadores
 # Variables globales
@@ -64,36 +66,74 @@ constantes_boolean_cont = 3800
 
 # Diccionario de métodos
 diccionario_metodos = {}
+# Diccionario de parámetros para cada método
+parametros = {}
 
+# Debe revisar si existe en metodos, variables globales
+def checkMetodos(id):
+    if id in diccionario_metodos:
+        return True
+    return False
 
-
-# Declaración de variables globales
-state = 0
-actualType = None
-methodType = None
-paramType = None
-scope = None
-parametros = {} # Diccionario de parámetros para cada método
-cont_param = 0 # Contador de la cantidad de parámetros
-operacion = "" # Operación a realizar en notación polaca
+# Debe revisar si existe en los parametros, y en los metodos
+def checkParametros(id):
+    if id in parametros:
+        # Si existe el parámetro
+        return True
+    # El identificador no se ha utilizado
+    return False
 
 ###########################################################################
-#   getNumericalType
-#   Regresa el código numérico del último tipo a analizar
+#   isfloat
+#   Revisa si el parámetro recibido es un número flotante
 ###########################################################################
-def getNumericalType(type):
-    if type == "int":
-        return INT
-    elif type == "char":
-        return CHAR
-    elif type == "boolean":
-        return BOOLEAN
-    elif type == "float":
-        return FLOAT
-    elif type == "string":
-        return STRING
+def isfloat(x):
+    try:
+        a = float(x)
+    except ValueError:
+        return False
     else:
-        return ERROR
+        return True
+
+def resetVariablesLocales():
+    global locales_int_cont, locales_char_cont, locales_float_cont
+    global locales_string_cont, locales_boolean_cont
+    locales_int_cont = 1000
+    locales_float_cont = 1200
+    locales_char_cont = 1400
+    locales_string_cont = 1600
+    locales_boolean_cont = 1800
+    locales_int.clear()
+    locales_char.clear()
+    locales_float.clear()
+    locales_string.clear()
+    locales_boolean.clear()
+
+###########################################################################
+#   isint
+#   Revisa si el parámetro recibido es un número entero
+###########################################################################
+def isint(x):
+    try:
+        a = float(x)
+        b = int(a)
+    except ValueError:
+        return False
+    else:
+        return a == b
+
+###########################################################################
+#   castVariable
+#   Convierte la variable de string a numérica
+###########################################################################
+def castVariable(num):
+    if isint(num):
+        result = int(num)
+    elif isfloat(num):
+        result = float(num)
+    else:
+        result = None
+    return result
 
 ###########################################################################
 #   checkVariableGlobal
@@ -112,110 +152,10 @@ def checkVariableGlobal(id):
         return True
     return False
 
-###########################################################################
-#   checkParametros
-#   Función para revisar si un identificador fue empleado anteriormente
-#   para la lista de parámetros de ese método
-###########################################################################
-def checkParametros(id):
-    if id in parametros:
-        # Si existe el parámetro
-        return True
-    # El identificador no se ha utilizado
-    return False
-
-###########################################################################
-#   operacionActual
-#   Función que contiene la última expresión reconocida en el programa
-###########################################################################
-def operacionActual():
-    global operacion
-    operacion = operacion[:-1]
-    print operacion
-    operacion = ""
-
-###########################################################################
-#   checkMetodos
-#   Función para revisar si un identificador fue empleado anteriormente
-#   como nombre de método
-###########################################################################
-def checkMetodos(id):
-    if id in diccionario_metodos:
-        return True
-    return False
-
-###########################################################################
-#   addVariableLocal
-#   Añadir una variable local al diccionario dependiendo de su tipo, y a una
-#   una lista de parámetros que será asignada al método
-###########################################################################
-def addVariableLocal(id, tipo):
-    if checkParametros(id):
-        print "El identificador <<" + id + ">> ya es utilzado como parámetro en este método."
-        sys.exit()
-    else:
-        global locales_int_cont, locales_float_cont, locales_char_cont
-        global locales_string_cont, locales_boolean_cont
-        # Añadir a las variables locales
-        if tipo == INT:
-            variable = {}
-            # Valores temporales para estos campos
-            variable['valor'] = None
-            variable['direccionMemoria'] = locales_int_cont
-            variable['posicion'] = cont_param
-            variable['type'] = tipo
-            parametros[ id ] = variable
-            locales_int[ id ] = variable
-            locales_int_cont += 1
-        elif tipo == FLOAT:
-            variable = {}
-            # Valores temporales para estos campos
-            variable['valor'] = None
-            variable['direccionMemoria'] = locales_float_cont
-            variable['posicion'] = cont_param
-            variable['type'] = tipo
-            parametros[ id ] = variable
-            locales_float[ id ] = variable
-            locales_float_cont += 1
-        elif tipo == CHAR:
-            variable = {}
-            # Valores temporales para estos campos
-            variable['valor'] = None
-            variable['direccionMemoria'] = locales_char_cont
-            variable['posicion'] = cont_param
-            variable['type'] = tipo
-            parametros[ id ] = variable
-            locales_char[ id ] = variable
-            locales_char_cont += 1
-        elif tipo == STRING:
-            variable = {}
-            # Valores temporales para estos campos
-            variable['valor'] = None
-            variable['direccionMemoria'] = locales_string_cont
-            variable['posicion'] = cont_param
-            variable['type'] = tipo
-            parametros[ id ] = variable
-            locales_string[ id ] = variable
-            locales_string_cont += 1
-        elif tipo == BOOLEAN:
-            variable = {}
-            # Valores temporales para estos campos
-            variable['valor'] = None
-            variable['direccionMemoria'] = locales_boolean_cont
-            variable['posicion'] = cont_param
-            variable['type'] = tipo
-            parametros[ id ] = variable
-            locales_boolean[ id ] = variable
-            locales_boolean_cont += 1
-
-###########################################################################
-#   addVariableGlobal
-#   Añadir una variable global al diccionario dependiendo de su tipo
-###########################################################################
 def addVariableGlobal(identificador, tipo):
     # Revisar si la variable ya había sido declarada con anterioridad
-    if checkVariableGlobal(identificador):
-        print "El identificador <<" + identificador + ">> ya había sido declarado."
+    if checkVariableGlobal(identificador) or checkMetodos(identificador):
+        print "El identificador <<" + identificador + ">> ya había sido declarado como variable global"
         sys.exit()
     else:
         # Utilizar las variables globales que contienen los contadores
@@ -258,117 +198,225 @@ def addVariableGlobal(identificador, tipo):
             globales_boolean[ identificador ] = variable
             globales_boolean_cont +=1
 
+###########################################################################
+#   addVariableLocal
+#   Añadir una variable local al diccionario dependiendo de su tipo, y a una
+#   una lista de parámetros que será asignada al método
+###########################################################################
+def addVariableLocal(id, tipo, posicion):
+    if checkParametros(id) or checkMetodos(id):
+        print "El identificador <<" + id + ">> ya es está en uso."
+        sys.exit()
+    else:
+        global locales_int_cont, locales_float_cont, locales_char_cont
+        global locales_string_cont, locales_boolean_cont
+        # Añadir a las variables locales
+        if tipo == INT:
+            variable = {}
+            # Valores temporales para estos campos
+            variable['valor'] = None
+            variable['direccionMemoria'] = locales_int_cont
+            variable['posicion'] = posicion
+            variable['type'] = tipo
+            parametros[ id ] = variable
+            locales_int[ id ] = variable
+            locales_int_cont += 1
+        elif tipo == FLOAT:
+            variable = {}
+            # Valores temporales para estos campos
+            variable['valor'] = None
+            variable['direccionMemoria'] = locales_float_cont
+            variable['posicion'] = posicion
+            variable['type'] = tipo
+            parametros[ id ] = variable
+            locales_float[ id ] = variable
+            locales_float_cont += 1
+        elif tipo == CHAR:
+            variable = {}
+            # Valores temporales para estos campos
+            variable['valor'] = None
+            variable['direccionMemoria'] = locales_char_cont
+            variable['posicion'] = posicion
+            variable['type'] = tipo
+            parametros[ id ] = variable
+            locales_char[ id ] = variable
+            locales_char_cont += 1
+        elif tipo == STRING:
+            variable = {}
+            # Valores temporales para estos campos
+            variable['valor'] = None
+            variable['direccionMemoria'] = locales_string_cont
+            variable['posicion'] = posicion
+            variable['type'] = tipo
+            parametros[ id ] = variable
+            locales_string[ id ] = variable
+            locales_string_cont += 1
+        elif tipo == BOOLEAN:
+            variable = {}
+            # Valores temporales para estos campos
+            variable['valor'] = None
+            variable['direccionMemoria'] = locales_boolean_cont
+            variable['posicion'] = posicion
+            variable['type'] = tipo
+            parametros[ id ] = variable
+            locales_boolean[ id ] = variable
+            locales_boolean_cont += 1
+
+###########################################################################
+#   getNumericalType
+#   Regresa el código numérico del último tipo a analizar
+###########################################################################
+def getNumericalType(type):
+    if type == "int":
+        return INT
+    elif type == "char":
+        return CHAR
+    elif type == "boolean":
+        return BOOLEAN
+    elif type == "float":
+        return FLOAT
+    elif type == "string":
+        return STRING
+    else:
+        return ERROR
+
+def addGlobalVars(lista):
+    for declaracion in lista:
+        # Ciclo para leer los identificadores, estos se encuentran
+        # a partir del segundo elemento (casilla 1)
+        for i in range(1, len(declaracion)):
+            # Añadir variable global
+            addVariableGlobal(declaracion[i], declaracion[0])
+
+
 def p_programa(p):
     '''programa : variables_list metodos'''
+    # En este lugar ya se tienen las variables que son globales
+    # Añadir las variables globales
+    addGlobalVars(p[1])
+    ''' Imprimir las variables globales
+    print globales_int
+    print len(globales_int)
+    print globales_float
+    print len(globales_float)
+    print globales_char
+    print len(globales_char)
+    print globales_string
+    print len(globales_string)
+    print globales_boolean
+    print len(globales_boolean)
+    '''
 
 def p_variables_list(p):
     '''variables_list : variables_list variables
         | empty'''
+    if len(p) == 3:
+        variables = []
+        if p[1] == None:
+            variables.append(p[2])
+        else:
+            p[1].append(p[2])
+            variables = p[1]
+        p[0] = variables
 
 def p_variables(p):
     '''variables : VAR tipo ID lista_variables SEMICOLON
         | VAR tipo ID LEFTSB INT_CTE RIGHTSB lista_variables SEMICOLON'''
-    if  state == 0:
-        # Agregar los identificadores a la lista
-        addVariableGlobal(p[3], actualType)
+    # Recibir las variables cuando hay una lista
+    if len(p) == 6:
+        if p[4] <> None:
+            vars = []
+            vars.append(p[2])
+            vars.append(p[3])
+            vars = vars + p[4]
+            p[0] = vars
+        else:
+            vars = []
+            vars.append(p[2])
+            vars.append(p[3])
+            p[0] = vars
+    # print p[0]
+
 
 def p_lista_variables(p):
     '''lista_variables : COMMA ID lista_variables
         | COMMA ID LEFTSB INT_CTE RIGHTSB lista_variables
         | empty'''
-    if state == 0:
-        if len(p) > 0:
-            if len(p) != 2:
-                # Agregar más identificadores del mismo tipo a los arreglos
-                addVariableGlobal(p[2],actualType)
+    if len(p) == 4:
+        vars = []
+        vars.append( p[2] )
+        if p[3] <> None:
+            p[0] = vars + p[3]
+        else:
+            p[0] = vars
+    # elif len(p) == 6:
+    #    vars = []
 
 def p_metodos(p):
     '''metodos : metodos metodo
         | empty'''
-    global state
-    """ Mostrar las variables globales
-    if state == 0:
-        print globales_int
-        print len(globales_int)
-        print globales_float
-        print len(globales_float)
-        print globales_char
-        print len(globales_char)
-        print globales_string
-        print len(globales_string)
-        print globales_boolean
-        print len(globales_boolean)
-    """
-    state = 1
-
 
 def p_metodo(p):
     '''metodo : METHOD VOID MAIN LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB
         | METHOD VOID ID LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB
         | METHOD tipo ID LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB'''
-    global state, actualType, methodType, parametros
-    global locales_int_cont, locales_char_cont, locales_float_cont
-    global locales_string_cont, locales_boolean_cont, cont_param
-    var_metodo = {}
-    if state == 1:
-        if p[2] == None:
-            # Quiere decir que el método tiene un tipo
-            var_metodo['tipoRetorno'] = methodType
-            # Regresar el tipo de método a vacío por si existen más funciones
-            methodType = None
-            # Cambiar el estado a lectura de parámetros
-            state = 2
-        else:
-            # La función es void
-            var_metodo['tipoRetorno'] = 5
-            state = 2
-    # print parametros
-    # Verificar que el nombre del método no  esta entre los otros identificadores
-    if checkVariableGlobal( p[3] ) == True or checkMetodos( p[3] ):
-        print "El identificador <<" + p[3] + ">> ya está en uso."
+    # if p[8] <> None:
+    #    print p[8]
+    # print str(p[2]) + " " + p[3]
+    if ( checkMetodos(p[3]) or checkVariableGlobal(p[3]) ):
+        print "El identificador " + p[3] + " ya está en uso."
         sys.exit()
     else:
-        # Creación del método para guardarlo
-        var_metodo['cantidadParametros'] = len(parametros)
-        var_metodo['lineaComienzo'] = None # Temporalmente none
-        var_metodo['parametrosMetodo'] = parametros.copy()
-        var_metodo['size'] = None
-        # Utilizar como llave el nombre de la función y guardar el método
-        diccionario_metodos[ p[3] ] = var_metodo
+        diccionario_metodos[ p[3] ] = 1
 
-        # Resetear las variables utilizadas para guardar los parámetros
-        locales_int_cont = 1000
-        locales_float_cont = 1200
-        locales_char_cont = 1400
-        locales_string_cont = 1600
-        locales_boolean_cont = 1800
-        cont_param = 0 # Resetear el contador de parámetros
-        parametros.clear()
-        """
-        # Imprimir el diccionario de métodos
-        print "Diccionario de metodos"
-        print diccionario_metodos
-        print "Termina diccionario de metodos" """
-
+    if p[5] <> None:
+        print "Parametros:"
+        posicion = 1
+        for parametro in p[5]:
+            # Ciclo para leer los parámetros
+            # a partir del segundo elemento (casilla 1, pues el primero tiene el id)
+            print "Tipo " + str(parametro[0]) + ", Id " + parametro[1]
+            addVariableLocal(parametro[1], parametro[0], posicion)
+            posicion += 1
+        print p[5]
+    if p[8] <> None:
+        print "Variables:"
+        for variable in p[8]:
+            addVariableLocal(variable[1], variable[0], 0)
+        print p[8]
+    print "Variables locales:"
+    print parametros
+    resetVariablesLocales()
+    parametros.clear()
 
 def p_params(p):
     '''params : params parametro
         | params COMMA parametro
         | empty'''
+    if len(p) == 3:
+        if p[1] <> None:
+            p[0] = p[1]
+        else:
+            p[0] = []
+        p[0].append( p[2] )
+    elif len(p) == 4:
+        if p[1] <> None:
+            p[0] = p[1]
+        else:
+            p[0] = []
+        p[0].append( p[3] )
+
 
 def p_parametro(p):
     '''parametro : tipo ID'''
-    global parametros, cont_param
-    # print str(paramType) + " " + p[2]
-    addVariableLocal(p[2], paramType )
-    cont_param += 1
+    p[0] = []
+    p[0].append(p[1])
+    p[0].append(p[2])
+    # print p[0]
 
 def p_bloque(p):
     '''bloque : bloque estatuto
         | empty'''
-    global operacion
-    if operacion != "":
-        operacionActual()
 
 def p_estatuto(p):
     '''estatuto : return
@@ -381,18 +429,12 @@ def p_estatuto(p):
 
 def p_return(p):
     '''return : RETURN exp SEMICOLON'''
-    global operacion
-    if operacion != "":
-        operacionActual()
 
 def p_lectura(p):
     '''lectura : ID ASSIGN READ LEFTP RIGHTP SEMICOLON'''
 
 def p_escritura(p):
     '''escritura : PRINT LEFTP exp RIGHTP SEMICOLON'''
-    global operacion
-    if operacion != "":
-        operacionActual()
 
 def p_llamada(p):
     '''llamada : ID LEFTP llamada_list RIGHTP'''
@@ -411,77 +453,72 @@ def p_mas_args(p):
 def p_asignacion(p):
     '''asignacion : ID ASSIGN exp SEMICOLON
         | ID LEFTSB exp RIGHTSB ASSIGN exp SEMICOLON'''
-    global operacion
-    if operacion != "":
-        operacionActual()
+    # if len(p) == 5:
+    #    print p[3]
 
 def p_ciclo(p):
     '''ciclo : WHILE LEFTP exp RIGHTP LEFTB bloque RIGHTB'''
-    global operacion
-    if operacion != "":
-        operacionActual()
 
 def p_condicion(p):
     '''condicion : IF LEFTP exp RIGHTP LEFTB bloque RIGHTB
         | IF LEFTP exp RIGHTP LEFTB bloque RIGHTB ELSE LEFTB bloque RIGHTB'''
-    global operacion, state
-    if operacion != "":
-        operacionActual()
 
 def p_exp(p):
     '''exp : llamada
         | expresion'''
-    global operacion
-    if operacion != "":
-        operacionActual()
+    if p[1] <> None:
+        p[0] = p[1]
 
 def p_expresion(p):
-    '''expresion : expresion1
-        | expresion1 TIMES expresion
-        | expresion1 DIVISION expresion'''
-    global state, operacion
-    state = 3
-    if len(p) == 4:
-        operacion += str( p[2] ) + " "
-    state = 4
-
-def p_expresion1(p):
-    '''expresion1 : expresion2
-        | expresion2 SUM expresion1
-        | expresion2 LESS expresion1'''
-    global operacion
-    if len(p) == 4:
-        operacion += str(p[2]) + " "
+    '''expresion : expresion TIMES expresion
+        | expresion DIVISION expresion
+        | expresion SUM expresion
+        | expresion LESS expresion
+        | expresion EQUALS expresion
+        | expresion NOTEQUAL expresion
+        | expresion GREATEREQUAL expresion
+        | expresion GREATERTHAN expresion
+        | expresion LESSTHAN expresion
+        | expresion LESSEQUAL expresion
+        | expresion AND expresion
+        | expresion OR expresion'''
+    # Revisar que operación corresponde
+    if p[2] == '*':
+        p[0] = castVariable(p[1]) * castVariable(p[3])
+    elif p[2] == '/':
+        p[0] = castVariable(p[1]) / castVariable(p[3])
+    elif p[2] == '+':
+        p[0] = castVariable(p[1]) + castVariable(p[3])
+    elif p[2] == '-':
+        p[0] = castVariable(p[1]) - castVariable(p[3])
+    elif p[2] == '==':
+        p[0] = p[1] == p[3]
+    elif p[2] == 'NOTEQUAL':
+        p[0] = castVariable(p[1]) <> castVariable(p[3])
+    elif p[2] == 'GREATEREQUAL':
+        p[0] = castVariable(p[1]) >= castVariable(p[3])
+    elif p[2] == 'GREATERTHAN':
+        p[0] = castVariable(p[1]) > castVariable(p[3])
+    elif p[2] == '<':
+        p[0] = castVariable(p[1]) < castVariable(p[3])
+    elif p[2] == '<=':
+        p[0] = castVariable(p[1]) <= castVariable(p[3])
+    elif p[2] == '&&':
+        p[0] = p[1] and p[3]
+    elif p[2] == '||':
+        p[0] = p[1] or p[3]
+    # Imprimir la operación que se esta realizando
+    # print str(p[1]) + p[2] + str(p[3])
 
 def p_expresion2(p):
-    '''expresion2 : expresion3
-        | expresion3 EQUALS expresion2
-        | expresion3 NOTEQUAL expresion2
-        | expresion3 GREATEREQUAL expresion2
-        | expresion3 GREATERTHAN expresion2
-        | expresion3 LESSTHAN expresion2
-        | expresion3 LESSEQUAL expresion2'''
-    global operacion
-    if len(p) == 4:
-        operacion += str(p[2]) + " "
-
-def p_expresion3(p):
-    '''expresion3 : expresion4
-        | expresion4 AND expresion3
-        | expresion4 OR expresion3'''
-    global operacion
-    if len(p) == 4:
-        operacion += str(p[2]) + " "
-
-def p_expresion4(p):
-    '''expresion4 : constante
+    '''expresion : constante
         | ID
         | LEFTP expresion RIGHTP'''
-    global operacion
-    if len(p) == 2 and p[1] <> None:
-        operacion += str(p[1]) + " "
-    # elif len(p) > 2:
-    #    print "Al momento " + operacion
+    # Revisar si la longitud de la regla es de 2
+    if len(p) == 2:
+        p[0] = p[1]
+    else:
+        p[0] = p[2]
 
 def p_tipo(p):
     '''tipo : INT
@@ -489,15 +526,7 @@ def p_tipo(p):
         | BOOLEAN
         | FLOAT
         | STRING'''
-    global actualType, methodType, paramType
-    if state == 0:
-        actualType = getNumericalType(p[1])
-    elif state == 1:
-        # Si es diferente de vacío guardarlo
-        if methodType == None:
-            methodType = getNumericalType(p[1])
-        else:
-            paramType = getNumericalType(p[1])
+    p[0] = getNumericalType(p[1])
 
 def p_constante(p):
     '''constante : INT_CTE
@@ -506,8 +535,7 @@ def p_constante(p):
         | STRING_CTE
         | TRUE
         | FALSE'''
-    global operacion
-    operacion += str(p[1]) + " "
+    p[0] = p[1]
 
 # Elemento vacío
 def p_empty(p):
