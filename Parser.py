@@ -307,8 +307,8 @@ def p_programa(p):
     print globales_boolean
     print len(globales_boolean)
     '''
-    if p[2] <> None:
-        print json.dumps( p[2] )
+    # if p[2] <> None:
+    #    print json.dumps( p[2] )
 
 def p_variables_list(p):
     '''variables_list : variables_list variables
@@ -362,7 +362,7 @@ def p_metodos(p):
         aux = []
         aux.append(p[2])
         if p[1] <> None:
-            p[0] = p[1] + aux 
+            p[0] = p[1] + aux
         else:
             p[0] = aux
 

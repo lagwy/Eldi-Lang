@@ -21,7 +21,7 @@ method boolean sonIguales(int a){
 method void main(int parametro){
   var int otra;
   var string otra_mas;
-  return r;
+  return sonIguales();
   x = read();
   print (4);
   llamada(6+7, 3+2);
