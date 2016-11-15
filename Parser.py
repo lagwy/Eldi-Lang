@@ -4,6 +4,7 @@ import Scanner            # Importar el analizador léxico
 from Cubo import *        # Importar los identificadores numéricos asignados
 tokens = Scanner.tokens   # Lista de tokens
 import sys
+import json
 
 # Precedencia de los operadores
 precedence = (
@@ -306,6 +307,8 @@ def p_programa(p):
     print globales_boolean
     print len(globales_boolean)
     '''
+    if p[2] <> None:
+        print json.dumps( p[2] )
 
 def p_variables_list(p):
     '''variables_list : variables_list variables
@@ -355,6 +358,14 @@ def p_lista_variables(p):
 def p_metodos(p):
     '''metodos : metodos metodo
         | empty'''
+    if len(p) == 3:
+        aux = []
+        aux.append(p[2])
+        if p[1] <> None:
+            p[0] = p[1] + aux 
+        else:
+            p[0] = aux
+
 
 def p_metodo(p):
     '''metodo : METHOD VOID MAIN LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB
@@ -363,29 +374,34 @@ def p_metodo(p):
     # if p[8] <> None:
     #    print p[8]
     # print str(p[2]) + " " + p[3]
-    if ( checkMetodos(p[3]) or checkVariableGlobal(p[3]) ):
-        print "El identificador " + p[3] + " ya está en uso."
-        sys.exit()
-    else:
-        diccionario_metodos[ p[3] ] = 1
-
     if p[5] <> None:
-        print "Parametros:"
+        # print "Parametros:"
         posicion = 1
         for parametro in p[5]:
             # Ciclo para leer los parámetros
             # a partir del segundo elemento (casilla 1, pues el primero tiene el id)
-            print "Tipo " + str(parametro[0]) + ", Id " + parametro[1]
+            # print "Tipo " + str(parametro[0]) + ", Id " + parametro[1]
             addVariableLocal(parametro[1], parametro[0], posicion)
             posicion += 1
-        print p[5]
+        # print p[5]
     if p[8] <> None:
-        print "Variables:"
+        # print "Variables:"
         for variable in p[8]:
             addVariableLocal(variable[1], variable[0], 0)
-        print p[8]
-    print "Variables locales:"
-    print parametros
+        # print p[8]
+    # print "Variables locales:"
+    # print parametros
+    if ( checkMetodos(p[3]) or checkVariableGlobal(p[3]) ):
+        print "El identificador " + p[3] + " ya está en uso."
+        sys.exit()
+    else:
+        full_method = {}
+        met = {}
+        met['tipo'] = p[2]
+        met['vars'] = parametros.copy()
+        # diccionario_metodos[ p[3] ] = met
+        full_method[ p[3] ] = met.copy()
+        p[0] = full_method.copy()
     resetVariablesLocales()
     parametros.clear()
 
