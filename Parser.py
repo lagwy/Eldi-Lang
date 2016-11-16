@@ -307,8 +307,9 @@ def p_programa(p):
     print globales_boolean
     print len(globales_boolean)
     '''
-    # if p[2] <> None:
-    #    print json.dumps( p[2] )
+    # print json.dumps(p[1])
+    #if p[2] <> None:
+    #   print json.dumps( p[2] )
 
 def p_variables_list(p):
     '''variables_list : variables_list variables
@@ -374,6 +375,7 @@ def p_metodo(p):
     # if p[8] <> None:
     #    print p[8]
     # print str(p[2]) + " " + p[3]
+    param_len = 0
     if p[5] <> None:
         # print "Parametros:"
         posicion = 1
@@ -384,6 +386,12 @@ def p_metodo(p):
             addVariableLocal(parametro[1], parametro[0], posicion)
             posicion += 1
         # print p[5]
+        param_len =  len(p[5])
+    else:
+        # No contiene parámetros
+        param_len = 0
+    # Imprimir la cantidad de parámetros
+    #print param_len
     if p[8] <> None:
         # print "Variables:"
         for variable in p[8]:
@@ -399,8 +407,11 @@ def p_metodo(p):
         met = {}
         met['tipo'] = p[2]
         met['vars'] = parametros.copy()
+        met['param_len'] = param_len
         # diccionario_metodos[ p[3] ] = met
         full_method[ p[3] ] = met.copy()
+        # Guardar el metodo en un diccionario
+        diccionario_metodos[p[3]] = full_method.copy()
         p[0] = full_method.copy()
     resetVariablesLocales()
     parametros.clear()
@@ -453,18 +464,47 @@ def p_escritura(p):
     '''escritura : PRINT LEFTP exp RIGHTP SEMICOLON'''
 
 def p_llamada(p):
-    '''llamada : ID LEFTP llamada_list RIGHTP'''
-
-def p_llamada_list(p):
-    '''llamada_list : llamada_list args
-        | empty'''
+    '''llamada : ID LEFTP args RIGHTP'''
+    if checkMetodos(p[1]):
+        # Realizar el procedimiento cuando el método si existe
+        # Verificar los parámetros
+        x = 1
+    else:
+        # Ver los métodos declarados antes
+        # print json.dumps(diccionario_metodos)
+        print "El método <<" + p[1] + ">> no está definido."
+        sys.exit()
+    if p[3] <> None:
+        # Cantidad de argumentos que tiene la llamada
+        # print p[3]
+        # Para obtener la cantidad de parámetros que posee el método
+        call_len = len(p[3])
+        cant = diccionario_metodos[p[1]][p[1]]['param_len']
+    else:
+        call_len = 0
+        cant = diccionario_metodos[p[1]][p[1]]['param_len']
+    if call_len == cant:
+        print "Mismo tam"
+        # Revisar tipos
+    else:
+        print "La cantidad de parámetros en la llamada <<" + p[1] + ">> no es compatible."
+        print "Cantidad de parámetros esperados: " + str(cant)
+        sys.exit()
 
 def p_args(p):
-    '''args : exp mas_args'''
-
-def p_mas_args(p):
-    '''mas_args : COMMA exp
+    '''args : exp
+        | args COMMA exp
         | empty'''
+    if len(p) == 4:
+        if p[1] <> None:
+            p[0] = p[1]
+        else:
+            p[0] = []
+        p[0].append(p[3])
+    elif len(p) == 2:
+        if p[1] <> None:
+            p[0] = []
+            p[0].append(p[1])
 
 def p_asignacion(p):
     '''asignacion : ID ASSIGN exp SEMICOLON

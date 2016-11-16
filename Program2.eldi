@@ -16,15 +16,19 @@ method boolean sonIguales(int a){
   return 3 == 2;
 }
 
+method char vacio(){
+  return 'x';
+}
+
 # Metodo main
 # Comentario del programa
-method void main(int parametro){
+method void main(){
   var int otra;
   var string otra_mas;
   return sonIguales();
   x = read();
   print (4);
-  llamada(6+7, 3+2);
+  nombre_metodo(6+7, 3+2, "hola", 'l');
   variable = 4 * 3;
   arreglo = 4 - (5 + 4) * 3 ;
   while (5 > 2) {
@@ -35,8 +39,9 @@ method void main(int parametro){
     x = 4;
   }
   if (true){
-    x = llamada(4+2,4);
-    y = otraLlamada();
+    x = nombre_float(4+2,5);
+    y = sonIguales(1, 2, 3, 4);
+    z = vacio();
   } else {
     y = 4;
     x = 3 + 2;
