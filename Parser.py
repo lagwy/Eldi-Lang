@@ -152,6 +152,15 @@ def checkDataType(var):
             return "int"
         elif datatype == float:
             return "float"
+        else:
+            # El tipo debería ser char o string
+            # print var + " " + str(len(var))
+            if len(var) == 3 and var[0] == '\'':
+                return "char"
+            elif var[0] == '"':
+                return "string"
+            else:
+                return ERROR
         # elif datatype == str:
         #    print var
 
@@ -567,8 +576,15 @@ def p_expresion(p):
         | expresion AND expresion
         | expresion OR expresion'''
     # Revisar la operación que se está haciendo y los parametros
-    print p[2] + " " + str(p[1]) + " " + str(p[3])
-    print resultante( getNumericalType(p[1]) , getNumericalType(p[3]) , getNumTypeOperation(p[2]));
+    # print p[2] + " " + str(p[1]) + " " + str(p[3])
+    # Imprimir el tipo del resultante
+    print resultante( getNumericalType(p[1]) , getNumericalType(p[3]) , getNumTypeOperation(p[2]))
+    if resultante( getNumericalType(p[1]) , getNumericalType(p[3]) , getNumTypeOperation(p[2])) == ERROR:
+        print "No es posible realizar la operación " + p[2] + " a los operadores " + str(p[1]) + ", " + str(p[3])
+        sys.exit()
+
+    getNumericalType(p[1])
+    getNumericalType(p[3])
 
     # Revisar que operación corresponde
     if p[2] == '*':
@@ -615,7 +631,20 @@ def p_tipo(p):
         | BOOLEAN
         | FLOAT
         | STRING'''
-    p[0] = getNumericalType(p[1])
+    datatype = p[1]
+    if datatype == "int":
+        p[0] =  INT
+    elif datatype == "char":
+        p[0] = CHAR
+    elif datatype == "boolean":
+        p[0] = BOOLEAN
+    elif datatype == "float":
+        p[0] = FLOAT
+    elif datatype == "string":
+        p[0] = STRING
+    else:
+        p[0] = ERROR
+
 
 def p_constante(p):
     '''constante : FLOAT_CTE
