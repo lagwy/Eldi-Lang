@@ -5,7 +5,9 @@ var string cadena_de_caracteres;
 
 method char nombre_metodo(int x, int y, char cha, string s, boolean e){
   var string primer_float;
-  primer_float = 3.5;
+  primer_float = 3.5 * 3.6;
+  otra = "3.5";
+  return true && false;
 }
 
 method float nombre_float(int primera, float w, float z, boolean comp){

@@ -85,6 +85,7 @@ def checkParametros(id):
     # El identificador no se ha utilizado
     return False
 
+'''
 ###########################################################################
 #   isfloat
 #   Revisa si el parámetro recibido es un número flotante
@@ -96,6 +97,7 @@ def isfloat(x):
         return False
     else:
         return True
+        '''
 
 def resetVariablesLocales():
     global locales_int_cont, locales_char_cont, locales_float_cont
@@ -111,6 +113,7 @@ def resetVariablesLocales():
     locales_string.clear()
     locales_boolean.clear()
 
+'''
 ###########################################################################
 #   isint
 #   Revisa si el parámetro recibido es un número entero
@@ -124,6 +127,7 @@ def isint(x):
     else:
         return a == b
 
+
 ###########################################################################
 #   castVariable
 #   Convierte la variable de string a numérica
@@ -136,13 +140,39 @@ def castVariable(num):
     else:
         result = None
     return result
+    '''
 
 def checkDataType(var):
     if var == "true" or var == "false":
-        print "bool"
+        # print "bool"
+        return "boolean";
     else:
         datatype = type(var)
-        print datatype
+        if datatype == int:
+            return "int"
+        elif datatype == float:
+            return "float"
+        # elif datatype == str:
+        #    print var
+
+###########################################################################
+#   getNumericalType
+#   Regresa el código numérico del último tipo a analizar
+###########################################################################
+def getNumericalType(type):
+    datatype = checkDataType(type)
+    if datatype == "int":
+        return INT
+    elif datatype == "char":
+        return CHAR
+    elif datatype == "boolean":
+        return BOOLEAN
+    elif datatype == "float":
+        return FLOAT
+    elif datatype == "string":
+        return STRING
+    else:
+        return ERROR
 
 ###########################################################################
 #   checkVariableGlobal
@@ -270,24 +300,6 @@ def addVariableLocal(id, tipo, posicion):
             parametros[ id ] = variable
             locales_boolean[ id ] = variable
             locales_boolean_cont += 1
-
-###########################################################################
-#   getNumericalType
-#   Regresa el código numérico del último tipo a analizar
-###########################################################################
-def getNumericalType(type):
-    if type == "int":
-        return INT
-    elif type == "char":
-        return CHAR
-    elif type == "boolean":
-        return BOOLEAN
-    elif type == "float":
-        return FLOAT
-    elif type == "string":
-        return STRING
-    else:
-        return ERROR
 
 def addGlobalVars(lista):
     for declaracion in lista:
@@ -554,33 +566,38 @@ def p_expresion(p):
         | expresion LESSEQUAL expresion
         | expresion AND expresion
         | expresion OR expresion'''
+    # Revisar la operación que se está haciendo y los parametros
+    print p[2] + " " + str(p[1]) + " " + str(p[3])
+    print resultante( getNumericalType(p[1]) , getNumericalType(p[3]) , getNumTypeOperation(p[2]));
+
     # Revisar que operación corresponde
     if p[2] == '*':
-        p[0] = castVariable(p[1]) * castVariable(p[3])
+        p[0] = p[1] * p[3]
     elif p[2] == '/':
-        p[0] = castVariable(p[1]) / castVariable(p[3])
+        p[0] = p[1] / p[3]
     elif p[2] == '+':
-        p[0] = castVariable(p[1]) + castVariable(p[3])
+        p[0] = p[1] + p[3]
     elif p[2] == '-':
-        p[0] = castVariable(p[1]) - castVariable(p[3])
+        p[0] = p[1] - p[3]
     elif p[2] == '==':
         p[0] = p[1] == p[3]
     elif p[2] == 'NOTEQUAL':
-        p[0] = castVariable(p[1]) <> castVariable(p[3])
+        p[0] = p[1] <> p[3]
     elif p[2] == 'GREATEREQUAL':
-        p[0] = castVariable(p[1]) >= castVariable(p[3])
+        p[0] = p[1] >= p[3]
     elif p[2] == 'GREATERTHAN':
-        p[0] = castVariable(p[1]) > castVariable(p[3])
+        p[0] = p[1] > p[3]
     elif p[2] == '<':
-        p[0] = castVariable(p[1]) < castVariable(p[3])
+        p[0] = p[1] < p[3]
     elif p[2] == '<=':
-        p[0] = castVariable(p[1]) <= castVariable(p[3])
+        p[0] = p[1] <= p[3]
     elif p[2] == '&&':
         p[0] = p[1] and p[3]
     elif p[2] == '||':
         p[0] = p[1] or p[3]
     # Imprimir la operación que se esta realizando
     # print str(p[1]) + p[2] + str(p[3])
+    # print p[0]
 
 def p_expresion2(p):
     '''expresion : constante
@@ -607,7 +624,6 @@ def p_constante(p):
         | STRING_CTE
         | TRUE
         | FALSE'''
-    checkDataType(p[1])
     p[0] = p[1]
 
 # Elemento vacío

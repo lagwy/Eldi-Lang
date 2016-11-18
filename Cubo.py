@@ -23,6 +23,35 @@ MENORIGUAL = 10
 BWAND = 11
 BWOR = 12
 
+# Obtener el código de la operación que se hará
+def getNumTypeOperation(op):
+    if op == "+":
+        return SUMA
+    elif op == "-":
+        return RESTA
+    elif op == "/":
+        return DIVISION
+    elif op == ".":
+        return CONCATENACION
+    elif op == ">":
+        return MAYORQUE
+    elif op == "<":
+        return MENORQUE
+    elif op == "==":
+        return IGUAL
+    elif op == "!=":
+        return DIFERENTE
+    elif op == ">=":
+        return MAYORIGUAL
+    elif op == "<=":
+        return MENORIGUAL
+    elif op == "&&":
+        return BWAND
+    elif op == "||":
+        return BWOR
+    else:
+        return -1
+
 # Semantica de operadores y operandos
 CUBO = [
     [ 0, 0,  0,  0,  0,  0, -1,  4,  4,  4,  4,  4,  4, -1, -1 ],
