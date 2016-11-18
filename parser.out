@@ -63,8 +63,8 @@ Rule 57    tipo -> CHAR
 Rule 58    tipo -> BOOLEAN
 Rule 59    tipo -> FLOAT
 Rule 60    tipo -> STRING
-Rule 61    constante -> INT_CTE
-Rule 62    constante -> FLOAT_CTE
+Rule 61    constante -> FLOAT_CTE
+Rule 62    constante -> INT_CTE
 Rule 63    constante -> CHAR_CTE
 Rule 64    constante -> STRING_CTE
 Rule 65    constante -> TRUE
@@ -84,13 +84,13 @@ ELSE                 : 38
 EQUALS               : 45
 FALSE                : 66
 FLOAT                : 59
-FLOAT_CTE            : 62
+FLOAT_CTE            : 61
 GREATEREQUAL         : 47
 GREATERTHAN          : 48
 ID                   : 4 5 6 7 12 13 17 28 30 34 35 54
 IF                   : 37 38
 INT                  : 56
-INT_CTE              : 5 7 61
+INT_CTE              : 5 7 62
 LEFTB                : 11 12 13 36 37 38 38
 LEFTP                : 11 12 13 28 29 30 36 37 38 55
 LEFTSB               : 5 7 35
@@ -1013,8 +1013,8 @@ state 62
     (53) expresion -> . constante
     (54) expresion -> . ID
     (55) expresion -> . LEFTP expresion RIGHTP
-    (61) constante -> . INT_CTE
-    (62) constante -> . FLOAT_CTE
+    (61) constante -> . FLOAT_CTE
+    (62) constante -> . INT_CTE
     (63) constante -> . CHAR_CTE
     (64) constante -> . STRING_CTE
     (65) constante -> . TRUE
@@ -1022,8 +1022,8 @@ state 62
 
     ID              shift and go to state 85
     LEFTP           shift and go to state 79
-    INT_CTE         shift and go to state 86
     FLOAT_CTE       shift and go to state 88
+    INT_CTE         shift and go to state 86
     CHAR_CTE        shift and go to state 81
     STRING_CTE      shift and go to state 82
     TRUE            shift and go to state 78
@@ -1223,8 +1223,8 @@ state 79
     (53) expresion -> . constante
     (54) expresion -> . ID
     (55) expresion -> . LEFTP expresion RIGHTP
-    (61) constante -> . INT_CTE
-    (62) constante -> . FLOAT_CTE
+    (61) constante -> . FLOAT_CTE
+    (62) constante -> . INT_CTE
     (63) constante -> . CHAR_CTE
     (64) constante -> . STRING_CTE
     (65) constante -> . TRUE
@@ -1232,8 +1232,8 @@ state 79
 
     ID              shift and go to state 97
     LEFTP           shift and go to state 79
-    INT_CTE         shift and go to state 86
     FLOAT_CTE       shift and go to state 88
+    INT_CTE         shift and go to state 86
     CHAR_CTE        shift and go to state 81
     STRING_CTE      shift and go to state 82
     TRUE            shift and go to state 78
@@ -1366,24 +1366,24 @@ state 85
 
 state 86
 
-    (61) constante -> INT_CTE .
+    (62) constante -> INT_CTE .
 
-    TIMES           reduce using rule 61 (constante -> INT_CTE .)
-    DIVISION        reduce using rule 61 (constante -> INT_CTE .)
-    SUM             reduce using rule 61 (constante -> INT_CTE .)
-    LESS            reduce using rule 61 (constante -> INT_CTE .)
-    EQUALS          reduce using rule 61 (constante -> INT_CTE .)
-    NOTEQUAL        reduce using rule 61 (constante -> INT_CTE .)
-    GREATEREQUAL    reduce using rule 61 (constante -> INT_CTE .)
-    GREATERTHAN     reduce using rule 61 (constante -> INT_CTE .)
-    LESSTHAN        reduce using rule 61 (constante -> INT_CTE .)
-    LESSEQUAL       reduce using rule 61 (constante -> INT_CTE .)
-    AND             reduce using rule 61 (constante -> INT_CTE .)
-    OR              reduce using rule 61 (constante -> INT_CTE .)
-    SEMICOLON       reduce using rule 61 (constante -> INT_CTE .)
-    RIGHTP          reduce using rule 61 (constante -> INT_CTE .)
-    RIGHTSB         reduce using rule 61 (constante -> INT_CTE .)
-    COMMA           reduce using rule 61 (constante -> INT_CTE .)
+    TIMES           reduce using rule 62 (constante -> INT_CTE .)
+    DIVISION        reduce using rule 62 (constante -> INT_CTE .)
+    SUM             reduce using rule 62 (constante -> INT_CTE .)
+    LESS            reduce using rule 62 (constante -> INT_CTE .)
+    EQUALS          reduce using rule 62 (constante -> INT_CTE .)
+    NOTEQUAL        reduce using rule 62 (constante -> INT_CTE .)
+    GREATEREQUAL    reduce using rule 62 (constante -> INT_CTE .)
+    GREATERTHAN     reduce using rule 62 (constante -> INT_CTE .)
+    LESSTHAN        reduce using rule 62 (constante -> INT_CTE .)
+    LESSEQUAL       reduce using rule 62 (constante -> INT_CTE .)
+    AND             reduce using rule 62 (constante -> INT_CTE .)
+    OR              reduce using rule 62 (constante -> INT_CTE .)
+    SEMICOLON       reduce using rule 62 (constante -> INT_CTE .)
+    RIGHTP          reduce using rule 62 (constante -> INT_CTE .)
+    RIGHTSB         reduce using rule 62 (constante -> INT_CTE .)
+    COMMA           reduce using rule 62 (constante -> INT_CTE .)
 
 
 state 87
@@ -1422,24 +1422,24 @@ state 87
 
 state 88
 
-    (62) constante -> FLOAT_CTE .
+    (61) constante -> FLOAT_CTE .
 
-    TIMES           reduce using rule 62 (constante -> FLOAT_CTE .)
-    DIVISION        reduce using rule 62 (constante -> FLOAT_CTE .)
-    SUM             reduce using rule 62 (constante -> FLOAT_CTE .)
-    LESS            reduce using rule 62 (constante -> FLOAT_CTE .)
-    EQUALS          reduce using rule 62 (constante -> FLOAT_CTE .)
-    NOTEQUAL        reduce using rule 62 (constante -> FLOAT_CTE .)
-    GREATEREQUAL    reduce using rule 62 (constante -> FLOAT_CTE .)
-    GREATERTHAN     reduce using rule 62 (constante -> FLOAT_CTE .)
-    LESSTHAN        reduce using rule 62 (constante -> FLOAT_CTE .)
-    LESSEQUAL       reduce using rule 62 (constante -> FLOAT_CTE .)
-    AND             reduce using rule 62 (constante -> FLOAT_CTE .)
-    OR              reduce using rule 62 (constante -> FLOAT_CTE .)
-    SEMICOLON       reduce using rule 62 (constante -> FLOAT_CTE .)
-    RIGHTP          reduce using rule 62 (constante -> FLOAT_CTE .)
-    RIGHTSB         reduce using rule 62 (constante -> FLOAT_CTE .)
-    COMMA           reduce using rule 62 (constante -> FLOAT_CTE .)
+    TIMES           reduce using rule 61 (constante -> FLOAT_CTE .)
+    DIVISION        reduce using rule 61 (constante -> FLOAT_CTE .)
+    SUM             reduce using rule 61 (constante -> FLOAT_CTE .)
+    LESS            reduce using rule 61 (constante -> FLOAT_CTE .)
+    EQUALS          reduce using rule 61 (constante -> FLOAT_CTE .)
+    NOTEQUAL        reduce using rule 61 (constante -> FLOAT_CTE .)
+    GREATEREQUAL    reduce using rule 61 (constante -> FLOAT_CTE .)
+    GREATERTHAN     reduce using rule 61 (constante -> FLOAT_CTE .)
+    LESSTHAN        reduce using rule 61 (constante -> FLOAT_CTE .)
+    LESSEQUAL       reduce using rule 61 (constante -> FLOAT_CTE .)
+    AND             reduce using rule 61 (constante -> FLOAT_CTE .)
+    OR              reduce using rule 61 (constante -> FLOAT_CTE .)
+    SEMICOLON       reduce using rule 61 (constante -> FLOAT_CTE .)
+    RIGHTP          reduce using rule 61 (constante -> FLOAT_CTE .)
+    RIGHTSB         reduce using rule 61 (constante -> FLOAT_CTE .)
+    COMMA           reduce using rule 61 (constante -> FLOAT_CTE .)
 
 
 state 89
@@ -1470,8 +1470,8 @@ state 90
     (53) expresion -> . constante
     (54) expresion -> . ID
     (55) expresion -> . LEFTP expresion RIGHTP
-    (61) constante -> . INT_CTE
-    (62) constante -> . FLOAT_CTE
+    (61) constante -> . FLOAT_CTE
+    (62) constante -> . INT_CTE
     (63) constante -> . CHAR_CTE
     (64) constante -> . STRING_CTE
     (65) constante -> . TRUE
@@ -1479,8 +1479,8 @@ state 90
 
     ID              shift and go to state 85
     LEFTP           shift and go to state 79
-    INT_CTE         shift and go to state 86
     FLOAT_CTE       shift and go to state 88
+    INT_CTE         shift and go to state 86
     CHAR_CTE        shift and go to state 81
     STRING_CTE      shift and go to state 82
     TRUE            shift and go to state 78
@@ -1512,8 +1512,8 @@ state 91
     (53) expresion -> . constante
     (54) expresion -> . ID
     (55) expresion -> . LEFTP expresion RIGHTP
-    (61) constante -> . INT_CTE
-    (62) constante -> . FLOAT_CTE
+    (61) constante -> . FLOAT_CTE
+    (62) constante -> . INT_CTE
     (63) constante -> . CHAR_CTE
     (64) constante -> . STRING_CTE
     (65) constante -> . TRUE
@@ -1521,8 +1521,8 @@ state 91
 
     ID              shift and go to state 85
     LEFTP           shift and go to state 79
-    INT_CTE         shift and go to state 86
     FLOAT_CTE       shift and go to state 88
+    INT_CTE         shift and go to state 86
     CHAR_CTE        shift and go to state 81
     STRING_CTE      shift and go to state 82
     TRUE            shift and go to state 78
@@ -1566,8 +1566,8 @@ state 93
     (53) expresion -> . constante
     (54) expresion -> . ID
     (55) expresion -> . LEFTP expresion RIGHTP
-    (61) constante -> . INT_CTE
-    (62) constante -> . FLOAT_CTE
+    (61) constante -> . FLOAT_CTE
+    (62) constante -> . INT_CTE
     (63) constante -> . CHAR_CTE
     (64) constante -> . STRING_CTE
     (65) constante -> . TRUE
@@ -1575,8 +1575,8 @@ state 93
 
     ID              shift and go to state 85
     LEFTP           shift and go to state 79
-    INT_CTE         shift and go to state 86
     FLOAT_CTE       shift and go to state 88
+    INT_CTE         shift and go to state 86
     CHAR_CTE        shift and go to state 81
     STRING_CTE      shift and go to state 82
     TRUE            shift and go to state 78
@@ -1609,8 +1609,8 @@ state 94
     (53) expresion -> . constante
     (54) expresion -> . ID
     (55) expresion -> . LEFTP expresion RIGHTP
-    (61) constante -> . INT_CTE
-    (62) constante -> . FLOAT_CTE
+    (61) constante -> . FLOAT_CTE
+    (62) constante -> . INT_CTE
     (63) constante -> . CHAR_CTE
     (64) constante -> . STRING_CTE
     (65) constante -> . TRUE
@@ -1619,8 +1619,8 @@ state 94
     READ            shift and go to state 115
     ID              shift and go to state 85
     LEFTP           shift and go to state 79
-    INT_CTE         shift and go to state 86
     FLOAT_CTE       shift and go to state 88
+    INT_CTE         shift and go to state 86
     CHAR_CTE        shift and go to state 81
     STRING_CTE      shift and go to state 82
     TRUE            shift and go to state 78
@@ -1656,8 +1656,8 @@ state 95
     (53) expresion -> . constante
     (54) expresion -> . ID
     (55) expresion -> . LEFTP expresion RIGHTP
-    (61) constante -> . INT_CTE
-    (62) constante -> . FLOAT_CTE
+    (61) constante -> . FLOAT_CTE
+    (62) constante -> . INT_CTE
     (63) constante -> . CHAR_CTE
     (64) constante -> . STRING_CTE
     (65) constante -> . TRUE
@@ -1667,8 +1667,8 @@ state 95
     COMMA           reduce using rule 67 (empty -> .)
     ID              shift and go to state 85
     LEFTP           shift and go to state 79
-    INT_CTE         shift and go to state 86
     FLOAT_CTE       shift and go to state 88
+    INT_CTE         shift and go to state 86
     CHAR_CTE        shift and go to state 81
     STRING_CTE      shift and go to state 82
     TRUE            shift and go to state 78
@@ -1703,8 +1703,8 @@ state 96
     (53) expresion -> . constante
     (54) expresion -> . ID
     (55) expresion -> . LEFTP expresion RIGHTP
-    (61) constante -> . INT_CTE
-    (62) constante -> . FLOAT_CTE
+    (61) constante -> . FLOAT_CTE
+    (62) constante -> . INT_CTE
     (63) constante -> . CHAR_CTE
     (64) constante -> . STRING_CTE
     (65) constante -> . TRUE
@@ -1712,8 +1712,8 @@ state 96
 
     ID              shift and go to state 85
     LEFTP           shift and go to state 79
-    INT_CTE         shift and go to state 86
     FLOAT_CTE       shift and go to state 88
+    INT_CTE         shift and go to state 86
     CHAR_CTE        shift and go to state 81
     STRING_CTE      shift and go to state 82
     TRUE            shift and go to state 78
@@ -1795,8 +1795,8 @@ state 99
     (53) expresion -> . constante
     (54) expresion -> . ID
     (55) expresion -> . LEFTP expresion RIGHTP
-    (61) constante -> . INT_CTE
-    (62) constante -> . FLOAT_CTE
+    (61) constante -> . FLOAT_CTE
+    (62) constante -> . INT_CTE
     (63) constante -> . CHAR_CTE
     (64) constante -> . STRING_CTE
     (65) constante -> . TRUE
@@ -1804,8 +1804,8 @@ state 99
 
     ID              shift and go to state 97
     LEFTP           shift and go to state 79
-    INT_CTE         shift and go to state 86
     FLOAT_CTE       shift and go to state 88
+    INT_CTE         shift and go to state 86
     CHAR_CTE        shift and go to state 81
     STRING_CTE      shift and go to state 82
     TRUE            shift and go to state 78
@@ -1832,8 +1832,8 @@ state 100
     (53) expresion -> . constante
     (54) expresion -> . ID
     (55) expresion -> . LEFTP expresion RIGHTP
-    (61) constante -> . INT_CTE
-    (62) constante -> . FLOAT_CTE
+    (61) constante -> . FLOAT_CTE
+    (62) constante -> . INT_CTE
     (63) constante -> . CHAR_CTE
     (64) constante -> . STRING_CTE
     (65) constante -> . TRUE
@@ -1841,8 +1841,8 @@ state 100
 
     ID              shift and go to state 97
     LEFTP           shift and go to state 79
-    INT_CTE         shift and go to state 86
     FLOAT_CTE       shift and go to state 88
+    INT_CTE         shift and go to state 86
     CHAR_CTE        shift and go to state 81
     STRING_CTE      shift and go to state 82
     TRUE            shift and go to state 78
@@ -1869,8 +1869,8 @@ state 101
     (53) expresion -> . constante
     (54) expresion -> . ID
     (55) expresion -> . LEFTP expresion RIGHTP
-    (61) constante -> . INT_CTE
-    (62) constante -> . FLOAT_CTE
+    (61) constante -> . FLOAT_CTE
+    (62) constante -> . INT_CTE
     (63) constante -> . CHAR_CTE
     (64) constante -> . STRING_CTE
     (65) constante -> . TRUE
@@ -1878,8 +1878,8 @@ state 101
 
     ID              shift and go to state 97
     LEFTP           shift and go to state 79
-    INT_CTE         shift and go to state 86
     FLOAT_CTE       shift and go to state 88
+    INT_CTE         shift and go to state 86
     CHAR_CTE        shift and go to state 81
     STRING_CTE      shift and go to state 82
     TRUE            shift and go to state 78
@@ -1906,8 +1906,8 @@ state 102
     (53) expresion -> . constante
     (54) expresion -> . ID
     (55) expresion -> . LEFTP expresion RIGHTP
-    (61) constante -> . INT_CTE
-    (62) constante -> . FLOAT_CTE
+    (61) constante -> . FLOAT_CTE
+    (62) constante -> . INT_CTE
     (63) constante -> . CHAR_CTE
     (64) constante -> . STRING_CTE
     (65) constante -> . TRUE
@@ -1915,8 +1915,8 @@ state 102
 
     ID              shift and go to state 97
     LEFTP           shift and go to state 79
-    INT_CTE         shift and go to state 86
     FLOAT_CTE       shift and go to state 88
+    INT_CTE         shift and go to state 86
     CHAR_CTE        shift and go to state 81
     STRING_CTE      shift and go to state 82
     TRUE            shift and go to state 78
@@ -1943,8 +1943,8 @@ state 103
     (53) expresion -> . constante
     (54) expresion -> . ID
     (55) expresion -> . LEFTP expresion RIGHTP
-    (61) constante -> . INT_CTE
-    (62) constante -> . FLOAT_CTE
+    (61) constante -> . FLOAT_CTE
+    (62) constante -> . INT_CTE
     (63) constante -> . CHAR_CTE
     (64) constante -> . STRING_CTE
     (65) constante -> . TRUE
@@ -1952,8 +1952,8 @@ state 103
 
     ID              shift and go to state 97
     LEFTP           shift and go to state 79
-    INT_CTE         shift and go to state 86
     FLOAT_CTE       shift and go to state 88
+    INT_CTE         shift and go to state 86
     CHAR_CTE        shift and go to state 81
     STRING_CTE      shift and go to state 82
     TRUE            shift and go to state 78
@@ -1980,8 +1980,8 @@ state 104
     (53) expresion -> . constante
     (54) expresion -> . ID
     (55) expresion -> . LEFTP expresion RIGHTP
-    (61) constante -> . INT_CTE
-    (62) constante -> . FLOAT_CTE
+    (61) constante -> . FLOAT_CTE
+    (62) constante -> . INT_CTE
     (63) constante -> . CHAR_CTE
     (64) constante -> . STRING_CTE
     (65) constante -> . TRUE
@@ -1989,8 +1989,8 @@ state 104
 
     ID              shift and go to state 97
     LEFTP           shift and go to state 79
-    INT_CTE         shift and go to state 86
     FLOAT_CTE       shift and go to state 88
+    INT_CTE         shift and go to state 86
     CHAR_CTE        shift and go to state 81
     STRING_CTE      shift and go to state 82
     TRUE            shift and go to state 78
@@ -2017,8 +2017,8 @@ state 105
     (53) expresion -> . constante
     (54) expresion -> . ID
     (55) expresion -> . LEFTP expresion RIGHTP
-    (61) constante -> . INT_CTE
-    (62) constante -> . FLOAT_CTE
+    (61) constante -> . FLOAT_CTE
+    (62) constante -> . INT_CTE
     (63) constante -> . CHAR_CTE
     (64) constante -> . STRING_CTE
     (65) constante -> . TRUE
@@ -2026,8 +2026,8 @@ state 105
 
     ID              shift and go to state 97
     LEFTP           shift and go to state 79
-    INT_CTE         shift and go to state 86
     FLOAT_CTE       shift and go to state 88
+    INT_CTE         shift and go to state 86
     CHAR_CTE        shift and go to state 81
     STRING_CTE      shift and go to state 82
     TRUE            shift and go to state 78
@@ -2054,8 +2054,8 @@ state 106
     (53) expresion -> . constante
     (54) expresion -> . ID
     (55) expresion -> . LEFTP expresion RIGHTP
-    (61) constante -> . INT_CTE
-    (62) constante -> . FLOAT_CTE
+    (61) constante -> . FLOAT_CTE
+    (62) constante -> . INT_CTE
     (63) constante -> . CHAR_CTE
     (64) constante -> . STRING_CTE
     (65) constante -> . TRUE
@@ -2063,8 +2063,8 @@ state 106
 
     ID              shift and go to state 97
     LEFTP           shift and go to state 79
-    INT_CTE         shift and go to state 86
     FLOAT_CTE       shift and go to state 88
+    INT_CTE         shift and go to state 86
     CHAR_CTE        shift and go to state 81
     STRING_CTE      shift and go to state 82
     TRUE            shift and go to state 78
@@ -2091,8 +2091,8 @@ state 107
     (53) expresion -> . constante
     (54) expresion -> . ID
     (55) expresion -> . LEFTP expresion RIGHTP
-    (61) constante -> . INT_CTE
-    (62) constante -> . FLOAT_CTE
+    (61) constante -> . FLOAT_CTE
+    (62) constante -> . INT_CTE
     (63) constante -> . CHAR_CTE
     (64) constante -> . STRING_CTE
     (65) constante -> . TRUE
@@ -2100,8 +2100,8 @@ state 107
 
     ID              shift and go to state 97
     LEFTP           shift and go to state 79
-    INT_CTE         shift and go to state 86
     FLOAT_CTE       shift and go to state 88
+    INT_CTE         shift and go to state 86
     CHAR_CTE        shift and go to state 81
     STRING_CTE      shift and go to state 82
     TRUE            shift and go to state 78
@@ -2128,8 +2128,8 @@ state 108
     (53) expresion -> . constante
     (54) expresion -> . ID
     (55) expresion -> . LEFTP expresion RIGHTP
-    (61) constante -> . INT_CTE
-    (62) constante -> . FLOAT_CTE
+    (61) constante -> . FLOAT_CTE
+    (62) constante -> . INT_CTE
     (63) constante -> . CHAR_CTE
     (64) constante -> . STRING_CTE
     (65) constante -> . TRUE
@@ -2137,8 +2137,8 @@ state 108
 
     ID              shift and go to state 97
     LEFTP           shift and go to state 79
-    INT_CTE         shift and go to state 86
     FLOAT_CTE       shift and go to state 88
+    INT_CTE         shift and go to state 86
     CHAR_CTE        shift and go to state 81
     STRING_CTE      shift and go to state 82
     TRUE            shift and go to state 78
@@ -2165,8 +2165,8 @@ state 109
     (53) expresion -> . constante
     (54) expresion -> . ID
     (55) expresion -> . LEFTP expresion RIGHTP
-    (61) constante -> . INT_CTE
-    (62) constante -> . FLOAT_CTE
+    (61) constante -> . FLOAT_CTE
+    (62) constante -> . INT_CTE
     (63) constante -> . CHAR_CTE
     (64) constante -> . STRING_CTE
     (65) constante -> . TRUE
@@ -2174,8 +2174,8 @@ state 109
 
     ID              shift and go to state 97
     LEFTP           shift and go to state 79
-    INT_CTE         shift and go to state 86
     FLOAT_CTE       shift and go to state 88
+    INT_CTE         shift and go to state 86
     CHAR_CTE        shift and go to state 81
     STRING_CTE      shift and go to state 82
     TRUE            shift and go to state 78
@@ -2202,8 +2202,8 @@ state 110
     (53) expresion -> . constante
     (54) expresion -> . ID
     (55) expresion -> . LEFTP expresion RIGHTP
-    (61) constante -> . INT_CTE
-    (62) constante -> . FLOAT_CTE
+    (61) constante -> . FLOAT_CTE
+    (62) constante -> . INT_CTE
     (63) constante -> . CHAR_CTE
     (64) constante -> . STRING_CTE
     (65) constante -> . TRUE
@@ -2211,8 +2211,8 @@ state 110
 
     ID              shift and go to state 97
     LEFTP           shift and go to state 79
-    INT_CTE         shift and go to state 86
     FLOAT_CTE       shift and go to state 88
+    INT_CTE         shift and go to state 86
     CHAR_CTE        shift and go to state 81
     STRING_CTE      shift and go to state 82
     TRUE            shift and go to state 78
@@ -2958,8 +2958,8 @@ state 140
     (53) expresion -> . constante
     (54) expresion -> . ID
     (55) expresion -> . LEFTP expresion RIGHTP
-    (61) constante -> . INT_CTE
-    (62) constante -> . FLOAT_CTE
+    (61) constante -> . FLOAT_CTE
+    (62) constante -> . INT_CTE
     (63) constante -> . CHAR_CTE
     (64) constante -> . STRING_CTE
     (65) constante -> . TRUE
@@ -2967,8 +2967,8 @@ state 140
 
     ID              shift and go to state 85
     LEFTP           shift and go to state 79
-    INT_CTE         shift and go to state 86
     FLOAT_CTE       shift and go to state 88
+    INT_CTE         shift and go to state 86
     CHAR_CTE        shift and go to state 81
     STRING_CTE      shift and go to state 82
     TRUE            shift and go to state 78
@@ -3037,8 +3037,8 @@ state 144
     (53) expresion -> . constante
     (54) expresion -> . ID
     (55) expresion -> . LEFTP expresion RIGHTP
-    (61) constante -> . INT_CTE
-    (62) constante -> . FLOAT_CTE
+    (61) constante -> . FLOAT_CTE
+    (62) constante -> . INT_CTE
     (63) constante -> . CHAR_CTE
     (64) constante -> . STRING_CTE
     (65) constante -> . TRUE
@@ -3046,8 +3046,8 @@ state 144
 
     ID              shift and go to state 85
     LEFTP           shift and go to state 79
-    INT_CTE         shift and go to state 86
     FLOAT_CTE       shift and go to state 88
+    INT_CTE         shift and go to state 86
     CHAR_CTE        shift and go to state 81
     STRING_CTE      shift and go to state 82
     TRUE            shift and go to state 78

@@ -22,8 +22,8 @@ tokens = [ 'ID',
            'LEFTB',
            'RIGHTB',
            'ASSIGN',
-           'INT_CTE',
            'FLOAT_CTE',
+           'INT_CTE',
            'CHAR_CTE',
            'STRING_CTE',
            'TIMES',
@@ -68,7 +68,6 @@ tokens += reserved.values()
 t_ignore    = '\n \t'
 t_LEFTSB = r'\['
 t_RIGHTSB = r'\]'
-t_INT_CTE = r'[-]?\d+'
 t_COMMA = r'\,'
 t_SEMICOLON = r'\;'
 t_LEFTP = r'\('
@@ -76,7 +75,6 @@ t_RIGHTP = r'\)'
 t_LEFTB = r'\{'
 t_RIGHTB = r'\}'
 t_ASSIGN = r'\='
-t_FLOAT_CTE  = r'\d+\.\d+'
 t_CHAR_CTE = r'\'.\''
 t_STRING_CTE = r'\"[^ \"]*\"'
 t_TIMES = r'\*'
@@ -92,6 +90,16 @@ t_NOTEQUAL = r'\!\='
 t_OR = r'\|\|'
 t_AND = r'\&\&'
 t_ignore_COMMENT = r'\#.*'
+
+def t_FLOAT_CTE(t):
+    r'[-]?\d+\.\d+'
+    t.value = float(t.value)
+    return t
+
+def t_INT_CTE(t):
+    r'[-]?\d+'
+    t.value = int(t.value)
+    return t
 
 ###########################################################################
 #   t_ID

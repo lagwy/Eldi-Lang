@@ -69,6 +69,7 @@ constantes_boolean_cont = 3800
 diccionario_metodos = {}
 # Diccionario de parámetros para cada método
 parametros = {}
+metodoActual = None
 
 # Debe revisar si existe en metodos, variables globales
 def checkMetodos(id):
@@ -135,6 +136,13 @@ def castVariable(num):
     else:
         result = None
     return result
+
+def checkDataType(var):
+    if var == "true" or var == "false":
+        print "bool"
+    else:
+        datatype = type(var)
+        print datatype
 
 ###########################################################################
 #   checkVariableGlobal
@@ -375,6 +383,8 @@ def p_metodo(p):
     # if p[8] <> None:
     #    print p[8]
     # print str(p[2]) + " " + p[3]
+    global metodoActual
+    metodoActual = p[3]
     param_len = 0
     if p[5] <> None:
         # print "Parametros:"
@@ -484,8 +494,10 @@ def p_llamada(p):
         call_len = 0
         cant = diccionario_metodos[p[1]][p[1]]['param_len']
     if call_len == cant:
-        print "Mismo tam"
-        # Revisar tipos
+        # Sólo para no imprimir en pantalla
+        if 1 == 2:
+            print "Mismo tam"
+            # Revisar tipos
     else:
         print "La cantidad de parámetros en la llamada <<" + p[1] + ">> no es compatible."
         print "Cantidad de parámetros esperados: " + str(cant)
@@ -511,6 +523,10 @@ def p_asignacion(p):
         | ID LEFTSB exp RIGHTSB ASSIGN exp SEMICOLON'''
     # if len(p) == 5:
     #    print p[3]
+    #print p[1]
+    #if len(p) == 5:
+    #    print p[3]
+    #print ""
 
 def p_ciclo(p):
     '''ciclo : WHILE LEFTP exp RIGHTP LEFTB bloque RIGHTB'''
@@ -585,12 +601,13 @@ def p_tipo(p):
     p[0] = getNumericalType(p[1])
 
 def p_constante(p):
-    '''constante : INT_CTE
-        | FLOAT_CTE
+    '''constante : FLOAT_CTE
+        | INT_CTE
         | CHAR_CTE
         | STRING_CTE
         | TRUE
         | FALSE'''
+    checkDataType(p[1])
     p[0] = p[1]
 
 # Elemento vacío

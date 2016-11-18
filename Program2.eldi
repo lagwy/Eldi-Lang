@@ -5,6 +5,7 @@ var string cadena_de_caracteres;
 
 method char nombre_metodo(int x, int y, char cha, string s, boolean e){
   var string primer_float;
+  primer_float = 3.5;
 }
 
 method float nombre_float(int primera, float w, float z, boolean comp){
@@ -25,10 +26,10 @@ method char vacio(){
 method void main(){
   var int otra;
   var string otra_mas;
-  return sonIguales();
+  return sonIguales(4);
   x = read();
   print (4);
-  nombre_metodo(6+7, 3+2, "hola", 'l');
+  nombre_metodo(6+7, 3+2, "hola", 'l', (-4*3));
   variable = 4 * 3;
   arreglo = 4 - (5 + 4) * 3 ;
   while (5 > 2) {
@@ -39,8 +40,8 @@ method void main(){
     x = 4;
   }
   if (true){
-    x = nombre_float(4+2,5);
-    y = sonIguales(1, 2, 3, 4);
+    x = nombre_float(4+2,5, sonIguales(3), true);
+    y = sonIguales(123423.3);
     z = vacio();
   } else {
     y = 4;
