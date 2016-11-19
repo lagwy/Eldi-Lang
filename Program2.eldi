@@ -49,7 +49,7 @@ method void main(){
   } else {
     y = 4;
     x = 3 + 2;
-    lol = 5 * 2 - (3 * 2) > 26;
+    lol = 5 * 2 - (3 * 2) > 26 || true;
     x = read();
   }
 }

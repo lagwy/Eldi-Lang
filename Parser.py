@@ -70,6 +70,7 @@ diccionario_metodos = {}
 # Diccionario de parámetros para cada método
 parametros = {}
 metodoActual = None
+temporalActual = 1
 
 # Debe revisar si existe en metodos, variables globales
 def checkMetodos(id):
@@ -113,6 +114,21 @@ def resetVariablesLocales():
     locales_string.clear()
     locales_boolean.clear()
 
+def resetVariablesTemporales():
+    global temporales_int_cont, temporales_char_cont, temporales_float_cont
+    global temporales_string_cont, temporales_boolean_cont
+    temporales_int_cont = 2000
+    temporales_float_cont = 2200
+    temporales_char_cont = 2400
+    temporales_string_cont = 2600
+    temporales_boolean_cont = 2800
+    temporales_int.clear()
+    temporales_char.clear()
+    temporales_float.clear()
+    temporales_string.clear()
+    temporales_boolean.clear()
+    temporalActual = 1
+
 '''
 ###########################################################################
 #   isint
@@ -152,9 +168,12 @@ def checkDataType(var):
             return "int"
         elif datatype == float:
             return "float"
+        elif datatype == bool:
+            return "boolean"
         else:
             # El tipo debería ser char o string
             # print var + " " + str(len(var))
+            print var
             if len(var) == 3 and var[0] == '\'':
                 return "char"
             elif var[0] == '"':
@@ -199,6 +218,52 @@ def checkVariableGlobal(id):
     elif id in globales_boolean:
         return True
     return False
+
+def addVariableTemporal(tipo, valor):
+    global temporales_int, temporales_float, temporales_char, temporales_string, temporalActual
+    global temporales_boolean, temporales_int_cont, temporales_char_cont, temporales_float_cont, temporales_string_cont, temporales_boolean_cont
+    print temporalActual
+    if tipo == INT:
+        variable = {}
+        # Valores temporales para estos campos
+        variable['valor'] = valor
+        variable['direccionMemoria'] = temporales_int_cont
+        print variable
+        temporales_int[ temporalActual ] = variable
+        temporales_int_cont += 1
+    elif tipo == FLOAT:
+        variable = {}
+        # Valores temporales para estos campos
+        variable['valor'] = valor
+        variable['direccionMemoria'] = temporales_float_cont
+        print variable
+        temporales_float[ temporalActual ] = variable
+        temporales_float_cont += 1
+    elif tipo == CHAR:
+        variable = {}
+        # Valores temporales para estos campos
+        variable['valor'] = valor
+        variable['direccionMemoria'] = temporales_char_cont
+        print variable
+        temporales_char[ temporalActual ] = variable
+        temporales_char_cont += 1
+    elif tipo == STRING:
+        variable = {}
+        # Valores temporales para estos campos
+        variable['valor'] = valor
+        variable['direccionMemoria'] = temporales_string_cont
+        print variable
+        temporales_string[ temporalActual ] = variable
+        temporales_string_cont += 1
+    elif tipo == BOOLEAN:
+        variable = {}
+        # Valores temporales para estos campos
+        variable['valor'] = valor
+        variable['direccionMemoria'] = temporales_boolean_cont
+        print variable
+        temporales_boolean[ temporalActual ] = variable
+        temporales_boolean_cont +=1
+    temporalActual += 1
 
 def addVariableGlobal(identificador, tipo):
     # Revisar si la variable ya había sido declarada con anterioridad
@@ -542,12 +607,14 @@ def p_args(p):
 def p_asignacion(p):
     '''asignacion : ID ASSIGN exp SEMICOLON
         | ID LEFTSB exp RIGHTSB ASSIGN exp SEMICOLON'''
-    # if len(p) == 5:
-    #    print p[3]
-    #print p[1]
-    #if len(p) == 5:
-    #    print p[3]
-    #print ""
+    if len(p) == 5:
+        # print metodoActual
+        # print p[1]
+        # print p[3]
+        if 1 == 2:
+            print " "
+    # Validar que la variable exista en el método
+    # exp contiene la lista de cuadruplos que se hicieron en expression
 
 def p_ciclo(p):
     '''ciclo : WHILE LEFTP exp RIGHTP LEFTB bloque RIGHTB'''
@@ -578,13 +645,15 @@ def p_expresion(p):
     # Revisar la operación que se está haciendo y los parametros
     # print p[2] + " " + str(p[1]) + " " + str(p[3])
     # Imprimir el tipo del resultante
-    print resultante( getNumericalType(p[1]) , getNumericalType(p[3]) , getNumTypeOperation(p[2]))
+    tipo1 = getNumericalType(p[1])
+    tipo2 = getNumericalType(p[3])
+    tipoResultante = resultante( tipo1 , tipo2 , getNumTypeOperation(p[2]))
     if resultante( getNumericalType(p[1]) , getNumericalType(p[3]) , getNumTypeOperation(p[2])) == ERROR:
         print "No es posible realizar la operación " + p[2] + " a los operadores " + str(p[1]) + ", " + str(p[3])
         sys.exit()
 
-    getNumericalType(p[1])
-    getNumericalType(p[3])
+    # getNumericalType(p[1])
+    # getNumericalType(p[3])
 
     # Revisar que operación corresponde
     if p[2] == '*':
@@ -597,23 +666,47 @@ def p_expresion(p):
         p[0] = p[1] - p[3]
     elif p[2] == '==':
         p[0] = p[1] == p[3]
-    elif p[2] == 'NOTEQUAL':
+    elif p[2] == '!=':
         p[0] = p[1] <> p[3]
-    elif p[2] == 'GREATEREQUAL':
+    elif p[2] == '>=':
         p[0] = p[1] >= p[3]
-    elif p[2] == 'GREATERTHAN':
+    elif p[2] == '>':
         p[0] = p[1] > p[3]
     elif p[2] == '<':
         p[0] = p[1] < p[3]
     elif p[2] == '<=':
         p[0] = p[1] <= p[3]
     elif p[2] == '&&':
-        p[0] = p[1] and p[3]
+        if tipo1 == 4 and tipo2 == 4:
+            # Convertirlos a booleanos
+            if p[1] == "true":
+                p[1] = True
+            else:
+                p[1] = False
+            if p[3] == "true":
+                p[3] = True
+            else:
+                p[3] = False
+            p[0] = p[1] and p[3]
+        else:
+            print "No es posible realizar la operación " + p[2] + " a los operadores " + str(p[1]) + ", " + str(p[3])
+            sys.exit()
     elif p[2] == '||':
-        p[0] = p[1] or p[3]
-    # Imprimir la operación que se esta realizando
-    # print str(p[1]) + p[2] + str(p[3])
-    # print p[0]
+        if tipo1 == 4 and tipo2 == 4:
+            # Convertirlos a booleanos
+            if p[1] == "true":
+                p[1] = True
+            else:
+                p[1] = False
+            if p[3] == "true":
+                p[3] = True
+            else:
+                p[3] = False
+            p[0] = p[1] and p[3]
+        else:
+            print "No es posible realizar la operación " + p[2] + " a los operadores " + str(p[1]) + ", " + str(p[3])
+            sys.exit()
+    addVariableTemporal( tipoResultante, p[0] )
 
 def p_expresion2(p):
     '''expresion : constante
@@ -644,7 +737,6 @@ def p_tipo(p):
         p[0] = STRING
     else:
         p[0] = ERROR
-
 
 def p_constante(p):
     '''constante : FLOAT_CTE
