@@ -52,6 +52,8 @@ temporales_string = {}
 temporales_string_cont = 2600
 temporales_boolean = {}
 temporales_boolean_cont = 2800
+listTemporales = []
+contTemp = 9000000
 
 # Variables constantes
 constantes_int = {}
@@ -71,6 +73,9 @@ diccionario_metodos = {}
 parametros = {}
 metodoActual = None
 temporalActual = 1
+tipo_exp = None
+cont_args = 1
+solo_una_expresion = None
 
 # Debe revisar si existe en metodos, variables globales
 def checkMetodos(id):
@@ -85,20 +90,6 @@ def checkParametros(id):
         return True
     # El identificador no se ha utilizado
     return False
-
-'''
-###########################################################################
-#   isfloat
-#   Revisa si el parámetro recibido es un número flotante
-###########################################################################
-def isfloat(x):
-    try:
-        a = float(x)
-    except ValueError:
-        return False
-    else:
-        return True
-        '''
 
 def resetVariablesLocales():
     global locales_int_cont, locales_char_cont, locales_float_cont
@@ -128,35 +119,6 @@ def resetVariablesTemporales():
     temporales_string.clear()
     temporales_boolean.clear()
     temporalActual = 1
-
-'''
-###########################################################################
-#   isint
-#   Revisa si el parámetro recibido es un número entero
-###########################################################################
-def isint(x):
-    try:
-        a = float(x)
-        b = int(a)
-    except ValueError:
-        return False
-    else:
-        return a == b
-
-
-###########################################################################
-#   castVariable
-#   Convierte la variable de string a numérica
-###########################################################################
-def castVariable(num):
-    if isint(num):
-        result = int(num)
-    elif isfloat(num):
-        result = float(num)
-    else:
-        result = None
-    return result
-    '''
 
 def checkDataType(var):
     if var == "true" or var == "false":
@@ -395,7 +357,6 @@ def addGlobalVars(lista):
             # Añadir variable global
             addVariableGlobal(declaracion[i], declaracion[0])
 
-
 def p_programa(p):
     '''programa : variables_list metodos'''
     # En este lugar ya se tienen las variables que son globales
@@ -447,7 +408,6 @@ def p_variables(p):
             p[0] = vars
     # print p[0]
 
-
 def p_lista_variables(p):
     '''lista_variables : COMMA ID lista_variables
         | COMMA ID LEFTSB INT_CTE RIGHTSB lista_variables
@@ -472,7 +432,6 @@ def p_metodos(p):
             p[0] = p[1] + aux
         else:
             p[0] = aux
-
 
 def p_metodo(p):
     '''metodo : METHOD VOID MAIN LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB
@@ -523,6 +482,9 @@ def p_metodo(p):
         p[0] = full_method.copy()
     resetVariablesLocales()
     parametros.clear()
+    global contTemp
+    # Reiniciar el contador de temporales
+    contTemp = 9000000
 
 def p_params(p):
     '''params : params parametro
@@ -541,7 +503,6 @@ def p_params(p):
             p[0] = []
         p[0].append( p[3] )
 
-
 def p_parametro(p):
     '''parametro : tipo ID'''
     p[0] = []
@@ -554,24 +515,36 @@ def p_bloque(p):
         | empty'''
 
 def p_estatuto(p):
-    '''estatuto : return
+    '''estatuto : condicion
+        | ciclo
+        | return
         | lectura
         | escritura
         | llamada SEMICOLON
         | asignacion
-        | ciclo
-        | condicion'''
+        '''
     # print p[1]
 
 def p_return(p):
-    '''return : RETURN exp SEMICOLON'''
+    '''return : RETURN return1 SEMICOLON'''
+
+def p_return1(p):
+    '''return1 : exp'''
+    global tipo_exp
     # Generación del cuádruplo de return
     quad = []
-    quad.append(p[1].upper())
+    quad.append("RETURN")
     quad.append(None)
     quad.append(None)
-    quad.append(p[2])
+    if tipo_exp == 1:
+        if solo_una_expresion:
+            quad.append(p[1])
+        else:
+            quad.append(contTemp-1)
+    else:
+        quad.append("llamada")
     print quad
+    return_exp = None
 
 def p_lectura(p):
     '''lectura : ID ASSIGN READ LEFTP RIGHTP SEMICOLON'''
@@ -596,10 +569,11 @@ def p_escritura(p):
     print quad
 
 def p_llamada(p):
-    '''llamada : ID LEFTP args RIGHTP'''
+    '''llamada : llamada1 LEFTP args RIGHTP'''
     if checkMetodos(p[1]):
         # Realizar el procedimiento cuando el método si existe
         # Verificar los parámetros
+        # algo random
         x = 1
     else:
         # Ver los métodos declarados antes
@@ -620,37 +594,66 @@ def p_llamada(p):
         #if 1 == 2:
         # print "Mismo tam"
         # Revisar tipos
+
         if p[3] <> None:
             # print p[3]
-            cont = 1
+            global cont_args
+            cont_args = 1
+            """
             for arg in p[3]:
                 # print arg
+
                 quad_arg = []
                 quad_arg.append("PARAM")
                 quad_arg.append(arg)
                 quad_arg.append(None)
-                quad_arg.append("param" + str(cont))
-                print quad_arg
-                cont += 1
+                quad_arg.append("param" + str(cont))"""
+                # print quad_arg
+                # cont += 1
     else:
         print "La cantidad de parámetros en la llamada <<" + p[1] + ">> no es compatible."
         print "Cantidad de parámetros esperados: " + str(cant)
         sys.exit()
 
+def p_llamada1(p):
+    '''llamada1 : ID'''
+    p[0] = p[1]
+    quad_era = []
+    quad_era.append("ERA")
+    quad_era.append(p[1])
+    quad_era.append(None)
+    quad_era.append(None)
+    print quad_era
+
 def p_args(p):
     '''args : exp
         | args COMMA exp
         | empty'''
+    global cont_args
     if len(p) == 4:
         if p[1] <> None:
             p[0] = p[1]
         else:
             p[0] = []
+        quad_arg = []
+        quad_arg.append("PARAM")
+        quad_arg.append(p[3])
+        quad_arg.append(None)
+        quad_arg.append("param" + str(cont_args))
+        print quad_arg
+        cont_args += 1
         p[0].append(p[3])
     elif len(p) == 2:
         if p[1] <> None:
             p[0] = []
             p[0].append(p[1])
+            quad_arg = []
+            quad_arg.append("PARAM")
+            quad_arg.append(p[1])
+            quad_arg.append(None)
+            quad_arg.append("param" + str(cont_args))
+            print quad_arg
+            cont_args += 1
 
 def p_asignacion(p):
     '''asignacion : ID ASSIGN exp SEMICOLON
@@ -663,28 +666,79 @@ def p_asignacion(p):
             print " "
     # Validar que la variable exista en el método
     # exp contiene la lista de cuadruplos que se hicieron en expression
-
+    global solo_una_expresion
     # Generación de cuádruplo
     if len(p) == 5:
         quad = []
         quad.append(p[2])
-        quad.append(p[3])
+        if solo_una_expresion == True:
+            quad.append(p[3])
+        else:
+            quad.append(contTemp-1)
         quad.append(None)
         quad.append(p[1])
         print quad
 
+    solo_una_expresion = None
+
+ciclo_exp = None
 def p_ciclo(p):
-    '''ciclo : WHILE LEFTP exp RIGHTP LEFTB bloque RIGHTB'''
+    '''ciclo : WHILE ciclo1 LEFTP exp RIGHTP LEFTB bloque ciclo2 RIGHTB'''
+    if p[3] <> None:
+        global ciclo_exp
+        ciclo_exp = p[3]
+
+# Elemento vacío
+def p_ciclo1(p):
+    'ciclo1 :'
+    # Generación del cuádruplo inicial
+    quad = []
+    quad.append("GOTOFc")
+    quad.append(ciclo_exp)
+    quad.append(None)
+    quad.append('x')
+    print quad
+    # print "ciclo1"
+
+# Elemento vacío
+def p_ciclo2(p):
+    'ciclo2 :'
+    # Generación del cuádruplo del goto para volver a Validar
+    quad_goto = []
+    quad_goto.append("GOTO")
+    quad_goto.append(None)
+    quad_goto.append(None)
+    quad_goto.append('y')
+    print quad_goto
 
 def p_condicion(p):
     '''condicion : IF LEFTP exp RIGHTP LEFTB bloque RIGHTB
         | IF LEFTP exp RIGHTP LEFTB bloque RIGHTB ELSE LEFTB bloque RIGHTB'''
+    if p[3] <> None:
+        quad = []
+        quad.append("GOTOF")
+        quad.append(p[3])
+        quad.append(None)
+        quad.append('x')
+        print quad
 
 def p_exp(p):
-    '''exp : llamada
-        | expresion'''
+    '''exp : llamada exp1
+        | expresion exp2'''
     if p[1] <> None:
         p[0] = p[1]
+
+def p_exp1(p):
+    '''exp1 : '''
+    global tipo_exp
+    # Llamada
+    tipo_exp = 0
+
+def p_exp2(p):
+    '''exp2 : '''
+    global tipo_exp
+    # Llamada
+    tipo_exp = 1
 
 def p_expresion(p):
     '''expresion : expresion TIMES expresion
@@ -702,6 +756,8 @@ def p_expresion(p):
     # Revisar la operación que se está haciendo y los parametros
     # print p[2] + " " + str(p[1]) + " " + str(p[3])
     # Imprimir el tipo del resultante
+    global contTemp, solo_una_expresion
+    solo_una_expresion = False
     tipo1 = getNumericalType(p[1])
     tipo2 = getNumericalType(p[3])
     tipoResultante = resultante( tipo1 , tipo2 , getNumTypeOperation(p[2]))
@@ -713,7 +769,9 @@ def p_expresion(p):
         quad_exp.append(p[2])
         quad_exp.append(p[1])
         quad_exp.append(p[3])
-        quad_exp.append("var")
+        #quad_exp.append("var")
+        quad_exp.append(contTemp)
+        contTemp = contTemp + 1
         print quad_exp
 
     # getNumericalType(p[1])
@@ -782,6 +840,8 @@ def p_expresion2(p):
         p[0] = p[1]
     else:
         p[0] = p[2]
+    global solo_una_expresion
+    solo_una_expresion = True
 
 def p_tipo(p):
     '''tipo : INT
