@@ -37,7 +37,7 @@ method void main(){
   arreglo = 4 - (5 + 4) * 3 ;
   while (5 > 2) {
     y = 4 + 3;
-    x = read();
+    e3 = read();
   }
   if (2 + (4 * 3) == 12){
     x = 4;
@@ -50,6 +50,6 @@ method void main(){
     y = 4;
     x = 3 + 2;
     lol = 5 * 2 - (3 * 2) > 26 || true;
-    x = read();
+    reas = read();
   }
 }

@@ -222,13 +222,13 @@ def checkVariableGlobal(id):
 def addVariableTemporal(tipo, valor):
     global temporales_int, temporales_float, temporales_char, temporales_string, temporalActual
     global temporales_boolean, temporales_int_cont, temporales_char_cont, temporales_float_cont, temporales_string_cont, temporales_boolean_cont
-    print temporalActual
+    # print temporalActual
     if tipo == INT:
         variable = {}
         # Valores temporales para estos campos
         variable['valor'] = valor
         variable['direccionMemoria'] = temporales_int_cont
-        print variable
+        # print variable
         temporales_int[ temporalActual ] = variable
         temporales_int_cont += 1
     elif tipo == FLOAT:
@@ -236,7 +236,7 @@ def addVariableTemporal(tipo, valor):
         # Valores temporales para estos campos
         variable['valor'] = valor
         variable['direccionMemoria'] = temporales_float_cont
-        print variable
+        # print variable
         temporales_float[ temporalActual ] = variable
         temporales_float_cont += 1
     elif tipo == CHAR:
@@ -252,7 +252,7 @@ def addVariableTemporal(tipo, valor):
         # Valores temporales para estos campos
         variable['valor'] = valor
         variable['direccionMemoria'] = temporales_string_cont
-        print variable
+        # print variable
         temporales_string[ temporalActual ] = variable
         temporales_string_cont += 1
     elif tipo == BOOLEAN:
@@ -260,10 +260,22 @@ def addVariableTemporal(tipo, valor):
         # Valores temporales para estos campos
         variable['valor'] = valor
         variable['direccionMemoria'] = temporales_boolean_cont
-        print variable
+        # print variable
         temporales_boolean[ temporalActual ] = variable
         temporales_boolean_cont +=1
     temporalActual += 1
+    """
+    print temporales_int
+    print len(temporales_int)
+    print temporales_float
+    print len(temporales_float)
+    print temporales_char
+    print len(temporales_char)
+    print temporales_string
+    print len(temporales_string)
+    print temporales_boolean
+    print len(temporales_boolean)
+    print """
 
 def addVariableGlobal(identificador, tipo):
     # Revisar si la variable ya había sido declarada con anterioridad
@@ -552,12 +564,35 @@ def p_estatuto(p):
 
 def p_return(p):
     '''return : RETURN exp SEMICOLON'''
+    # Generación del cuádruplo de return
+    quad = []
+    quad.append(p[1].upper())
+    quad.append(None)
+    quad.append(None)
+    quad.append(p[2])
+    # print quad
 
 def p_lectura(p):
     '''lectura : ID ASSIGN READ LEFTP RIGHTP SEMICOLON'''
+    # Generación del cuádruplo de lectura
+    quad = []
+    quad.append(p[3].upper())
+    # x = input("Value for %s: " % p[1])
+    x = 4
+    quad.append(x)
+    quad.append(None)
+    quad.append(p[1])
+    # print quad
 
 def p_escritura(p):
     '''escritura : PRINT LEFTP exp RIGHTP SEMICOLON'''
+    # Generación del cuádruplo de escritura
+    quad = []
+    quad.append(p[1].upper())
+    quad.append(None)
+    quad.append(None)
+    quad.append(p[3])
+    # print quad
 
 def p_llamada(p):
     '''llamada : ID LEFTP args RIGHTP'''
@@ -616,6 +651,15 @@ def p_asignacion(p):
     # Validar que la variable exista en el método
     # exp contiene la lista de cuadruplos que se hicieron en expression
 
+    # Generación de cuádruplo
+    if len(p) == 5:
+        quad = []
+        quad.append(p[2])
+        quad.append(p[3])
+        quad.append(None)
+        quad.append(p[1])
+        # print quad
+
 def p_ciclo(p):
     '''ciclo : WHILE LEFTP exp RIGHTP LEFTB bloque RIGHTB'''
 
@@ -654,7 +698,8 @@ def p_expresion(p):
 
     # getNumericalType(p[1])
     # getNumericalType(p[3])
-
+    print diccionario_metodos
+    print "\n\n"
     # Revisar que operación corresponde
     if p[2] == '*':
         p[0] = p[1] * p[3]
@@ -761,6 +806,14 @@ def p_error(p):
 
 yacc.yacc()
 
-# Read program file
+# Leer el program
 data = open('Program2.eldi','r').read()
 t = yacc.parse(data)
+# Validar que el método main se encuentra en el diccionario métodos
+# print diccionario_metodos
+if checkMetodos("main"):
+    if 1 == 2:
+        print "Si esta"
+else:
+    print "No se ha encontrado el método main"
+    sys.exit()
