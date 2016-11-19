@@ -561,6 +561,7 @@ def p_estatuto(p):
         | asignacion
         | ciclo
         | condicion'''
+    # print p[1]
 
 def p_return(p):
     '''return : RETURN exp SEMICOLON'''
@@ -570,7 +571,7 @@ def p_return(p):
     quad.append(None)
     quad.append(None)
     quad.append(p[2])
-    # print quad
+    print quad
 
 def p_lectura(p):
     '''lectura : ID ASSIGN READ LEFTP RIGHTP SEMICOLON'''
@@ -582,7 +583,7 @@ def p_lectura(p):
     quad.append(x)
     quad.append(None)
     quad.append(p[1])
-    # print quad
+    print quad
 
 def p_escritura(p):
     '''escritura : PRINT LEFTP exp RIGHTP SEMICOLON'''
@@ -592,7 +593,7 @@ def p_escritura(p):
     quad.append(None)
     quad.append(None)
     quad.append(p[3])
-    # print quad
+    print quad
 
 def p_llamada(p):
     '''llamada : ID LEFTP args RIGHTP'''
@@ -616,9 +617,21 @@ def p_llamada(p):
         cant = diccionario_metodos[p[1]][p[1]]['param_len']
     if call_len == cant:
         # Sólo para no imprimir en pantalla
-        if 1 == 2:
-            print "Mismo tam"
-            # Revisar tipos
+        #if 1 == 2:
+        # print "Mismo tam"
+        # Revisar tipos
+        if p[3] <> None:
+            # print p[3]
+            cont = 1
+            for arg in p[3]:
+                # print arg
+                quad_arg = []
+                quad_arg.append("PARAM")
+                quad_arg.append(arg)
+                quad_arg.append(None)
+                quad_arg.append("param" + str(cont))
+                print quad_arg
+                cont += 1
     else:
         print "La cantidad de parámetros en la llamada <<" + p[1] + ">> no es compatible."
         print "Cantidad de parámetros esperados: " + str(cant)
@@ -658,7 +671,7 @@ def p_asignacion(p):
         quad.append(p[3])
         quad.append(None)
         quad.append(p[1])
-        # print quad
+        print quad
 
 def p_ciclo(p):
     '''ciclo : WHILE LEFTP exp RIGHTP LEFTB bloque RIGHTB'''
@@ -695,11 +708,18 @@ def p_expresion(p):
     if resultante( getNumericalType(p[1]) , getNumericalType(p[3]) , getNumTypeOperation(p[2])) == ERROR:
         print "No es posible realizar la operación " + p[2] + " a los operadores " + str(p[1]) + ", " + str(p[3])
         sys.exit()
+    else:
+        quad_exp = []
+        quad_exp.append(p[2])
+        quad_exp.append(p[1])
+        quad_exp.append(p[3])
+        quad_exp.append("var")
+        print quad_exp
 
     # getNumericalType(p[1])
     # getNumericalType(p[3])
-    print diccionario_metodos
-    print "\n\n"
+    # print diccionario_metodos
+    # print "\n\n"
     # Revisar que operación corresponde
     if p[2] == '*':
         p[0] = p[1] * p[3]

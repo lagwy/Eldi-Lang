@@ -34,7 +34,7 @@ method void main(){
   print (4);
   nombre_metodo(6+7, 3+2, "hola", 'l', (-4*3));
   variable = 4 * 3;
-  arreglo = 4 - (5 + 4) * 3 ;
+  yet = 4 - (5 + 4) * 3 ;
   while (5 > 2) {
     y = 4 + 3;
     e3 = read();
