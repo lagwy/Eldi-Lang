@@ -674,7 +674,10 @@ def p_asignacion(p):
         if solo_una_expresion == True:
             quad.append(p[3])
         else:
-            quad.append(contTemp-1)
+            if tipo_exp == 0:
+                quad.append("llamada")
+            else:
+                quad.append(contTemp-1)
         quad.append(None)
         quad.append(p[1])
         print quad
@@ -712,15 +715,40 @@ def p_ciclo2(p):
     print quad_goto
 
 def p_condicion(p):
-    '''condicion : IF LEFTP exp RIGHTP LEFTB bloque RIGHTB
-        | IF LEFTP exp RIGHTP LEFTB bloque RIGHTB ELSE LEFTB bloque RIGHTB'''
-    if p[3] <> None:
-        quad = []
-        quad.append("GOTOF")
-        quad.append(p[3])
-        quad.append(None)
-        quad.append('x')
-        print quad
+    '''condicion : IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB
+        | IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 ELSE LEFTB bloque RIGHTB'''
+    # if p[3] <> None:
+
+condicion_exp = None
+def p_condicion1(p):
+    '''condicion1 : exp'''
+    # print p[1]
+    global condicion_exp
+    condicion_exp = p[1]
+
+def p_condicion2(p):
+    '''condicion2 : '''
+    quad = []
+    quad.append("GOTOFi")
+    # Revisar si hay sólo una expresión
+    if solo_una_expresion:
+        global condicion_exp
+        quad.append(condicion_exp)
+        condicion_exp = None
+    else:
+        quad.append(contTemp-1)
+    quad.append(None)
+    quad.append('x')
+    print quad
+
+def p_condicion3(p):
+    '''condicion3 : '''
+    quad = []
+    quad.append("GOTO")
+    quad.append(None)
+    quad.append(None)
+    quad.append("finalElse")
+    print quad
 
 def p_exp(p):
     '''exp : llamada exp1
@@ -737,7 +765,7 @@ def p_exp1(p):
 def p_exp2(p):
     '''exp2 : '''
     global tipo_exp
-    # Llamada
+    # expresion
     tipo_exp = 1
 
 def p_expresion(p):
