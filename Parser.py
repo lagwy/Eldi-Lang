@@ -53,7 +53,7 @@ temporales_string_cont = 2600
 temporales_boolean = {}
 temporales_boolean_cont = 2800
 listTemporales = []
-contTemp = 9000000
+contTemp = 2000
 
 # Variables constantes
 constantes_int = {}
@@ -71,7 +71,6 @@ constantes_boolean_cont = 3800
 diccionario_metodos = {}
 # Diccionario de parámetros para cada método
 parametros = {}
-metodoActual = None
 temporalActual = 1
 tipo_exp = None
 cont_args = 1
@@ -376,7 +375,8 @@ def p_programa(p):
     '''
     # print json.dumps(p[1])
     #if p[2] <> None:
-    #   print json.dumps( p[2] )
+    #   print json.dumps( diccionario_metodos )
+
 
 def p_variables_list(p):
     '''variables_list : variables_list variables
@@ -433,58 +433,105 @@ def p_metodos(p):
         else:
             p[0] = aux
 
+params_metodo = None
+tipo_metodo = None
+vars_metodo = None
+metodoActual = None
 def p_metodo(p):
-    '''metodo : METHOD VOID MAIN LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB
-        | METHOD VOID ID LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB
-        | METHOD tipo ID LEFTP params RIGHTP LEFTB variables_list bloque RIGHTB'''
+    '''metodo : METHOD tipo_metodo metodo1 LEFTP save_params RIGHTP LEFTB method_vars add_method bloque RIGHTB'''
     # if p[8] <> None:
     #    print p[8]
     # print str(p[2]) + " " + p[3]
-    global metodoActual
-    metodoActual = p[3]
     param_len = 0
-    if p[5] <> None:
+    global metodoActual, contTemp, params_metodo, tipo_metodo, vars_metodo
+    resetVariablesLocales()
+    parametros.clear()
+    # Reiniciar el contador de temporales
+    contTemp = 2000
+    # print metodoActual
+    # Limpiar las variables del método
+    metodoActual = None
+    params_metodo = None
+    tipo_metodo = None
+    vars_metodo = None
+
+def p_metodo1(p):
+    '''metodo1 : MAIN
+        | ID'''
+    global metodoActual
+    metodoActual = p[1]
+    p[0] = p[1]
+
+def p_save_params(p):
+    '''save_params : params'''
+    global params_metodo
+    if p[1] <> None:
+        params_metodo = p[1]
+    p[0] = p[1]
+
+def p_tipo_metodo(p):
+    '''tipo_metodo : VOID
+        | tipo'''
+    global tipo_metodo
+    tipo_metodo = p[1]
+    p[0] = p[1]
+
+def p_add_method(p):
+    '''add_method : '''
+    """
+    print "Adding method"
+    print metodoActual
+    print params_metodo
+    print tipo_metodo
+    print vars_metodo """
+    # p[5] son params
+    # print metodoActual
+    # print params_metodo
+    if params_metodo <> None:
         # print "Parametros:"
         posicion = 1
-        for parametro in p[5]:
+        for parametro in params_metodo:
             # Ciclo para leer los parámetros
             # a partir del segundo elemento (casilla 1, pues el primero tiene el id)
             # print "Tipo " + str(parametro[0]) + ", Id " + parametro[1]
             addVariableLocal(parametro[1], parametro[0], posicion)
             posicion += 1
         # print p[5]
-        param_len =  len(p[5])
+        param_len =  len(params_metodo)
     else:
         # No contiene parámetros
         param_len = 0
     # Imprimir la cantidad de parámetros
     #print param_len
-    if p[8] <> None:
+    # p[8] son vars
+    if vars_metodo <> None:
         # print "Variables:"
-        for variable in p[8]:
+        for variable in vars_metodo:
             addVariableLocal(variable[1], variable[0], 0)
         # print p[8]
     # print "Variables locales:"
     # print parametros
-    if ( checkMetodos(p[3]) or checkVariableGlobal(p[3]) ):
-        print "El identificador " + p[3] + " ya está en uso."
+    # p[3] es nombre del método
+    # p[2] es el tipo
+    if ( checkMetodos(metodoActual) or checkVariableGlobal(metodoActual) ):
+        print "El identificador " + metodoActual + " ya está en uso."
         sys.exit()
     else:
         full_method = {}
         met = {}
-        met['tipo'] = p[2]
+        met['tipo'] = tipo_metodo
         met['vars'] = parametros.copy()
         met['param_len'] = param_len
         # diccionario_metodos[ p[3] ] = met
-        full_method[ p[3] ] = met.copy()
+        full_method[ metodoActual ] = met.copy()
         # Guardar el metodo en un diccionario
-        diccionario_metodos[p[3]] = full_method.copy()
+        diccionario_metodos[metodoActual] = full_method.copy()
         p[0] = full_method.copy()
-    resetVariablesLocales()
-    parametros.clear()
-    global contTemp
-    # Reiniciar el contador de temporales
-    contTemp = 9000000
+
+def p_method_vars(p):
+    '''method_vars : variables_list'''
+    vars_metodo = p[1]
+    p[0] = p[1]
 
 def p_params(p):
     '''params : params parametro
@@ -669,6 +716,10 @@ def p_asignacion(p):
     global solo_una_expresion
     # Generación de cuádruplo
     if len(p) == 5:
+        # Revisar que la variable exista en el método
+        # print diccionario_metodos[metodoActual]
+
+        # Generación del cuádruplo de la asignación
         quad = []
         quad.append(p[2])
         if solo_una_expresion == True:
