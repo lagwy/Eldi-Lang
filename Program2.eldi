@@ -1,10 +1,12 @@
 var int nombre, mas, uno, arreglo;
 var int nombre2;
-var char caracter, otro_caracter;
+var char caracter, otro_caracter, x;
+var boolean otra, y;
 var string cadena_de_caracteres;
 
 method char nombre_metodo(int x, int y, char cha, string s, boolean e){
   var string primer_float;
+  var boolean unaMas;
   primer_float = (3.5 * 3.6) + 5;
   otra = "3.5";
   y = "hola";
@@ -33,10 +35,10 @@ method void main(){
   x = read();
   print (4);
   nombre_metodo(6+7, 3+2, "hola", 'l', (-4*3));
-  variable = 4 * 3;
-  yet = 4 - (5 + 4) * 3 ;
+  otra_mas = 4 * 3;
+  otra_mas = 4 - (5 + 4) * 3 ;
   while (5 > 2) {
-    y = 4 + 3;
+    mas = 4 + 3;
     e3 = read();
   }
   if (2 + (4 * 3) == 12){
@@ -45,11 +47,11 @@ method void main(){
   if (true){
     x = nombre_float(4+2,5, sonIguales(3), true);
     y = sonIguales(123423.3);
-    z = vacio();
+    x = vacio();
   } else {
     y = 4;
     x = 3 + 2;
-    lol = 5 * 2 - (3 * 2) > 26 || true;
-    reas = read();
+    otra = 5 * 2 - (3 * 2) > 26 || true;
+    mas = read();
   }
 }

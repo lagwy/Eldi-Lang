@@ -245,6 +245,7 @@ def addVariableGlobal(identificador, tipo):
         sys.exit()
     else:
         # Utilizar las variables globales que contienen los contadores
+        global globales_int, globales_float, globales_char, globales_string, globales_boolean
         global globales_int_cont, globales_float_cont, globales_char_cont
         global globales_string_cont, globales_boolean_cont
         # Si no había sido declarada, añadirla a su diccionario de variables
@@ -253,35 +254,35 @@ def addVariableGlobal(identificador, tipo):
             # Valores temporales para estos campos
             variable['valor'] = None
             variable['direccionMemoria'] = globales_int_cont
-            globales_int[ identificador ] = variable
+            globales_int[ identificador ] = variable.copy()
             globales_int_cont += 1
         elif tipo == FLOAT:
             variable = {}
             # Valores temporales para estos campos
             variable['valor'] = None
             variable['direccionMemoria'] = globales_float_cont
-            globales_float[ identificador ] = variable
+            globales_float[ identificador ] = variable.copy()
             globales_float_cont += 1
         elif tipo == CHAR:
             variable = {}
             # Valores temporales para estos campos
             variable['valor'] = None
             variable['direccionMemoria'] = globales_char_cont
-            globales_char[ identificador ] = variable
+            globales_char[ identificador ] = variable.copy()
             globales_char_cont += 1
         elif tipo == STRING:
             variable = {}
             # Valores temporales para estos campos
             variable['valor'] = None
             variable['direccionMemoria'] = globales_string_cont
-            globales_string[ identificador ] = variable
+            globales_string[ identificador ] = variable.copy()
             globales_string_cont += 1
         elif tipo == BOOLEAN:
             variable = {}
             # Valores temporales para estos campos
             variable['valor'] = None
             variable['direccionMemoria'] = globales_boolean_cont
-            globales_boolean[ identificador ] = variable
+            globales_boolean[ identificador ] = variable.copy()
             globales_boolean_cont +=1
 
 ###########################################################################
@@ -357,10 +358,9 @@ def addGlobalVars(lista):
             addVariableGlobal(declaracion[i], declaracion[0])
 
 def p_programa(p):
-    '''programa : variables_list metodos'''
+    '''programa : add_globales metodos'''
     # En este lugar ya se tienen las variables que son globales
     # Añadir las variables globales
-    addGlobalVars(p[1])
     ''' Imprimir las variables globales
     print globales_int
     print len(globales_int)
@@ -377,6 +377,10 @@ def p_programa(p):
     #if p[2] <> None:
     #   print json.dumps( diccionario_metodos )
 
+def p_add_globales(p):
+    '''add_globales : variables_list'''
+    p[0] = p[1]
+    addGlobalVars(p[1])
 
 def p_variables_list(p):
     '''variables_list : variables_list variables
@@ -530,6 +534,7 @@ def p_add_method(p):
 
 def p_method_vars(p):
     '''method_vars : variables_list'''
+    global vars_metodo
     vars_metodo = p[1]
     p[0] = p[1]
 
@@ -705,12 +710,22 @@ def p_args(p):
 def p_asignacion(p):
     '''asignacion : ID ASSIGN exp SEMICOLON
         | ID LEFTSB exp RIGHTSB ASSIGN exp SEMICOLON'''
-    if len(p) == 5:
-        # print metodoActual
-        # print p[1]
-        # print p[3]
-        if 1 == 2:
-            print " "
+    # print p[1]
+    # Debe de tener doble el nombre del método
+    # print json.dumps( diccionario_metodos[metodoActual][metodoActual] )
+    direccionAsignacion = None
+    if p[1] in diccionario_metodos[metodoActual][metodoActual]['vars']:
+        print diccionario_metodos[metodoActual][metodoActual]['vars'][p[1]]['direccionMemoria']
+        direccionAsignacion = diccionario_metodos[metodoActual][metodoActual]['vars'][p[1]]['direccionMemoria']
+        # print p[1] + " Si esta xd"
+    else:
+        if checkVariableGlobal(p[1]):
+            direccionAsignacion = "global"
+            print p[1] + " sta en global"
+        else:
+            print "La variable <<" + p[1] + ">> no está declarada"
+            sys.exit()
+    # print diccionario_metodos[metodoActual][metodoActual]['vars'][p[1]]
     # Validar que la variable exista en el método
     # exp contiene la lista de cuadruplos que se hicieron en expression
     global solo_una_expresion
@@ -730,9 +745,8 @@ def p_asignacion(p):
             else:
                 quad.append(contTemp-1)
         quad.append(None)
-        quad.append(p[1])
+        quad.append(direccionAsignacion)
         print quad
-
     solo_una_expresion = None
 
 ciclo_exp = None
