@@ -665,6 +665,7 @@ def p_escritura(p):
     quad.append(p[3])
     print quad
 
+metodo_llamada = None
 def p_llamada(p):
     '''llamada : llamada1 LEFTP args RIGHTP'''
     if checkMetodos(p[1]):
@@ -694,24 +695,16 @@ def p_llamada(p):
             quad_gosub.append(None)
             quad_gosub.append(None)
             print quad_gosub
-            """
-            for arg in p[3]:
-                # print arg
-
-                quad_arg = []
-                quad_arg.append("PARAM")
-                quad_arg.append(arg)
-                quad_arg.append(None)
-                quad_arg.append("param" + str(cont))"""
-                # print quad_arg
-                # cont += 1
     else:
         print "La cantidad de parámetros en la llamada <<" + p[1] + ">> no es compatible."
         print "Cantidad de parámetros esperados: " + str(cant)
         sys.exit()
+    metodo_llamada = None
 
 def p_llamada1(p):
     '''llamada1 : ID'''
+    global metodo_llamada
+    metodo_llamada = p[1]
     p[0] = p[1]
     quad_era = []
     quad_era.append("ERA")
@@ -732,6 +725,29 @@ def p_args(p):
             p[0] = []
         quad_arg = []
         quad_arg.append("PARAM")
+        if p[3] <> None:
+            datatype = checkDataType(p[3])
+            num_datatype = None
+            if datatype == "int":
+                num_datatype = INT
+            elif datatype == "char":
+                num_datatype = CHAR
+            elif datatype == "boolean":
+                num_datatype = BOOLEAN
+            elif datatype == "float":
+                num_datatype = FLOAT
+            elif datatype == "string":
+                num_datatype = STRING
+            print num_datatype
+        else:
+            # Obtener el tipo de método llamado
+            tipo_llamada = diccionario_metodos[metodo_llamada][metodo_llamada]['tipo']
+            if tipo_llamada == 'void':
+                print "Argumento: No es posible utilizar el método <<" + metodo_llamada + ">> como argumento porque es de tipo void"
+                sys.exit()
+            else:
+                print tipo_llamada
+            # print metodo_llamada
         quad_arg.append(p[3])
         quad_arg.append(None)
         quad_arg.append("param" + str(cont_args))
@@ -744,6 +760,28 @@ def p_args(p):
             p[0].append(p[1])
             quad_arg = []
             quad_arg.append("PARAM")
+            if p[1] <> None:
+                datatype = checkDataType(p[1])
+                num_datatype = None
+                if datatype == "int":
+                    num_datatype = INT
+                elif datatype == "char":
+                    num_datatype = CHAR
+                elif datatype == "boolean":
+                    num_datatype = BOOLEAN
+                elif datatype == "float":
+                    num_datatype = FLOAT
+                elif datatype == "string":
+                    num_datatype = STRING
+                print num_datatype
+            else:
+                # Obtener el tipo de método llamado
+                tipo_llamada = diccionario_metodos[metodo_llamada][metodo_llamada]['tipo']
+                if tipo_llamada == 'void':
+                    print "Argumento: No es posible utilizar el método <<" + metodo_llamada + ">> como argumento porque es de tipo void"
+                    sys.exit()
+                else:
+                    print tipo_llamada
             quad_arg.append(p[1])
             quad_arg.append(None)
             quad_arg.append("param" + str(cont_args))
