@@ -387,7 +387,7 @@ def p_programa(p):
     '''
     # print json.dumps(p[1])
     #if p[2] <> None:
-    print json.dumps( diccionario_metodos )
+    # print json.dumps( diccionario_metodos )
 
 def p_add_globales(p):
     '''add_globales : variables_list'''
@@ -619,8 +619,28 @@ def p_lectura(p):
         # print p[1] + " Si esta xd"
     else:
         if checkVariableGlobal(p[1]):
-            direccionLectura = "global"
-            # print p[1] + " sta en global"
+            tipo_global = varGlobalDictionary(p[1])
+            global globales_int, globales_float, globales_char, globales_string, globales_boolean
+            if tipo_global == INT:
+                direccionMemoria = globales_int[p[1]]["direccionMemoria"]
+                globales_int[p[1]]["valor"] = p[3]
+                # print json.dumps( globales_int[p[1]] )
+            elif tipo_global == FLOAT:
+                direccionMemoria = globales_float[p[1]]["direccionMemoria"]
+                globales_float[p[1]]["valor"] = p[3]
+                # print json.dumps( globales_float[p[1]] )
+            elif tipo_global == CHAR:
+                direccionMemoria = globales_char[p[1]]["direccionMemoria"]
+                globales_char[p[1]]["valor"] = p[3]
+                # print json.dumps( globales_char[p[1]] )
+            elif tipo_global == STRING:
+                direccionMemoria = globales_string[p[1]]["direccionMemoria"]
+                globales_string[p[1]]["valor"] = p[3]
+                # print json.dumps( globales_string[p[1]] )
+            elif tipo_global == BOOLEAN:
+                direccionMemoria = globales_boolean[p[1]]["direccionMemoria"]
+                globales_boolean[p[1]]["valor"] = p[3]
+            direccionLectura = direccionMemoria
         else:
             print "Lectura: La variable <<" + p[1] + ">> no está declarada"
             sys.exit()
@@ -667,15 +687,13 @@ def p_llamada(p):
         call_len = 0
         cant = diccionario_metodos[p[1]][p[1]]['param_len']
     if call_len == cant:
-        # Sólo para no imprimir en pantalla
-        #if 1 == 2:
-        # print "Mismo tam"
-        # Revisar tipos
-
         if p[3] <> None:
-            # print p[3]
-            global cont_args
-            cont_args = 1
+            quad_gosub = []
+            quad_gosub.append("GOSUB")
+            quad_gosub.append(p[1])
+            quad_gosub.append(None)
+            quad_gosub.append(None)
+            print quad_gosub
             """
             for arg in p[3]:
                 # print arg
