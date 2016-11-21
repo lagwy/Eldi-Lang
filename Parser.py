@@ -374,20 +374,20 @@ def p_programa(p):
     # En este lugar ya se tienen las variables que son globales
     # Añadir las variables globales
     ''' Imprimir las variables globales
-    print globales_int
+    print json.dumps( globales_int )
     print len(globales_int)
-    print globales_float
+    print json.dumps( globales_float )
     print len(globales_float)
-    print globales_char
+    print json.dumps( globales_char )
     print len(globales_char)
-    print globales_string
+    print json.dumps( globales_string )
     print len(globales_string)
-    print globales_boolean
+    print json.dumps( globales_boolean )
     print len(globales_boolean)
     '''
     # print json.dumps(p[1])
     #if p[2] <> None:
-    #   print json.dumps( diccionario_metodos )
+    print json.dumps( diccionario_metodos )
 
 def p_add_globales(p):
     '''add_globales : variables_list'''
@@ -738,28 +738,36 @@ def p_asignacion(p):
     # print p[1]
     # Debe de tener doble el nombre del método
     # print json.dumps( diccionario_metodos[metodoActual][metodoActual] )
+    global diccionario_metodos
     direccionAsignacion = None
     if p[1] in diccionario_metodos[metodoActual][metodoActual]['vars']:
         # print diccionario_metodos[metodoActual][metodoActual]['vars'][p[1]]['direccionMemoria']
         direccionAsignacion = diccionario_metodos[metodoActual][metodoActual]['vars'][p[1]]['direccionMemoria']
+        diccionario_metodos[metodoActual][metodoActual]['vars'][p[1]]['valor'] = p[3]
         # print p[1] + " Si esta xd"
     else:
         if checkVariableGlobal(p[1]):
             tipo_global = varGlobalDictionary(p[1])
+            global globales_int, globales_float, globales_char, globales_string, globales_boolean
             if tipo_global == INT:
                 direccionAsignacion = globales_int[p[1]]["direccionMemoria"]
+                globales_int[p[1]]["valor"] = p[3]
                 # print json.dumps( globales_int[p[1]] )
             elif tipo_global == FLOAT:
                 direccionAsignacion = globales_float[p[1]]["direccionMemoria"]
+                globales_float[p[1]]["valor"] = p[3]
                 # print json.dumps( globales_float[p[1]] )
             elif tipo_global == CHAR:
                 direccionAsignacion = globales_char[p[1]]["direccionMemoria"]
+                globales_char[p[1]]["valor"] = p[3]
                 # print json.dumps( globales_char[p[1]] )
             elif tipo_global == STRING:
                 direccionAsignacion = globales_string[p[1]]["direccionMemoria"]
+                globales_string[p[1]]["valor"] = p[3]
                 # print json.dumps( globales_string[p[1]] )
             elif tipo_global == BOOLEAN:
                 direccionAsignacion = globales_boolean[p[1]]["direccionMemoria"]
+                globales_boolean[p[1]]["valor"] = p[3]
                 # print json.dumps( globales_boolean[p[1]] )
             # print tipo_global
             direccionAsignacion = direccionAsignacion
