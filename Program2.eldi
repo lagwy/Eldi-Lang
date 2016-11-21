@@ -39,7 +39,7 @@ method void main(){
   otra_mas = 4 - (5 + 4) * 3 ;
   while (5 > 2) {
     mas = 4 + 3;
-    e3 = read();
+    otra_mas = read();
   }
   if (2 + (4 * 3) == 12){
     x = 4;

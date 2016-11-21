@@ -180,6 +180,18 @@ def checkVariableGlobal(id):
         return True
     return False
 
+def varGlobalDictionary(id):
+    if id in globales_int:
+        return INT
+    elif id in globales_float:
+        return FLOAT
+    elif id in globales_char:
+        return CHAR
+    elif id in globales_string:
+        return STRING
+    elif id in globales_boolean:
+        return BOOLEAN
+
 def addVariableTemporal(tipo, valor):
     global temporales_int, temporales_float, temporales_char, temporales_string, temporalActual
     global temporales_boolean, temporales_int_cont, temporales_char_cont, temporales_float_cont, temporales_string_cont, temporales_boolean_cont
@@ -600,6 +612,19 @@ def p_return1(p):
 
 def p_lectura(p):
     '''lectura : ID ASSIGN READ LEFTP RIGHTP SEMICOLON'''
+    direccionLectura = None
+    if p[1] in diccionario_metodos[metodoActual][metodoActual]['vars']:
+        # print diccionario_metodos[metodoActual][metodoActual]['vars'][p[1]]['direccionMemoria']
+        direccionLectura = diccionario_metodos[metodoActual][metodoActual]['vars'][p[1]]['direccionMemoria']
+        # print p[1] + " Si esta xd"
+    else:
+        if checkVariableGlobal(p[1]):
+            direccionLectura = "global"
+            # print p[1] + " sta en global"
+        else:
+            print "Lectura: La variable <<" + p[1] + ">> no está declarada"
+            sys.exit()
+
     # Generación del cuádruplo de lectura
     quad = []
     quad.append(p[3].upper())
@@ -607,7 +632,7 @@ def p_lectura(p):
     x = 4
     quad.append(x)
     quad.append(None)
-    quad.append(p[1])
+    quad.append(direccionLectura)
     print quad
 
 def p_escritura(p):
@@ -715,13 +740,30 @@ def p_asignacion(p):
     # print json.dumps( diccionario_metodos[metodoActual][metodoActual] )
     direccionAsignacion = None
     if p[1] in diccionario_metodos[metodoActual][metodoActual]['vars']:
-        print diccionario_metodos[metodoActual][metodoActual]['vars'][p[1]]['direccionMemoria']
+        # print diccionario_metodos[metodoActual][metodoActual]['vars'][p[1]]['direccionMemoria']
         direccionAsignacion = diccionario_metodos[metodoActual][metodoActual]['vars'][p[1]]['direccionMemoria']
         # print p[1] + " Si esta xd"
     else:
         if checkVariableGlobal(p[1]):
-            direccionAsignacion = "global"
-            print p[1] + " sta en global"
+            tipo_global = varGlobalDictionary(p[1])
+            if tipo_global == INT:
+                direccionAsignacion = globales_int[p[1]]["direccionMemoria"]
+                # print json.dumps( globales_int[p[1]] )
+            elif tipo_global == FLOAT:
+                direccionAsignacion = globales_float[p[1]]["direccionMemoria"]
+                # print json.dumps( globales_float[p[1]] )
+            elif tipo_global == CHAR:
+                direccionAsignacion = globales_char[p[1]]["direccionMemoria"]
+                # print json.dumps( globales_char[p[1]] )
+            elif tipo_global == STRING:
+                direccionAsignacion = globales_string[p[1]]["direccionMemoria"]
+                # print json.dumps( globales_string[p[1]] )
+            elif tipo_global == BOOLEAN:
+                direccionAsignacion = globales_boolean[p[1]]["direccionMemoria"]
+                # print json.dumps( globales_boolean[p[1]] )
+            # print tipo_global
+            direccionAsignacion = direccionAsignacion
+            # print p[1] + " sta en global"
         else:
             print "La variable <<" + p[1] + ">> no está declarada"
             sys.exit()
