@@ -13,11 +13,11 @@ method char nombre_metodo(int x, int y, char cha, string s, boolean e){
   return true && false;
 }
 
-method float nombre_float(int primera, float w, float z, boolean comp){
+method float nombre_float(int primera, float w, char z, boolean comp){
   return 2 + 3;
 }
 
-method char sonIguales(int a){
+method string sonIguales(string a){
   var int b;
   return 3 == 2;
 }
@@ -31,10 +31,10 @@ method char vacio(){
 method void main(){
   var int otra;
   var string otra_mas;
-  return sonIguales(4);
+  return sonIguales("hola");
   x = read();
   print (4);
-  nombre_metodo(6+7, 3+2, "hola", 'l', (-4*3));
+  nombre_metodo(6+7, 3+2, 'h', "la", true);
   otra_mas = 4 * 3;
   otra_mas = 4 - (5 + 4) * 3 ;
   while (5 > 2) {
@@ -45,8 +45,8 @@ method void main(){
     x = 4;
   }
   if (true){
-    x = nombre_float(4+2,5, sonIguales(3), true);
-    y = sonIguales(123423.3);
+    x = nombre_float(4+2, 5.3, sonIguales("xd"), true);
+    y = sonIguales("son iguales");
     x = vacio();
   } else {
     y = 4;
