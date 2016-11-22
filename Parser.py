@@ -372,7 +372,7 @@ def addGlobalVars(lista):
                 addVariableGlobal(declaracion[i], declaracion[0])
 
 def p_programa(p):
-    '''programa : add_globales metodos'''
+    '''programa : goto_main add_globales metodos'''
     # En este lugar ya se tienen las variables que son globales
     # Añadir las variables globales
     ''' Imprimir las variables globales
@@ -390,6 +390,22 @@ def p_programa(p):
     # print json.dumps(p[1])
     #if p[2] <> None:
     # print json.dumps( diccionario_metodos )
+    quad = []
+    quad.append("END")
+    quad.append(None)
+    quad.append(None)
+    quad.append(None)
+    print quad
+
+def p_goto_main(p):
+    '''goto_main :'''
+    # Reemplazar main por el cuádruplo en el que comienza
+    quad = []
+    quad.append("GOTO")
+    quad.append(None)
+    quad.append(None)
+    quad.append("MAIN")
+    print quad
 
 def p_add_globales(p):
     '''add_globales : variables_list'''
@@ -899,11 +915,15 @@ def p_asignacion(p):
                     else:
                         print "Asignación: La variable <<" + str(tipo1) + ">> no se encuentra."
                         sys.exit()
+            else:
+                quad.append(p[3])
+
         else:
             if tipo_exp == 0:
                 quad.append("llamada")
             else:
                 quad.append(contTemp-1)
+        # print quad
         quad.append(None)
         quad.append(direccionAsignacion)
         print quad
@@ -912,7 +932,7 @@ def p_asignacion(p):
 
 ciclo_exp = None
 def p_ciclo(p):
-    '''ciclo : WHILE ciclo1 LEFTP exp RIGHTP LEFTB bloque ciclo2 RIGHTB'''
+    '''ciclo : WHILE LEFTP exp RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB'''
     if p[3] <> None:
         global ciclo_exp
         ciclo_exp = p[3]
@@ -1202,7 +1222,7 @@ def p_error(p):
 yacc.yacc()
 
 # Leer el program
-data = open('Programas/Program2.eldi','r').read()
+data = open('Programas/Ciclo.eldi','r').read()
 t = yacc.parse(data)
 # Validar que el método main se encuentra en el diccionario métodos
 # print diccionario_metodos
