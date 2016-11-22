@@ -67,6 +67,8 @@ constantes_string_cont = 3600
 constantes_boolean = {}
 constantes_boolean_cont = 3800
 
+# Lista de cuádruplos
+lista_cuadruplos = []
 # Diccionario de métodos
 diccionario_metodos = {}
 # Diccionario de parámetros para cada método
@@ -217,7 +219,7 @@ def addVariableTemporal(tipo, valor):
         # Valores temporales para estos campos
         variable['valor'] = valor
         variable['direccionMemoria'] = temporales_char_cont
-        print variable
+        # print variable
         temporales_char[ temporalActual ] = variable
         temporales_char_cont += 1
     elif tipo == STRING:
@@ -395,7 +397,8 @@ def p_programa(p):
     quad.append(None)
     quad.append(None)
     quad.append(None)
-    print quad
+    # print quad
+    lista_cuadruplos.append(quad)
 
 def p_goto_main(p):
     '''goto_main :'''
@@ -405,7 +408,8 @@ def p_goto_main(p):
     quad.append(None)
     quad.append(None)
     quad.append("MAIN")
-    print quad
+    # print quad
+    lista_cuadruplos.append(quad)
 
 def p_add_globales(p):
     '''add_globales : variables_list'''
@@ -494,6 +498,10 @@ def p_metodo1(p):
         | ID'''
     global metodoActual
     metodoActual = p[1]
+    if metodoActual == "main":
+        lista_cuadruplos[0][3] = len(lista_cuadruplos) + 2
+        # print lista_cuadruplos
+    # print metodoActual
     p[0] = p[1]
 
 def p_save_params(p):
@@ -629,7 +637,8 @@ def p_return1(p):
             quad.append(contTemp-1)
     else:
         quad.append("llamada")
-    print quad
+    # print quad
+    lista_cuadruplos.append(quad)
     return_exp = None
 
 def p_lectura(p):
@@ -676,7 +685,8 @@ def p_lectura(p):
     quad.append(x)
     quad.append(None)
     quad.append(direccionLectura)
-    print quad
+    # print quad
+    lista_cuadruplos.append(quad)
 
 def p_escritura(p):
     '''escritura : PRINT LEFTP exp RIGHTP SEMICOLON'''
@@ -686,7 +696,8 @@ def p_escritura(p):
     quad.append(None)
     quad.append(None)
     quad.append(p[3])
-    print quad
+    # print quad
+    lista_cuadruplos.append(quad)
 
 metodo_llamada = None
 def p_llamada(p):
@@ -706,7 +717,8 @@ def p_llamada(p):
         quad_gosub.append(p[1])
         quad_gosub.append(None)
         quad_gosub.append(None)
-        print quad_gosub
+        # print quad_gosub
+        lista_cuadruplos.append(quad_gosub)
     else:
         print "La cantidad de parámetros en la llamada <<" + p[1] + ">> no es compatible."
         print "Cantidad de parámetros esperados: " + str(cant)
@@ -728,7 +740,8 @@ def p_llamada1(p):
     quad_era.append(p[1])
     quad_era.append(None)
     quad_era.append(None)
-    print quad_era
+    # print quad_era
+    lista_cuadruplos.append(quad_era)
 
 def revisaTipoParametro(tipo, metodo):
     # Sacar el tipo de parámetro para esa posición
@@ -786,7 +799,8 @@ def p_args(p):
         quad_arg.append(p[3])
         quad_arg.append(None)
         quad_arg.append("param" + str(cont_args))
-        print quad_arg
+        # print quad_arg
+        lista_cuadruplos.append(quad_arg)
         cont_args += 1
         p[0].append(p[3])
     elif len(p) == 2:
@@ -820,7 +834,8 @@ def p_args(p):
             quad_arg.append(p[1])
             quad_arg.append(None)
             quad_arg.append("param" + str(cont_args))
-            print quad_arg
+            # print quad_arg
+            lista_cuadruplos.append(quad_arg)
             cont_args += 1
 
 def p_asignacion(p):
@@ -926,7 +941,8 @@ def p_asignacion(p):
         # print quad
         quad.append(None)
         quad.append(direccionAsignacion)
-        print quad
+        # print quad
+        lista_cuadruplos.append(quad)
         #print diccionario_metodos
     solo_una_expresion = None
 
@@ -946,7 +962,8 @@ def p_ciclo1(p):
     quad.append(ciclo_exp)
     quad.append(None)
     quad.append('x')
-    print quad
+    # print quad
+    lista_cuadruplos.append(quad)
     # print "ciclo1"
 
 # Elemento vacío
@@ -958,7 +975,8 @@ def p_ciclo2(p):
     quad_goto.append(None)
     quad_goto.append(None)
     quad_goto.append('y')
-    print quad_goto
+    # print quad_goto
+    lista_cuadruplos.append(quad_goto)
 
 def p_condicion(p):
     '''condicion : IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB
@@ -985,7 +1003,8 @@ def p_condicion2(p):
         quad.append(contTemp-1)
     quad.append(None)
     quad.append('x')
-    print quad
+    # print quad
+    lista_cuadruplos.append(quad)
 
 def p_condicion3(p):
     '''condicion3 : '''
@@ -994,7 +1013,8 @@ def p_condicion3(p):
     quad.append(None)
     quad.append(None)
     quad.append("finalElse")
-    print quad
+    # print quad
+    lista_cuadruplos.append(quad)
 
 def p_exp(p):
     '''exp : llamada exp1
@@ -1107,7 +1127,8 @@ def p_expresion(p):
         #quad_exp.append("var")
         quad_exp.append(contTemp)
         contTemp = contTemp + 1
-        print quad_exp
+        # print quad_exp
+        lista_cuadruplos.append(quad_exp)
 
     # getNumericalType(p[1])
     # getNumericalType(p[3])
@@ -1229,3 +1250,4 @@ t = yacc.parse(data)
 if not( checkMetodos("main") ):
     print "No se ha encontrado el método main"
     sys.exit()
+print json.dumps( lista_cuadruplos )
