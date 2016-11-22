@@ -140,7 +140,7 @@ def checkDataType(var):
             elif var[0] == '"':
                 return "string"
             else:
-                return ERROR
+                return var
         # elif datatype == str:
         #    print var
 
@@ -161,7 +161,7 @@ def getNumericalType(type):
     elif datatype == "string":
         return STRING
     else:
-        return ERROR
+        return type
 
 ###########################################################################
 #   checkVariableGlobal
@@ -304,7 +304,7 @@ def addVariableGlobal(identificador, tipo):
 ###########################################################################
 def addVariableLocal(id, tipo, posicion):
     if checkParametros(id) or checkMetodos(id):
-        print "El identificador <<" + id + ">> ya es está en uso."
+        print "El identificador <<" + id + ">> ya está en uso."
         sys.exit()
     else:
         global locales_int_cont, locales_float_cont, locales_char_cont
@@ -524,8 +524,12 @@ def p_add_method(p):
     # p[8] son vars
     if vars_metodo <> None:
         # print "Variables:"
+        #print vars_metodo
         for variable in vars_metodo:
-            addVariableLocal(variable[1], variable[0], 0)
+            #print variable
+            for i in range(1, len(variable)):
+                addVariableLocal(variable[i], variable[0], 0)
+
         # print p[8]
     # print "Variables locales:"
     # print parametros
@@ -618,6 +622,7 @@ def p_lectura(p):
     if p[1] in diccionario_metodos[metodoActual][metodoActual]['vars']:
         # print diccionario_metodos[metodoActual][metodoActual]['vars'][p[1]]['direccionMemoria']
         direccionLectura = diccionario_metodos[metodoActual][metodoActual]['vars'][p[1]]['direccionMemoria']
+        diccionario_metodos[metodoActual][metodoActual]['vars'][p[1]]['valor'] = 4
         # print p[1] + " Si esta xd"
     else:
         if checkVariableGlobal(p[1]):
@@ -808,7 +813,8 @@ def p_asignacion(p):
     # print p[1]
     # Debe de tener doble el nombre del método
     # print json.dumps( diccionario_metodos[metodoActual][metodoActual] )
-    global diccionario_metodos
+    global diccionario_metodos, solo_una_expresion
+    # print json.dumps( diccionario_metodos)
     direccionAsignacion = None
     if p[1] in diccionario_metodos[metodoActual][metodoActual]['vars']:
         # print diccionario_metodos[metodoActual][metodoActual]['vars'][p[1]]['direccionMemoria']
@@ -848,7 +854,6 @@ def p_asignacion(p):
     # print diccionario_metodos[metodoActual][metodoActual]['vars'][p[1]]
     # Validar que la variable exista en el método
     # exp contiene la lista de cuadruplos que se hicieron en expression
-    global solo_una_expresion
     # Generación de cuádruplo
     if len(p) == 5:
         # Revisar que la variable exista en el método
@@ -858,7 +863,42 @@ def p_asignacion(p):
         quad = []
         quad.append(p[2])
         if solo_una_expresion == True:
-            quad.append(p[3])
+            # print p[3]
+            tipo1 = getNumericalType(p[3])
+            # print tipo2
+            rangoTipos = range(0, 5)
+            # Si en tipo1 y tipo2 no hay un número del 1 al 4, entonces es una variable
+            # Buscar el tipo1 en las variables locales y después en las globales
+            if not( tipo1 in rangoTipos):
+                # print "check t1 " + tipo1
+                if tipo1 in diccionario_metodos[metodoActual][metodoActual]['vars']:
+                    valor = diccionario_metodos[metodoActual][metodoActual]['vars'][tipo1]['valor']
+                    diccionario_metodos[metodoActual][metodoActual]['vars'][p[1]]['valor'] = valor
+                    quad.append(valor)
+                    # print diccionario_metodos[metodoActual][metodoActual]['vars'][tipo1]
+                    # tipo1 = getNumericalType(p[1])
+                else:
+                    if checkVariableGlobal(tipo1):
+                        # tipo_global = varGlobalDictionary(tipo1)
+                        if tipo_global == INT:
+                            quad.append(globales_int[tipo1]['valor'])
+                            # print "int"
+                        elif tipo_global == FLOAT:
+                            quad.append(globales_float[tipo1]['valor'])
+                            # print "float"
+                        elif tipo_global == CHAR:
+                            quad.append( globales_char[tipo1]['valor'])
+                            # print "char"
+                        elif tipo_global == STRING:
+                            quad.append( globales_string[tipo1]['valor'])
+                            # print "string"
+                        elif tipo_global == BOOLEAN:
+                            quad.append(globales_boolean[tipo1]['valor'])
+                            # print "boolean"
+                        # tipo1 = tipo_global
+                    else:
+                        print "Asignación: La variable <<" + str(tipo1) + ">> no se encuentra."
+                        sys.exit()
         else:
             if tipo_exp == 0:
                 quad.append("llamada")
@@ -867,6 +907,7 @@ def p_asignacion(p):
         quad.append(None)
         quad.append(direccionAsignacion)
         print quad
+        #print diccionario_metodos
     solo_una_expresion = None
 
 ciclo_exp = None
@@ -972,7 +1013,68 @@ def p_expresion(p):
     global contTemp, solo_una_expresion
     solo_una_expresion = False
     tipo1 = getNumericalType(p[1])
+    # print tipo1
     tipo2 = getNumericalType(p[3])
+    # print tipo2
+    rangoTipos = range(0, 5)
+    # Si en tipo1 y tipo2 no hay un número del 1 al 4, entonces es una variable
+    # Buscar el tipo1 en las variables locales y después en las globales
+    if not( tipo1 in rangoTipos):
+        # print "check t1 " + tipo1
+        if tipo1 in diccionario_metodos[metodoActual][metodoActual]['vars']:
+            p[1] = diccionario_metodos[metodoActual][metodoActual]['vars'][tipo1]['valor']
+            # print diccionario_metodos[metodoActual][metodoActual]['vars'][tipo1]
+            tipo1 = getNumericalType(p[1])
+        else:
+            if checkVariableGlobal(tipo1):
+                tipo_global = varGlobalDictionary(tipo1)
+                if tipo_global == INT:
+                    p[1] = globales_int[tipo1]['valor']
+                    # print "int"
+                elif tipo_global == FLOAT:
+                    p[1] = globales_float[tipo1]['valor']
+                    # print "float"
+                elif tipo_global == CHAR:
+                    p[1] = globales_char[tipo1]['valor']
+                    # print "char"
+                elif tipo_global == STRING:
+                    p[1] = globales_string[tipo1]['valor']
+                    # print "string"
+                elif tipo_global == BOOLEAN:
+                    p[1] = globales_boolean[tipo1]['valor']
+                    # print "boolean"
+                tipo1 = tipo_global
+            else:
+                print metodoActual + ": La variable <<" + str(tipo1) + ">> no se encuentra."
+                sys.exit()
+    if not( tipo2 in rangoTipos):
+        # print "check t2 " + tipo2
+        if tipo2 in diccionario_metodos[metodoActual][metodoActual]['vars']:
+            p[3] = diccionario_metodos[metodoActual][metodoActual]['vars'][tipo2]['valor']
+            tipo2 = getNumericalType(p[3])
+        else:
+            if checkVariableGlobal(tipo2):
+                tipo_global = varGlobalDictionary(tipo2)
+                if tipo_global == INT:
+                    p[3] = globales_int[tipo2]['valor']
+                    # print "int"
+                elif tipo_global == FLOAT:
+                    p[3] = globales_float[tipo2]['valor']
+                    # print "float"
+                elif tipo_global == CHAR:
+                    p[3] = globales_char[tipo2]['valor']
+                    # print "char"
+                elif tipo_global == STRING:
+                    p[3] = globales_string[tipo2]['valor']
+                    # print "string"
+                elif tipo_global == BOOLEAN:
+                    p[3] = globales_boolean[tipo2]['valor']
+                    # print "boolean"
+                tipo2 = tipo_global
+            else:
+                print metodoActual + ": La variable <<" + str(tipo1) + ">> no se encuentra."
+                sys.exit()
+
     tipoResultante = resultante( tipo1 , tipo2 , getNumTypeOperation(p[2]))
     if resultante( getNumericalType(p[1]) , getNumericalType(p[3]) , getNumTypeOperation(p[2])) == ERROR:
         print "No es posible realizar la operación " + p[2] + " a los operadores " + str(p[1]) + ", " + str(p[3])
@@ -1100,13 +1202,10 @@ def p_error(p):
 yacc.yacc()
 
 # Leer el program
-data = open('Factorial_Ciclico.eldi','r').read()
+data = open('Programas/Program2.eldi','r').read()
 t = yacc.parse(data)
 # Validar que el método main se encuentra en el diccionario métodos
 # print diccionario_metodos
-if checkMetodos("main"):
-    if 1 == 2:
-        print "Si esta"
-else:
+if not( checkMetodos("main") ):
     print "No se ha encontrado el método main"
     sys.exit()

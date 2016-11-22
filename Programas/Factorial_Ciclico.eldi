@@ -1,8 +1,9 @@
 method void main(){
-  var int factorial,temp, r;
+  var int factorial, temp, r;
   print("Escribe el numero a calcular: ");
   factorial = read();
   temp = factorial - 1;
+  r = factorial;
   while(temp >= 1){
     r = r * temp;
     temp = temp - 1;

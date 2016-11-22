@@ -1,0 +1,9 @@
+method int main(){
+  var int i;
+  i = 0;
+  while (i <= 20){
+    print("El valor de i: ");
+    print(i);
+    i = i + 1;
+  }
+}
