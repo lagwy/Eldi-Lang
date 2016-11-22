@@ -1,22 +1,22 @@
-var int nombre[3], x, y[3];
+var int nombre, x, y;
 
 method void uno(int x, char y) {
-var int lol;
+  var int lol;
 }
 
-method void main(int x, char y) {
+method void ke(int x, char y) {
   var int w;
   var char z;
-  return;
-  return;
+  return true;
+  return 5*3;
   x = read();
   while ( (x || y > e + e * p && x == e) ){
-    return;
+    return 3;
     }
   if() {
-    return;
+    return 4;
   } else {
-      return;
+      return 3;
     }
   x[] = ;
 }

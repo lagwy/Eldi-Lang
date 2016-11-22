@@ -134,7 +134,7 @@ def checkDataType(var):
         else:
             # El tipo debería ser char o string
             # print var + " " + str(len(var))
-            print var
+            # print var
             if len(var) == 3 and var[0] == '\'':
                 return "char"
             elif var[0] == '"':
@@ -362,12 +362,14 @@ def addVariableLocal(id, tipo, posicion):
             locales_boolean_cont += 1
 
 def addGlobalVars(lista):
-    for declaracion in lista:
-        # Ciclo para leer los identificadores, estos se encuentran
-        # a partir del segundo elemento (casilla 1)
-        for i in range(1, len(declaracion)):
-            # Añadir variable global
-            addVariableGlobal(declaracion[i], declaracion[0])
+    # Revisar que existan variables globales
+    if lista <> None:
+        for declaracion in lista:
+            # Ciclo para leer los identificadores, estos se encuentran
+            # a partir del segundo elemento (casilla 1)
+            for i in range(1, len(declaracion)):
+                # Añadir variable global
+                addVariableGlobal(declaracion[i], declaracion[0])
 
 def p_programa(p):
     '''programa : add_globales metodos'''
@@ -668,16 +670,6 @@ def p_escritura(p):
 metodo_llamada = None
 def p_llamada(p):
     '''llamada : llamada1 LEFTP args RIGHTP'''
-    if checkMetodos(p[1]):
-        # Realizar el procedimiento cuando el método si existe
-        # Verificar los parámetros
-        # algo random
-        x = 1
-    else:
-        # Ver los métodos declarados antes
-        # print json.dumps(diccionario_metodos)
-        print "El método <<" + p[1] + ">> no está definido."
-        sys.exit()
     if p[3] <> None:
         # Cantidad de argumentos que tiene la llamada
         # print p[3]
@@ -704,6 +696,9 @@ def p_llamada(p):
 
 def p_llamada1(p):
     '''llamada1 : ID'''
+    if not( checkMetodos(p[1]) ):
+        print "El método <<" + p[1] + ">> no está definido."
+        sys.exit()
     global metodo_llamada
     metodo_llamada = p[1]
     p[0] = p[1]
@@ -727,7 +722,7 @@ def revisaTipoParametro(tipo, metodo):
         if diccionario_metodos[metodo][metodo]['vars'][var]['posicion'] == cont_args:
             tipo_parametro = diccionario_metodos[metodo][metodo]['vars'][var]['type']
             if tipo_parametro == tipo:
-                print "Correcto"
+                pass
             else:
                 print "Llamada a " + metodo + ": El parámetro #" + str(cont_args) + " tiene tipo incorrecto."
                 sys.exit()
@@ -1105,7 +1100,7 @@ def p_error(p):
 yacc.yacc()
 
 # Leer el program
-data = open('Program2.eldi','r').read()
+data = open('Factorial_Ciclico.eldi','r').read()
 t = yacc.parse(data)
 # Validar que el método main se encuentra en el diccionario métodos
 # print diccionario_metodos
