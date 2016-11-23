@@ -777,11 +777,11 @@ def p_lectura(p):
     # Dirección a la cual se guardará el valor leído
     direccionLectura = None
     # Revisar que exista el identificador como variable local en el método
-    if p[1] in diccionario_metodos[metodoActual][metodoActual]['vars']:
+    if p[1] in diccionario_metodos[metodoActual]['vars']:
         # Obtener la dirección de esa variable para poder guardarla
-        direccionLectura = diccionario_metodos[metodoActual][metodoActual]['vars'][p[1]]['direccionMemoria']
+        direccionLectura = diccionario_metodos[metodoActual]['vars'][p[1]]['direccionMemoria']
         # Actualiar el valor de esa variable
-        diccionario_metodos[metodoActual][metodoActual]['vars'][p[1]]['valor'] = 4
+        diccionario_metodos[metodoActual]['vars'][p[1]]['valor'] = 4
     else:
         # Si no se encuentra, revisar si existe en las variables globales
         if checkVariableGlobal(p[1]):
@@ -851,12 +851,12 @@ def p_llamada(p):
         # Obtener la cantidad de parámetros
         call_len = len(p[3])
         # Cantidad de parámetros que espera el método
-        cant = diccionario_metodos[p[1]][p[1]]['param_len']
+        cant = diccionario_metodos[p[1]]['param_len']
     else:
         # Como no tiene argumentos, establecerlo como 0
         call_len = 0
         # Cantidad de parámetros que espera el método
-        cant = diccionario_metodos[p[1]][p[1]]['param_len']
+        cant = diccionario_metodos[p[1]]['param_len']
     # Comparar si los argumentos coincide con la cantidad de parámetros que espera el método
     if call_len == cant:
         # Generación del cuádruplo de GOSUB
@@ -957,12 +957,12 @@ def p_args(p):
                 num_datatype = BOOLEAN
             else:
                 # Revisar en el diccionario de métodos que tipo corresponde a esta variable
-                num_datatype = diccionario_metodos[metodoActual][metodoActual]['vars'][p[3]]['type']
+                num_datatype = diccionario_metodos[metodoActual]['vars'][p[3]]['type']
             # Revisar que los tipos enviados y recibido coincidan
             revisaTipoParametro(num_datatype, metodo_llamada)
         else:
             # Obtener el tipo de método llamado
-            tipo_llamada = diccionario_metodos[metodo_llamada][metodo_llamada]['tipo']
+            tipo_llamada = diccionario_metodos[metodo_llamada]['tipo']
             # Si el tipo de método al que se llama es void, no tiene sentido la llamada
             if tipo_llamada == 'void':
                 print "Argumento: No es posible utilizar el método <<" + metodo_llamada + ">> como argumento porque es de tipo void"
@@ -1004,12 +1004,12 @@ def p_args(p):
                     num_datatype = BOOLEAN
                 else:
                     # Revisar el diccionario para obtener el tipo de dato del método
-                    num_datatype =  diccionario_metodos[metodoActual][metodoActual]['vars'][p[1]]['type']
+                    num_datatype =  diccionario_metodos[metodoActual]['vars'][p[1]]['type']
                 # Revisar que los tipos de datos enviado y recibido coincidan
                 revisaTipoParametro( num_datatype, metodo_llamada )
             else:
                 # Obtener el tipo de método llamado
-                tipo_llamada = diccionario_metodos[metodo_llamada][metodo_llamada]['tipo']
+                tipo_llamada = diccionario_metodos[metodo_llamada]['tipo']
                 # Revisar que no sea void
                 if tipo_llamada == 'void':
                     print "Argumento: No es posible utilizar el método <<" + metodo_llamada + ">> como argumento porque es de tipo void"
@@ -1042,9 +1042,9 @@ def p_asignacion(p):
     # Revisar que la variable exista en el diccionario de método
     if p[1] in diccionario_metodos[metodoActual]['vars']:
         # Obtener la dirección a la cual se asignará
-        direccionAsignacion = diccionario_metodos[metodoActual][metodoActual]['vars'][p[1]]['direccionMemoria']
+        direccionAsignacion = diccionario_metodos[metodoActual]['vars'][p[1]]['direccionMemoria']
         # Asignar el valor a esa variable
-        diccionario_metodos[metodoActual][metodoActual]['vars'][p[1]]['valor'] = p[3]
+        diccionario_metodos[metodoActual]['vars'][p[1]]['valor'] = p[3]
     else:
         # Revisar si es una variable global en la que se asignará
         if checkVariableGlobal(p[1]):
@@ -1087,7 +1087,7 @@ def p_asignacion(p):
                 if tipo1 in diccionario_metodos[metodoActual]['vars']:
                     # Obtener el valor y modificar su valor
                     valor = diccionario_metodos[metodoActual]['vars'][tipo1]['valor']
-                    diccionario_metodos[metodoActual][metodoActual]['vars'][p[1]]['valor'] = valor
+                    diccionario_metodos[metodoActual]['vars'][p[1]]['valor'] = valor
                     # Añadir el valor al cuádruplo
                     quad.append(valor)
                 else:
@@ -1488,7 +1488,7 @@ def p_error(p):
 yacc.yacc()
 
 # Leer el programa de un archivo
-data = open('Programas/Condicion.eldi','r').read()
+data = open('Programas/Factorial_Ciclico.eldi','r').read()
 t = yacc.parse(data)
 # Validar que el método main se encuentra en el diccionario métodos
 if not( checkMetodos("main") ):
