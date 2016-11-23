@@ -22,7 +22,7 @@ print variables.keys()
 
 # Método principal
 def main():
-    print Parser.lista_cuadruplos
+    print Parser.lista_cuadruplos, Parser.diccionario_metodos
 
 if __name__ == "__main__":
     main()

@@ -478,13 +478,14 @@ params_metodo = None
 tipo_metodo = None
 vars_metodo = None
 metodoActual = None
+inicioCuadruplo = None
 def p_metodo(p):
-    '''metodo : METHOD tipo_metodo metodo1 LEFTP save_params RIGHTP LEFTB method_vars add_method bloque RIGHTB'''
+    '''metodo : inicio_method METHOD tipo_metodo metodo1 LEFTP save_params RIGHTP LEFTB method_vars add_method bloque RIGHTB end_method'''
     # if p[8] <> None:
     #    print p[8]
     # print str(p[2]) + " " + p[3]
     param_len = 0
-    global metodoActual, contTemp, params_metodo, tipo_metodo, vars_metodo
+    global metodoActual, contTemp, params_metodo, tipo_metodo, vars_metodo, inicioCuadruplo
     resetVariablesLocales()
     parametros.clear()
     # Reiniciar el contador de temporales
@@ -495,6 +496,23 @@ def p_metodo(p):
     params_metodo = None
     tipo_metodo = None
     vars_metodo = None
+    inicioCuadruplo = None
+
+def p_inicio_method(p):
+    '''inicio_method : '''
+    global inicioCuadruplo
+    inicioCuadruplo = len(lista_cuadruplos) + 1
+
+def p_end_method(p):
+    '''end_method : '''
+    # Generación del cuádruplo de fin del método
+    quad = []
+    quad.append('ENDPROC')
+    quad.append(None)
+    quad.append(None)
+    quad.append(metodoActual)
+    print quad
+    lista_cuadruplos.append(quad)
 
 def p_metodo1(p):
     '''metodo1 : MAIN
@@ -502,7 +520,7 @@ def p_metodo1(p):
     global metodoActual
     metodoActual = p[1]
     if metodoActual == "main":
-        lista_cuadruplos[0][3] = len(lista_cuadruplos) + 2
+        lista_cuadruplos[0][3] = len(lista_cuadruplos) + 1
         # print lista_cuadruplos
     # print metodoActual
     p[0] = p[1]
@@ -571,6 +589,7 @@ def p_add_method(p):
         met['tipo'] = tipo_metodo
         met['vars'] = parametros.copy()
         met['param_len'] = param_len
+        met['cuadruplo_inicio'] = inicioCuadruplo
         # diccionario_metodos[ p[3] ] = met
         full_method[ metodoActual ] = met.copy()
         # Guardar el metodo en un diccionario
@@ -1264,11 +1283,11 @@ def p_error(p):
 yacc.yacc()
 
 # Leer el program
-data = open('Programas/Factorial_Ciclico.eldi','r').read()
+data = open('Programas/Condicion.eldi','r').read()
 t = yacc.parse(data)
 # Validar que el método main se encuentra en el diccionario métodos
 # print diccionario_metodos
 if not( checkMetodos("main") ):
     print "No se ha encontrado el método main"
     sys.exit()
-print json.dumps( lista_cuadruplos )
+#print json.dumps( lista_cuadruplos )
