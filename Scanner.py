@@ -91,11 +91,19 @@ t_OR = r'\|\|'
 t_AND = r'\&\&'
 t_ignore_COMMENT = r'\#.*'
 
+###########################################################################
+#   t_FLOAT_CTE
+#   Expresión regular para detectar los números con decimales
+###########################################################################
 def t_FLOAT_CTE(t):
     r'[-]?\d+\.\d+'
     t.value = float(t.value)
     return t
 
+###########################################################################
+#   t_INT_CTE
+#   Expresión regular para identificar los números enteros
+###########################################################################
 def t_INT_CTE(t):
     r'[-]?\d+'
     t.value = int(t.value)
@@ -111,6 +119,10 @@ def t_ID(t):
         t.type = reserved[ t.value ]
     return t
 
+###########################################################################
+#   t_newline
+#   Expresión regular para contar las líneas nuevas y saltos de página
+###########################################################################
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
