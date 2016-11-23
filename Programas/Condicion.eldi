@@ -15,5 +15,8 @@ method int main(){
   a = 4;
   b = 5;
   resultado = obtenMayor(a,b);
+  if (b < a){
+    print("En main");
+  }
   print(resultado);
 }

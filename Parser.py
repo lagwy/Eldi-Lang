@@ -83,6 +83,7 @@ metodo_llamada = None           # Método al que se está realizando una llamada
 ciclo_exp = None                # Expresión del ciclo
 condicion_exp = None            # Expresión del condicional
 saltos_ciclos = []              # Pila de saltos de los ciclo
+saltos_condicion = []           # Pila de saltos en las condiciones
 
 ###########################################################################
 #   checkMetodos
@@ -414,7 +415,6 @@ def p_programa(p):
     quad.append(None)
     quad.append(None)
     quad.append(None)
-    print quad
     # Añadir el cuádruplo recién generado a la lista de cuádruplos totales
     lista_cuadruplos.append(quad)
 
@@ -431,7 +431,6 @@ def p_goto_main(p):
     quad.append(None)
     quad.append(None)
     quad.append("MAIN")
-    print quad
     # Añadir el cuádruplo recién generado a la lista de todos los cuádruplos
     lista_cuadruplos.append(quad)
 
@@ -561,7 +560,6 @@ def p_end_method(p):
     quad.append(None)
     quad.append(None)
     quad.append(metodoActual)
-    print quad
     # Añadir el cuádruplo a la lista
     lista_cuadruplos.append(quad)
 
@@ -763,7 +761,6 @@ def p_return1(p):
     else:
         # Si es una llamada, anexar el nombre
         quad.append("llamada")
-    print quad
     # Añadir el cuádruplo a la lista
     lista_cuadruplos.append(quad)
 
@@ -819,7 +816,6 @@ def p_lectura(p):
     quad.append(x)
     quad.append(None)
     quad.append(direccionLectura)
-    print quad
     # Añadir el cuádruplo a la lista
     lista_cuadruplos.append(quad)
 
@@ -836,7 +832,6 @@ def p_escritura(p):
     quad.append(None)
     # Expresión que se desea imprimir, cambiar por la dirección
     quad.append(p[3])
-    print quad
     # Añadir a la lista de cuádruplos
     lista_cuadruplos.append(quad)
 
@@ -867,7 +862,6 @@ def p_llamada(p):
         quad_gosub.append(p[1])
         quad_gosub.append(None)
         quad_gosub.append(None)
-        print quad_gosub
         # Añadir a la lista de cuádruplos
         lista_cuadruplos.append(quad_gosub)
     else:
@@ -897,7 +891,6 @@ def p_llamada1(p):
     quad_era.append(p[1])       # Este elemento contiene el nombre del método
     quad_era.append(None)
     quad_era.append(None)
-    print quad_era
     # Añadir a la lista de métodos
     lista_cuadruplos.append(quad_era)
     # Retornar el identificador a la regla principal
@@ -976,7 +969,6 @@ def p_args(p):
         quad_arg.append(None)
         # Nombre del parámetro que se está enviando
         quad_arg.append("param" + str(cont_args))
-        print quad_arg
         # Añadir el cuádruplo a la lista
         lista_cuadruplos.append(quad_arg)
         cont_args += 1                  # Incrementar el contador de argumento
@@ -1022,7 +1014,6 @@ def p_args(p):
             quad_arg.append(None)
             # Nombre del parámetro que se está enviando
             quad_arg.append("param" + str(cont_args))
-            print quad_arg
             # Añadir el cuádruplo a la lista
             lista_cuadruplos.append(quad_arg)
             # Incrementar el contador de argumentos
@@ -1126,7 +1117,6 @@ def p_asignacion(p):
         quad.append(None)
         # Dirección a la cual se asignará
         quad.append(direccionAsignacion)
-        print quad
         # Añadir el cuádruplo a la lista
         lista_cuadruplos.append(quad)
     # Establecer las variables como antes de la asignación
@@ -1165,7 +1155,6 @@ def p_ciclo1(p):
     quad.append(None)
     # Realizar el salto al cuádruplo
     quad.append('x')
-    print quad
     # Añadir el cuádruplo a la lista
     lista_cuadruplos.append(quad)
 
@@ -1184,7 +1173,6 @@ def p_ciclo2(p):
     # Cuádruplo al que se hará el salto
     salto = saltos_ciclos.pop()
     quad_goto.append( salto )
-    print quad_goto
     lista_cuadruplos.append(quad_goto)
     # Cambiar el GOTOF
     lista_cuadruplos[salto][3] = len(lista_cuadruplos) + 1
@@ -1194,8 +1182,8 @@ def p_ciclo2(p):
 #   Regla para las condicionales
 ###########################################################################
 def p_condicion(p):
-    '''condicion : IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB
-        | IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 ELSE LEFTB bloque RIGHTB'''
+    '''condicion : IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 condicion4
+        | IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 ELSE LEFTB bloque condicion4 RIGHTB'''
 
 ###########################################################################
 #   p_condicion1
@@ -1227,9 +1215,11 @@ def p_condicion2(p):
     quad.append(None)
     # Cuádruplo al que se saltará
     quad.append('x')
-    print quad
     # Añadir el cuádruplo a la lista
     lista_cuadruplos.append(quad)
+    # Obtener el número de cuádruplo en el que se encuentra el GOTOF
+    saltos_condicion.append( len(lista_cuadruplos) )
+    # print "condicion2 " + str( len(lista_cuadruplos))
 
 ###########################################################################
 #   p_condicion3
@@ -1237,14 +1227,27 @@ def p_condicion2(p):
 ###########################################################################
 def p_condicion3(p):
     '''condicion3 : '''
+    global lista_cuadruplos
     quad = []
     quad.append("GOTO")
     quad.append(None)
     quad.append(None)
     # Ir al final del else, en caso se existir
     quad.append("finalElse")
-    print quad
     lista_cuadruplos.append(quad)
+    # Obtener el número de cuádruplo en el que se guarda el GOTO
+    salto = saltos_condicion.pop()
+    # Hacer el salto a la siguiente dirección después del GOTO
+    lista_cuadruplos[salto-1][3] = len(lista_cuadruplos) + 1
+    # Insertar en la pila el actual
+    saltos_condicion.append(len(lista_cuadruplos))
+
+def p_condicion4(p):
+    '''condicion4 : '''
+    global lista_cuadruplos
+    salto = saltos_condicion.pop()
+    lista_cuadruplos[salto-1][3] = len(lista_cuadruplos) + 1
+
 
 ###########################################################################
 #   p_exp
@@ -1364,7 +1367,6 @@ def p_expresion(p):
         quad_exp.append(p[3])           # Segundo término
         quad_exp.append(contTemp)       # Guardarlo en un temporal
         contTemp = contTemp + 1         # Aumentar el contador de temporales
-        print quad_exp
         # Añadir el cuádruplo a la lista
         lista_cuadruplos.append(quad_exp)
     # Revisar cual es la operación que se hará
@@ -1502,7 +1504,7 @@ def p_error(p):
 yacc.yacc()
 
 # Leer el programa de un archivo
-data = open('Programas/Ciclo.eldi','r').read()
+data = open('Programas/Condicion.eldi','r').read()
 t = yacc.parse(data)
 # Validar que el método main se encuentra en el diccionario métodos
 if not( checkMetodos("main") ):

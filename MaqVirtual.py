@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import Parser
+import json
 
 """
 def insertValues(diccionario):
@@ -22,7 +23,11 @@ print variables.keys()
 
 # Método principal
 def main():
-    print "\n\n",Parser.lista_cuadruplos, "\n\n", Parser.diccionario_metodos
+	cont = 1
+	for cuadruplo in Parser.lista_cuadruplos:
+		print cont, "\t", cuadruplo
+		cont += 1
+    # print "\n\n", json.dumps(Parser.lista_cuadruplos), "\n\n", Parser.diccionario_metodos
 
 if __name__ == "__main__":
     main()
