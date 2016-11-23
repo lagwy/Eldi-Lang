@@ -1175,15 +1175,19 @@ def p_ciclo1(p):
 ###########################################################################
 def p_ciclo2(p):
     'ciclo2 :'
+    global lista_cuadruplos
     # Generación del cuádruplo del goto para volver a validar
     quad_goto = []
     quad_goto.append("GOTO")
     quad_goto.append(None)
     quad_goto.append(None)
     # Cuádruplo al que se hará el salto
-    quad_goto.append( saltos_ciclos.pop() )
+    salto = saltos_ciclos.pop()
+    quad_goto.append( salto )
     print quad_goto
     lista_cuadruplos.append(quad_goto)
+    # Cambiar el GOTOF
+    lista_cuadruplos[salto][3] = len(lista_cuadruplos) + 1
 
 ###########################################################################
 #   p_condicion
