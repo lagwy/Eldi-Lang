@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+
+import Parser
+
+"""
 def insertValues(diccionario):
 	print diccionario['parametro_1']
 	print diccionario['parametro_2']
@@ -14,7 +18,14 @@ lista_cuadruplos = [[3, 1500, 1500, 2500],
 variables = {1500 : 4, 2000 : 3, 3000 : 7, 2500: 0, 9000: True, 5000: 4, 8000: 10}
 listaVariables = [9000, 5000, 1500]
 print variables.keys()
+"""
 
+# Método principal
+def main():
+    print Parser.lista_cuadruplos
+
+if __name__ == "__main__":
+    main()
 
 def operacionCuadruplos(lista_cuadruplos):
 	cuadruploActual = 0
@@ -88,13 +99,14 @@ def operacionCuadruplos(lista_cuadruplos):
 			for variable in listaVariables:
 				variables.pop(variable,None)
 			listaVariables[:] =[]
-		elif cuadruplo[0] == "ERA":
+		"""elif cuadruplo[0] == "ERA":
 			for variables in listaVariables:
 		elif cuadruplo[0] == "PARAMETRO":
 			variables[param] = cuadruplo[1]
 		elif cuadruplo[0] == "GOSUB":
+			"""
 		if cuadruplo[0] != "GOTO" or cuadruplo[0] != "GOTOF":
 			cuadruploActual = cuadruploActual + 1
-operacionCuadruplos(lista_cuadruplos)
-print variables.keys()
-print lista_cuadruplos[1]
+# operacionCuadruplos(lista_cuadruplos)
+# print variables.keys()
+# print lista_cuadruplos[1]
