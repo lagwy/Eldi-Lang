@@ -82,6 +82,7 @@ inicioCuadruplo = None          # Número de cuádruplo en el cual inicia la eje
 metodo_llamada = None           # Método al que se está realizando una llamada
 ciclo_exp = None                # Expresión del ciclo
 condicion_exp = None            # Expresión del condicional
+saltos_ciclos = []              # Pila de saltos de los ciclo
 
 ###########################################################################
 #   checkMetodos
@@ -1136,11 +1137,20 @@ def p_asignacion(p):
 #   Función de la regla para cuando es un ciclo
 ###########################################################################
 def p_ciclo(p):
-    '''ciclo : WHILE LEFTP exp RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB'''
+    '''ciclo : WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB'''
     # Revisar que la condición sea una expresión
     if p[3] <> None:
         global ciclo_exp
         ciclo_exp = p[3]
+
+###########################################################################
+#   p_salto_ciclo
+#   Guardar donde el cuádruplo donde comienza la expresión
+###########################################################################
+def p_salto_ciclo(p):
+    '''salto_ciclo : '''
+    global saltos_ciclos
+    saltos_ciclos.append( len(lista_cuadruplos) + 1 )
 
 ###########################################################################
 #   p_ciclo1
@@ -1171,7 +1181,7 @@ def p_ciclo2(p):
     quad_goto.append(None)
     quad_goto.append(None)
     # Cuádruplo al que se hará el salto
-    quad_goto.append('y')
+    quad_goto.append( saltos_ciclos.pop() )
     print quad_goto
     lista_cuadruplos.append(quad_goto)
 
@@ -1488,7 +1498,7 @@ def p_error(p):
 yacc.yacc()
 
 # Leer el programa de un archivo
-data = open('Programas/Factorial_Ciclico.eldi','r').read()
+data = open('Programas/Ciclo.eldi','r').read()
 t = yacc.parse(data)
 # Validar que el método main se encuentra en el diccionario métodos
 if not( checkMetodos("main") ):
