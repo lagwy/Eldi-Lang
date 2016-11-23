@@ -1,0 +1,19 @@
+method int obtenMayor(int a, int b){
+  var boolean x;
+  a = 3;
+  b = 4;
+  x = a > b;
+  if (x){
+    return a;
+  } else{
+    return b;
+  }
+}
+
+method int main(){
+  var int a, b, resultado;
+  a = 4;
+  b = 5;
+  resultado = obtenMayor(a,b);
+  print(resultado);
+}

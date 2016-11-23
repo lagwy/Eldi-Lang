@@ -134,13 +134,16 @@ def checkDataType(var):
         elif datatype == bool:
             return "boolean"
         else:
-            # El tipo debería ser char o string
-            # print var + " " + str(len(var))
-            # print var
-            if len(var) == 3 and var[0] == '\'':
-                return "char"
-            elif var[0] == '"':
-                return "string"
+            if var <> None:
+                # El tipo debería ser char o string
+                # print var + " " + str(len(var))
+                # print var
+                if len(var) == 3 and var[0] == '\'':
+                    return "char"
+                elif var[0] == '"':
+                    return "string"
+                else:
+                    return var
             else:
                 return var
         # elif datatype == str:
@@ -397,7 +400,7 @@ def p_programa(p):
     quad.append(None)
     quad.append(None)
     quad.append(None)
-    # print quad
+    print quad
     lista_cuadruplos.append(quad)
 
 def p_goto_main(p):
@@ -408,7 +411,7 @@ def p_goto_main(p):
     quad.append(None)
     quad.append(None)
     quad.append("MAIN")
-    # print quad
+    print quad
     lista_cuadruplos.append(quad)
 
 def p_add_globales(p):
@@ -637,7 +640,7 @@ def p_return1(p):
             quad.append(contTemp-1)
     else:
         quad.append("llamada")
-    # print quad
+    print quad
     lista_cuadruplos.append(quad)
     return_exp = None
 
@@ -685,7 +688,7 @@ def p_lectura(p):
     quad.append(x)
     quad.append(None)
     quad.append(direccionLectura)
-    # print quad
+    print quad
     lista_cuadruplos.append(quad)
 
 def p_escritura(p):
@@ -696,7 +699,7 @@ def p_escritura(p):
     quad.append(None)
     quad.append(None)
     quad.append(p[3])
-    # print quad
+    print quad
     lista_cuadruplos.append(quad)
 
 metodo_llamada = None
@@ -717,7 +720,7 @@ def p_llamada(p):
         quad_gosub.append(p[1])
         quad_gosub.append(None)
         quad_gosub.append(None)
-        # print quad_gosub
+        print quad_gosub
         lista_cuadruplos.append(quad_gosub)
     else:
         print "La cantidad de parámetros en la llamada <<" + p[1] + ">> no es compatible."
@@ -740,7 +743,7 @@ def p_llamada1(p):
     quad_era.append(p[1])
     quad_era.append(None)
     quad_era.append(None)
-    # print quad_era
+    print quad_era
     lista_cuadruplos.append(quad_era)
 
 def revisaTipoParametro(tipo, metodo):
@@ -759,6 +762,7 @@ def revisaTipoParametro(tipo, metodo):
                 pass
             else:
                 print "Llamada a " + metodo + ": El parámetro #" + str(cont_args) + " tiene tipo incorrecto."
+                print "El tipo esperado es " + str(tipo_parametro) + ", recibido " + str(tipo)
                 sys.exit()
 
 def p_args(p):
@@ -786,6 +790,9 @@ def p_args(p):
                 num_datatype = STRING
             elif datatype == "boolean":
                 num_datatype = BOOLEAN
+            else:
+                # Revisar en el diccionario de métodos que tipo corresponde a esta variable
+                num_datatype = diccionario_metodos[metodoActual][metodoActual]['vars'][p[3]]['type']
             revisaTipoParametro(num_datatype, metodo_llamada)
         else:
             # Obtener el tipo de método llamado
@@ -794,12 +801,14 @@ def p_args(p):
                 print "Argumento: No es posible utilizar el método <<" + metodo_llamada + ">> como argumento porque es de tipo void"
                 sys.exit()
             else:
+                print 2
+                print tipo_llamada
                 revisaTipoParametro( tipo_llamada, metodo_llamada )
             # print metodo_llamada
         quad_arg.append(p[3])
         quad_arg.append(None)
         quad_arg.append("param" + str(cont_args))
-        # print quad_arg
+        print quad_arg
         lista_cuadruplos.append(quad_arg)
         cont_args += 1
         p[0].append(p[3])
@@ -822,6 +831,8 @@ def p_args(p):
                     num_datatype = STRING
                 elif datatype == "boolean":
                     num_datatype = BOOLEAN
+                else:
+                    num_datatype =  diccionario_metodos[metodoActual][metodoActual]['vars'][p[1]]['type']
                 revisaTipoParametro( num_datatype, metodo_llamada )
             else:
                 # Obtener el tipo de método llamado
@@ -830,11 +841,13 @@ def p_args(p):
                     print "Argumento: No es posible utilizar el método <<" + metodo_llamada + ">> como argumento porque es de tipo void"
                     sys.exit()
                 else:
+                    print 4
+                    print tipo_llamada
                     revisaTipoParametro( tipo_llamada, metodo_llamada )
             quad_arg.append(p[1])
             quad_arg.append(None)
             quad_arg.append("param" + str(cont_args))
-            # print quad_arg
+            print quad_arg
             lista_cuadruplos.append(quad_arg)
             cont_args += 1
 
@@ -900,6 +913,9 @@ def p_asignacion(p):
             rangoTipos = range(0, 5)
             # Si en tipo1 y tipo2 no hay un número del 1 al 4, entonces es una variable
             # Buscar el tipo1 en las variables locales y después en las globales
+            # print tipo1
+
+            # print p[3]
             if not( tipo1 in rangoTipos):
                 # print "check t1 " + tipo1
                 if tipo1 in diccionario_metodos[metodoActual][metodoActual]['vars']:
@@ -928,8 +944,13 @@ def p_asignacion(p):
                             # print "boolean"
                         # tipo1 = tipo_global
                     else:
-                        print "Asignación: La variable <<" + str(tipo1) + ">> no se encuentra."
-                        sys.exit()
+                        if tipo_exp == 0:
+                            # Es una llamada
+                            # print tipo_exp
+                            quad.append(metodo_llamada)
+                        else:
+                            print "Asignación: La variable <<" + str(tipo1) + ">> no se encuentra."
+                            sys.exit()
             else:
                 quad.append(p[3])
 
@@ -941,7 +962,7 @@ def p_asignacion(p):
         # print quad
         quad.append(None)
         quad.append(direccionAsignacion)
-        # print quad
+        print quad
         lista_cuadruplos.append(quad)
         #print diccionario_metodos
     solo_una_expresion = None
@@ -962,7 +983,7 @@ def p_ciclo1(p):
     quad.append(ciclo_exp)
     quad.append(None)
     quad.append('x')
-    # print quad
+    print quad
     lista_cuadruplos.append(quad)
     # print "ciclo1"
 
@@ -975,7 +996,7 @@ def p_ciclo2(p):
     quad_goto.append(None)
     quad_goto.append(None)
     quad_goto.append('y')
-    # print quad_goto
+    print quad_goto
     lista_cuadruplos.append(quad_goto)
 
 def p_condicion(p):
@@ -1003,7 +1024,7 @@ def p_condicion2(p):
         quad.append(contTemp-1)
     quad.append(None)
     quad.append('x')
-    # print quad
+    print quad
     lista_cuadruplos.append(quad)
 
 def p_condicion3(p):
@@ -1013,7 +1034,7 @@ def p_condicion3(p):
     quad.append(None)
     quad.append(None)
     quad.append("finalElse")
-    # print quad
+    print quad
     lista_cuadruplos.append(quad)
 
 def p_exp(p):
@@ -1127,7 +1148,7 @@ def p_expresion(p):
         #quad_exp.append("var")
         quad_exp.append(contTemp)
         contTemp = contTemp + 1
-        # print quad_exp
+        print quad_exp
         lista_cuadruplos.append(quad_exp)
 
     # getNumericalType(p[1])
@@ -1243,7 +1264,7 @@ def p_error(p):
 yacc.yacc()
 
 # Leer el program
-data = open('Programas/Ciclo.eldi','r').read()
+data = open('Programas/Factorial_Ciclico.eldi','r').read()
 t = yacc.parse(data)
 # Validar que el método main se encuentra en el diccionario métodos
 # print diccionario_metodos
