@@ -41,6 +41,7 @@ locales_string_cont = 1600
 locales_boolean = {}
 locales_boolean_cont = 1800
 
+"""
 # Variables temporales
 temporales_int = {}
 temporales_int_cont = 2000
@@ -51,20 +52,20 @@ temporales_char_cont = 2400
 temporales_string = {}
 temporales_string_cont = 2600
 temporales_boolean = {}
-temporales_boolean_cont = 2800
+temporales_boolean_cont = 2800"""
 listTemporales = []
 contTemp = 2000
 
 # Variables constantes
-constantes_int = {}
+constantes_int = []
 constantes_int_cont = 3000
-constantes_float = {}
+constantes_float = []
 constantes_float_cont = 3200
-constantes_char = {}
+constantes_char = []
 constantes_char_cont = 3400
-constantes_string = {}
+constantes_string = []
 constantes_string_cont = 3600
-constantes_boolean = {}
+constantes_boolean = []
 constantes_boolean_cont = 3800
 
 lista_cuadruplos = []           # Lista de cuádruplos
@@ -125,25 +126,6 @@ def resetVariablesLocales():
     locales_float.clear()
     locales_string.clear()
     locales_boolean.clear()
-
-###########################################################################
-#   resetVariablesTemporales
-#   Devolver los diccionarios temporales a como estaban al inicio del análisis
-###########################################################################
-def resetVariablesTemporales():
-    global temporales_int_cont, temporales_char_cont, temporales_float_cont
-    global temporales_string_cont, temporales_boolean_cont
-    temporales_int_cont = 2000
-    temporales_float_cont = 2200
-    temporales_char_cont = 2400
-    temporales_string_cont = 2600
-    temporales_boolean_cont = 2800
-    temporales_int.clear()
-    temporales_char.clear()
-    temporales_float.clear()
-    temporales_string.clear()
-    temporales_boolean.clear()
-    temporalActual = 1
 
 ###########################################################################
 #   checkDataType
@@ -231,6 +213,7 @@ def varGlobalDictionary(id):
     elif id in globales_boolean:
         return BOOLEAN
 
+"""
 ###########################################################################
 #   addVariableTemporal
 #   Añadir una variable temporal a su diccionario correspondiente
@@ -270,7 +253,7 @@ def addVariableTemporal(tipo, valor):
         variable['direccionMemoria'] = temporales_boolean_cont
         temporales_boolean[ temporalActual ] = variable
         temporales_boolean_cont +=1
-    temporalActual += 1
+    temporalActual += 1"""
 
 ###########################################################################
 #   addVariableGlobal
@@ -1324,6 +1307,8 @@ def p_exp2(p):
     global tipo_exp
     tipo_exp = 1
 
+
+direccion = None
 ###########################################################################
 #   p_expresion
 #   Operaciones que se pueden realizar
@@ -1417,6 +1402,7 @@ def p_expresion(p):
         # Añadir el cuádruplo a la lista
         lista_cuadruplos.append(quad_exp)
     # Revisar cual es la operación que se hará
+
     if p[2] == '*':
         p[0] = p[1] * p[3]
     elif p[2] == '/':
@@ -1471,24 +1457,59 @@ def p_expresion(p):
             print "No es posible realizar la operación " + p[2] + " a los operadores " + str(p[1]) + ", " + str(p[3])
             sys.exit()
     # Añadir al diccionario de temporales
-    addVariableTemporal( tipoResultante, p[0] )
+    #addVariableTemporal( tipoResultante, p[0] )
 
 ###########################################################################
 #   p_expresion2
 #   Término que puede utilizarse para las expresiones
 ###########################################################################
 def p_expresion2(p):
-    '''expresion : constante
+    '''expresion : constante conf
         | ID
         | LEFTP expresion RIGHTP'''
-    global solo_una_expresion
+    global solo_una_expresion, constantes_int, constantes_int_cont
+    global constantes_float, constantes_float_cont, constantes_char, constantes_char_cont
+    global constantes_string, constantes_string_cont, constantes_boolean, constantes_boolean_cont
     # Revisar si la longitud de la regla es de 2
     if len(p) == 2:
         p[0] = p[1]
     else:
         p[0] = p[2]
+    if len(p) == 3:
+        datatype = checkDataType(p[1])
+        num_datatype = None
+        if datatype == "int":
+            constantes_int.append(p[1])
+            p[0] = constantes_int_cont
+            constantes_int_cont += 1
+            num_datatype = INT
+        elif datatype == "float":
+            constantes_float.append(p[1])
+            p[0] = constantes_float_cont
+            constantes_float_cont += 1
+            num_datatype = FLOAT
+        elif datatype == "char":
+            constantes_char.append(p[1])
+            p[0] = constantes_char_cont
+            constantes_char_cont += 1
+            num_datatype = CHAR
+        elif datatype == "string":
+            constantes_string.append(p[1])
+            p[0] = constantes_string_cont
+            constantes_string_cont += 1
+            num_datatype = STRING
+        elif datatype == "boolean":
+            constantes_boolean.append(p[1])
+            p[0] = constantes_boolean_cont
+            constantes_boolean_cont += 1
+            num_datatype = BOOLEAN
+        # print num_datatype
     # Hasta el momento, la expresión es sólo una
     solo_una_expresion = True
+
+def p_conf(p):
+    '''conf : '''
+    p[0] = True
 
 ###########################################################################
 #   p_tipo

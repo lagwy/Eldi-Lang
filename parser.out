@@ -75,42 +75,43 @@ Rule 69    expresion -> expresion LESSTHAN expresion
 Rule 70    expresion -> expresion LESSEQUAL expresion
 Rule 71    expresion -> expresion AND expresion
 Rule 72    expresion -> expresion OR expresion
-Rule 73    expresion -> constante
+Rule 73    expresion -> constante conf
 Rule 74    expresion -> ID
 Rule 75    expresion -> LEFTP expresion RIGHTP
-Rule 76    tipo -> INT
-Rule 77    tipo -> CHAR
-Rule 78    tipo -> BOOLEAN
-Rule 79    tipo -> FLOAT
-Rule 80    tipo -> STRING
-Rule 81    constante -> FLOAT_CTE
-Rule 82    constante -> INT_CTE
-Rule 83    constante -> CHAR_CTE
-Rule 84    constante -> STRING_CTE
-Rule 85    constante -> TRUE
-Rule 86    constante -> FALSE
-Rule 87    empty -> <empty>
+Rule 76    conf -> <empty>
+Rule 77    tipo -> INT
+Rule 78    tipo -> CHAR
+Rule 79    tipo -> BOOLEAN
+Rule 80    tipo -> FLOAT
+Rule 81    tipo -> STRING
+Rule 82    constante -> FLOAT_CTE
+Rule 83    constante -> INT_CTE
+Rule 84    constante -> CHAR_CTE
+Rule 85    constante -> STRING_CTE
+Rule 86    constante -> TRUE
+Rule 87    constante -> FALSE
+Rule 88    empty -> <empty>
 
 Terminals, with rules where they appear
 
 AND                  : 71
 ASSIGN               : 38 45 46
-BOOLEAN              : 78
-CHAR                 : 77
-CHAR_CTE             : 83
+BOOLEAN              : 79
+CHAR                 : 78
+CHAR_CTE             : 84
 COMMA                : 8 9 24 43
 DIVISION             : 62
 ELSE                 : 52
 EQUALS               : 65
-FALSE                : 86
-FLOAT                : 79
-FLOAT_CTE            : 81
+FALSE                : 87
+FLOAT                : 80
+FLOAT_CTE            : 82
 GREATEREQUAL         : 67
 GREATERTHAN          : 68
 ID                   : 6 7 8 9 17 26 38 41 45 46 74
 IF                   : 51 52
-INT                  : 76
-INT_CTE              : 7 9 82
+INT                  : 77
+INT_CTE              : 7 9 83
 LEFTB                : 13 47 51 52 52
 LEFTP                : 13 38 39 40 47 51 52 75
 LEFTSB               : 7 9 46
@@ -128,11 +129,11 @@ RIGHTB               : 13 47 51 52 52
 RIGHTP               : 13 38 39 40 47 51 52 75
 RIGHTSB              : 7 9 46
 SEMICOLON            : 6 7 34 36 38 39 45 46
-STRING               : 80
-STRING_CTE           : 84
+STRING               : 81
+STRING_CTE           : 85
 SUM                  : 63
 TIMES                : 61
-TRUE                 : 85
+TRUE                 : 86
 VAR                  : 6 7
 VOID                 : 19
 WHILE                : 47
@@ -153,6 +154,7 @@ condicion1           : 51 52
 condicion2           : 51 52
 condicion3           : 51 52
 condicion4           : 51 52
+conf                 : 73
 constante            : 73
 empty                : 5 10 12 25 28 44
 end_method           : 13
@@ -205,11 +207,11 @@ state 1
     (3) add_globales -> . variables_list
     (4) variables_list -> . variables_list variables
     (5) variables_list -> . empty
-    (87) empty -> .
+    (88) empty -> .
 
-    VAR             reduce using rule 87 (empty -> .)
-    METHOD          reduce using rule 87 (empty -> .)
-    $end            reduce using rule 87 (empty -> .)
+    VAR             reduce using rule 88 (empty -> .)
+    METHOD          reduce using rule 88 (empty -> .)
+    $end            reduce using rule 88 (empty -> .)
 
     variables_list                 shift and go to state 3
     add_globales                   shift and go to state 4
@@ -239,10 +241,10 @@ state 4
     (1) programa -> goto_main add_globales . metodos
     (11) metodos -> . metodos metodo
     (12) metodos -> . empty
-    (87) empty -> .
+    (88) empty -> .
 
-    METHOD          reduce using rule 87 (empty -> .)
-    $end            reduce using rule 87 (empty -> .)
+    METHOD          reduce using rule 88 (empty -> .)
+    $end            reduce using rule 88 (empty -> .)
 
     metodos                        shift and go to state 8
     empty                          shift and go to state 9
@@ -281,11 +283,11 @@ state 7
 
     (6) variables -> VAR . tipo ID lista_variables SEMICOLON
     (7) variables -> VAR . tipo ID LEFTSB INT_CTE RIGHTSB lista_variables SEMICOLON
-    (76) tipo -> . INT
-    (77) tipo -> . CHAR
-    (78) tipo -> . BOOLEAN
-    (79) tipo -> . FLOAT
-    (80) tipo -> . STRING
+    (77) tipo -> . INT
+    (78) tipo -> . CHAR
+    (79) tipo -> . BOOLEAN
+    (80) tipo -> . FLOAT
+    (81) tipo -> . STRING
 
     INT             shift and go to state 12
     CHAR            shift and go to state 13
@@ -318,10 +320,10 @@ state 9
 
 state 10
 
-    (79) tipo -> FLOAT .
+    (80) tipo -> FLOAT .
 
-    ID              reduce using rule 79 (tipo -> FLOAT .)
-    MAIN            reduce using rule 79 (tipo -> FLOAT .)
+    ID              reduce using rule 80 (tipo -> FLOAT .)
+    MAIN            reduce using rule 80 (tipo -> FLOAT .)
 
 
 state 11
@@ -334,34 +336,34 @@ state 11
 
 state 12
 
-    (76) tipo -> INT .
+    (77) tipo -> INT .
 
-    ID              reduce using rule 76 (tipo -> INT .)
-    MAIN            reduce using rule 76 (tipo -> INT .)
+    ID              reduce using rule 77 (tipo -> INT .)
+    MAIN            reduce using rule 77 (tipo -> INT .)
 
 
 state 13
 
-    (77) tipo -> CHAR .
+    (78) tipo -> CHAR .
 
-    ID              reduce using rule 77 (tipo -> CHAR .)
-    MAIN            reduce using rule 77 (tipo -> CHAR .)
+    ID              reduce using rule 78 (tipo -> CHAR .)
+    MAIN            reduce using rule 78 (tipo -> CHAR .)
 
 
 state 14
 
-    (78) tipo -> BOOLEAN .
+    (79) tipo -> BOOLEAN .
 
-    ID              reduce using rule 78 (tipo -> BOOLEAN .)
-    MAIN            reduce using rule 78 (tipo -> BOOLEAN .)
+    ID              reduce using rule 79 (tipo -> BOOLEAN .)
+    MAIN            reduce using rule 79 (tipo -> BOOLEAN .)
 
 
 state 15
 
-    (80) tipo -> STRING .
+    (81) tipo -> STRING .
 
-    ID              reduce using rule 80 (tipo -> STRING .)
-    MAIN            reduce using rule 80 (tipo -> STRING .)
+    ID              reduce using rule 81 (tipo -> STRING .)
+    MAIN            reduce using rule 81 (tipo -> STRING .)
 
 
 state 16
@@ -386,11 +388,11 @@ state 18
     (8) lista_variables -> . COMMA ID lista_variables
     (9) lista_variables -> . COMMA ID LEFTSB INT_CTE RIGHTSB lista_variables
     (10) lista_variables -> . empty
-    (87) empty -> .
+    (88) empty -> .
 
     LEFTSB          shift and go to state 20
     COMMA           shift and go to state 22
-    SEMICOLON       reduce using rule 87 (empty -> .)
+    SEMICOLON       reduce using rule 88 (empty -> .)
 
     lista_variables                shift and go to state 21
     empty                          shift and go to state 23
@@ -400,11 +402,11 @@ state 19
     (13) metodo -> inicio_method METHOD . tipo_metodo metodo1 LEFTP save_params RIGHTP LEFTB method_vars add_method bloque RIGHTB end_method
     (19) tipo_metodo -> . VOID
     (20) tipo_metodo -> . tipo
-    (76) tipo -> . INT
-    (77) tipo -> . CHAR
-    (78) tipo -> . BOOLEAN
-    (79) tipo -> . FLOAT
-    (80) tipo -> . STRING
+    (77) tipo -> . INT
+    (78) tipo -> . CHAR
+    (79) tipo -> . BOOLEAN
+    (80) tipo -> . FLOAT
+    (81) tipo -> . STRING
 
     VOID            shift and go to state 25
     INT             shift and go to state 12
@@ -501,11 +503,11 @@ state 29
     (8) lista_variables -> . COMMA ID lista_variables
     (9) lista_variables -> . COMMA ID LEFTSB INT_CTE RIGHTSB lista_variables
     (10) lista_variables -> . empty
-    (87) empty -> .
+    (88) empty -> .
 
     LEFTSB          shift and go to state 34
     COMMA           shift and go to state 22
-    SEMICOLON       reduce using rule 87 (empty -> .)
+    SEMICOLON       reduce using rule 88 (empty -> .)
 
     lista_variables                shift and go to state 35
     empty                          shift and go to state 23
@@ -537,10 +539,10 @@ state 33
     (8) lista_variables -> . COMMA ID lista_variables
     (9) lista_variables -> . COMMA ID LEFTSB INT_CTE RIGHTSB lista_variables
     (10) lista_variables -> . empty
-    (87) empty -> .
+    (88) empty -> .
 
     COMMA           shift and go to state 22
-    SEMICOLON       reduce using rule 87 (empty -> .)
+    SEMICOLON       reduce using rule 88 (empty -> .)
 
     lista_variables                shift and go to state 37
     empty                          shift and go to state 23
@@ -566,15 +568,15 @@ state 36
     (23) params -> . params parametro
     (24) params -> . params COMMA parametro
     (25) params -> . empty
-    (87) empty -> .
+    (88) empty -> .
 
-    COMMA           reduce using rule 87 (empty -> .)
-    INT             reduce using rule 87 (empty -> .)
-    CHAR            reduce using rule 87 (empty -> .)
-    BOOLEAN         reduce using rule 87 (empty -> .)
-    FLOAT           reduce using rule 87 (empty -> .)
-    STRING          reduce using rule 87 (empty -> .)
-    RIGHTP          reduce using rule 87 (empty -> .)
+    COMMA           reduce using rule 88 (empty -> .)
+    INT             reduce using rule 88 (empty -> .)
+    CHAR            reduce using rule 88 (empty -> .)
+    BOOLEAN         reduce using rule 88 (empty -> .)
+    FLOAT           reduce using rule 88 (empty -> .)
+    STRING          reduce using rule 88 (empty -> .)
+    RIGHTP          reduce using rule 88 (empty -> .)
 
     save_params                    shift and go to state 39
     params                         shift and go to state 40
@@ -607,11 +609,11 @@ state 40
     (23) params -> params . parametro
     (24) params -> params . COMMA parametro
     (26) parametro -> . tipo ID
-    (76) tipo -> . INT
-    (77) tipo -> . CHAR
-    (78) tipo -> . BOOLEAN
-    (79) tipo -> . FLOAT
-    (80) tipo -> . STRING
+    (77) tipo -> . INT
+    (78) tipo -> . CHAR
+    (79) tipo -> . BOOLEAN
+    (80) tipo -> . FLOAT
+    (81) tipo -> . STRING
 
     RIGHTP          reduce using rule 18 (save_params -> params .)
     COMMA           shift and go to state 47
@@ -658,10 +660,10 @@ state 43
     (8) lista_variables -> . COMMA ID lista_variables
     (9) lista_variables -> . COMMA ID LEFTSB INT_CTE RIGHTSB lista_variables
     (10) lista_variables -> . empty
-    (87) empty -> .
+    (88) empty -> .
 
     COMMA           shift and go to state 22
-    SEMICOLON       reduce using rule 87 (empty -> .)
+    SEMICOLON       reduce using rule 88 (empty -> .)
 
     lista_variables                shift and go to state 48
     empty                          shift and go to state 23
@@ -697,11 +699,11 @@ state 47
 
     (24) params -> params COMMA . parametro
     (26) parametro -> . tipo ID
-    (76) tipo -> . INT
-    (77) tipo -> . CHAR
-    (78) tipo -> . BOOLEAN
-    (79) tipo -> . FLOAT
-    (80) tipo -> . STRING
+    (77) tipo -> . INT
+    (78) tipo -> . CHAR
+    (79) tipo -> . BOOLEAN
+    (80) tipo -> . FLOAT
+    (81) tipo -> . STRING
 
     INT             shift and go to state 12
     CHAR            shift and go to state 13
@@ -725,15 +727,15 @@ state 49
     (22) method_vars -> . variables_list
     (4) variables_list -> . variables_list variables
     (5) variables_list -> . empty
-    (87) empty -> .
+    (88) empty -> .
 
-    VAR             reduce using rule 87 (empty -> .)
-    RIGHTB          reduce using rule 87 (empty -> .)
-    IF              reduce using rule 87 (empty -> .)
-    WHILE           reduce using rule 87 (empty -> .)
-    RETURN          reduce using rule 87 (empty -> .)
-    ID              reduce using rule 87 (empty -> .)
-    PRINT           reduce using rule 87 (empty -> .)
+    VAR             reduce using rule 88 (empty -> .)
+    RIGHTB          reduce using rule 88 (empty -> .)
+    IF              reduce using rule 88 (empty -> .)
+    WHILE           reduce using rule 88 (empty -> .)
+    RETURN          reduce using rule 88 (empty -> .)
+    ID              reduce using rule 88 (empty -> .)
+    PRINT           reduce using rule 88 (empty -> .)
 
     variables_list                 shift and go to state 52
     empty                          shift and go to state 5
@@ -801,14 +803,14 @@ state 54
     (13) metodo -> inicio_method METHOD tipo_metodo metodo1 LEFTP save_params RIGHTP LEFTB method_vars add_method . bloque RIGHTB end_method
     (27) bloque -> . bloque estatuto
     (28) bloque -> . empty
-    (87) empty -> .
+    (88) empty -> .
 
-    RIGHTB          reduce using rule 87 (empty -> .)
-    IF              reduce using rule 87 (empty -> .)
-    WHILE           reduce using rule 87 (empty -> .)
-    RETURN          reduce using rule 87 (empty -> .)
-    ID              reduce using rule 87 (empty -> .)
-    PRINT           reduce using rule 87 (empty -> .)
+    RIGHTB          reduce using rule 88 (empty -> .)
+    IF              reduce using rule 88 (empty -> .)
+    WHILE           reduce using rule 88 (empty -> .)
+    RETURN          reduce using rule 88 (empty -> .)
+    ID              reduce using rule 88 (empty -> .)
+    PRINT           reduce using rule 88 (empty -> .)
 
     bloque                         shift and go to state 55
     empty                          shift and go to state 56
@@ -856,12 +858,12 @@ state 56
 
     (28) bloque -> empty .
 
-    RIGHTB          reduce using rule 28 (bloque -> empty .)
     IF              reduce using rule 28 (bloque -> empty .)
     WHILE           reduce using rule 28 (bloque -> empty .)
     RETURN          reduce using rule 28 (bloque -> empty .)
     ID              reduce using rule 28 (bloque -> empty .)
     PRINT           reduce using rule 28 (bloque -> empty .)
+    RIGHTB          reduce using rule 28 (bloque -> empty .)
 
 
 state 57
@@ -883,16 +885,16 @@ state 57
     (70) expresion -> . expresion LESSEQUAL expresion
     (71) expresion -> . expresion AND expresion
     (72) expresion -> . expresion OR expresion
-    (73) expresion -> . constante
+    (73) expresion -> . constante conf
     (74) expresion -> . ID
     (75) expresion -> . LEFTP expresion RIGHTP
     (41) llamada1 -> . ID
-    (81) constante -> . FLOAT_CTE
-    (82) constante -> . INT_CTE
-    (83) constante -> . CHAR_CTE
-    (84) constante -> . STRING_CTE
-    (85) constante -> . TRUE
-    (86) constante -> . FALSE
+    (82) constante -> . FLOAT_CTE
+    (83) constante -> . INT_CTE
+    (84) constante -> . CHAR_CTE
+    (85) constante -> . STRING_CTE
+    (86) constante -> . TRUE
+    (87) constante -> . FALSE
 
     ID              shift and go to state 79
     LEFTP           shift and go to state 73
@@ -937,24 +939,24 @@ state 61
 
     (30) estatuto -> ciclo .
 
+    RIGHTB          reduce using rule 30 (estatuto -> ciclo .)
     IF              reduce using rule 30 (estatuto -> ciclo .)
     WHILE           reduce using rule 30 (estatuto -> ciclo .)
     RETURN          reduce using rule 30 (estatuto -> ciclo .)
     ID              reduce using rule 30 (estatuto -> ciclo .)
     PRINT           reduce using rule 30 (estatuto -> ciclo .)
-    RIGHTB          reduce using rule 30 (estatuto -> ciclo .)
 
 
 state 62
 
     (27) bloque -> bloque estatuto .
 
-    RIGHTB          reduce using rule 27 (bloque -> bloque estatuto .)
     IF              reduce using rule 27 (bloque -> bloque estatuto .)
     WHILE           reduce using rule 27 (bloque -> bloque estatuto .)
     RETURN          reduce using rule 27 (bloque -> bloque estatuto .)
     ID              reduce using rule 27 (bloque -> bloque estatuto .)
     PRINT           reduce using rule 27 (bloque -> bloque estatuto .)
+    RIGHTB          reduce using rule 27 (bloque -> bloque estatuto .)
 
 
 state 63
@@ -968,36 +970,36 @@ state 64
 
     (29) estatuto -> condicion .
 
+    RIGHTB          reduce using rule 29 (estatuto -> condicion .)
     IF              reduce using rule 29 (estatuto -> condicion .)
     WHILE           reduce using rule 29 (estatuto -> condicion .)
     RETURN          reduce using rule 29 (estatuto -> condicion .)
     ID              reduce using rule 29 (estatuto -> condicion .)
     PRINT           reduce using rule 29 (estatuto -> condicion .)
-    RIGHTB          reduce using rule 29 (estatuto -> condicion .)
 
 
 state 65
 
     (32) estatuto -> lectura .
 
+    RIGHTB          reduce using rule 32 (estatuto -> lectura .)
     IF              reduce using rule 32 (estatuto -> lectura .)
     WHILE           reduce using rule 32 (estatuto -> lectura .)
     RETURN          reduce using rule 32 (estatuto -> lectura .)
     ID              reduce using rule 32 (estatuto -> lectura .)
     PRINT           reduce using rule 32 (estatuto -> lectura .)
-    RIGHTB          reduce using rule 32 (estatuto -> lectura .)
 
 
 state 66
 
     (31) estatuto -> return .
 
+    RIGHTB          reduce using rule 31 (estatuto -> return .)
     IF              reduce using rule 31 (estatuto -> return .)
     WHILE           reduce using rule 31 (estatuto -> return .)
     RETURN          reduce using rule 31 (estatuto -> return .)
     ID              reduce using rule 31 (estatuto -> return .)
     PRINT           reduce using rule 31 (estatuto -> return .)
-    RIGHTB          reduce using rule 31 (estatuto -> return .)
 
 
 state 67
@@ -1024,12 +1026,12 @@ state 69
 
     (35) estatuto -> asignacion .
 
+    RIGHTB          reduce using rule 35 (estatuto -> asignacion .)
     IF              reduce using rule 35 (estatuto -> asignacion .)
     WHILE           reduce using rule 35 (estatuto -> asignacion .)
     RETURN          reduce using rule 35 (estatuto -> asignacion .)
     ID              reduce using rule 35 (estatuto -> asignacion .)
     PRINT           reduce using rule 35 (estatuto -> asignacion .)
-    RIGHTB          reduce using rule 35 (estatuto -> asignacion .)
 
 
 state 70
@@ -1046,34 +1048,34 @@ state 71
 
     (33) estatuto -> escritura .
 
+    RIGHTB          reduce using rule 33 (estatuto -> escritura .)
     IF              reduce using rule 33 (estatuto -> escritura .)
     WHILE           reduce using rule 33 (estatuto -> escritura .)
     RETURN          reduce using rule 33 (estatuto -> escritura .)
     ID              reduce using rule 33 (estatuto -> escritura .)
     PRINT           reduce using rule 33 (estatuto -> escritura .)
-    RIGHTB          reduce using rule 33 (estatuto -> escritura .)
 
 
 state 72
 
-    (85) constante -> TRUE .
+    (86) constante -> TRUE .
 
-    TIMES           reduce using rule 85 (constante -> TRUE .)
-    DIVISION        reduce using rule 85 (constante -> TRUE .)
-    SUM             reduce using rule 85 (constante -> TRUE .)
-    LESS            reduce using rule 85 (constante -> TRUE .)
-    EQUALS          reduce using rule 85 (constante -> TRUE .)
-    NOTEQUAL        reduce using rule 85 (constante -> TRUE .)
-    GREATEREQUAL    reduce using rule 85 (constante -> TRUE .)
-    GREATERTHAN     reduce using rule 85 (constante -> TRUE .)
-    LESSTHAN        reduce using rule 85 (constante -> TRUE .)
-    LESSEQUAL       reduce using rule 85 (constante -> TRUE .)
-    AND             reduce using rule 85 (constante -> TRUE .)
-    OR              reduce using rule 85 (constante -> TRUE .)
-    SEMICOLON       reduce using rule 85 (constante -> TRUE .)
-    RIGHTP          reduce using rule 85 (constante -> TRUE .)
-    COMMA           reduce using rule 85 (constante -> TRUE .)
-    RIGHTSB         reduce using rule 85 (constante -> TRUE .)
+    TIMES           reduce using rule 86 (constante -> TRUE .)
+    DIVISION        reduce using rule 86 (constante -> TRUE .)
+    SUM             reduce using rule 86 (constante -> TRUE .)
+    LESS            reduce using rule 86 (constante -> TRUE .)
+    EQUALS          reduce using rule 86 (constante -> TRUE .)
+    NOTEQUAL        reduce using rule 86 (constante -> TRUE .)
+    GREATEREQUAL    reduce using rule 86 (constante -> TRUE .)
+    GREATERTHAN     reduce using rule 86 (constante -> TRUE .)
+    LESSTHAN        reduce using rule 86 (constante -> TRUE .)
+    LESSEQUAL       reduce using rule 86 (constante -> TRUE .)
+    AND             reduce using rule 86 (constante -> TRUE .)
+    OR              reduce using rule 86 (constante -> TRUE .)
+    SEMICOLON       reduce using rule 86 (constante -> TRUE .)
+    RIGHTP          reduce using rule 86 (constante -> TRUE .)
+    COMMA           reduce using rule 86 (constante -> TRUE .)
+    RIGHTSB         reduce using rule 86 (constante -> TRUE .)
 
 
 state 73
@@ -1091,15 +1093,15 @@ state 73
     (70) expresion -> . expresion LESSEQUAL expresion
     (71) expresion -> . expresion AND expresion
     (72) expresion -> . expresion OR expresion
-    (73) expresion -> . constante
+    (73) expresion -> . constante conf
     (74) expresion -> . ID
     (75) expresion -> . LEFTP expresion RIGHTP
-    (81) constante -> . FLOAT_CTE
-    (82) constante -> . INT_CTE
-    (83) constante -> . CHAR_CTE
-    (84) constante -> . STRING_CTE
-    (85) constante -> . TRUE
-    (86) constante -> . FALSE
+    (82) constante -> . FLOAT_CTE
+    (83) constante -> . INT_CTE
+    (84) constante -> . CHAR_CTE
+    (85) constante -> . STRING_CTE
+    (86) constante -> . TRUE
+    (87) constante -> . FALSE
 
     ID              shift and go to state 93
     LEFTP           shift and go to state 73
@@ -1127,90 +1129,92 @@ state 74
 
 state 75
 
-    (83) constante -> CHAR_CTE .
+    (84) constante -> CHAR_CTE .
 
-    TIMES           reduce using rule 83 (constante -> CHAR_CTE .)
-    DIVISION        reduce using rule 83 (constante -> CHAR_CTE .)
-    SUM             reduce using rule 83 (constante -> CHAR_CTE .)
-    LESS            reduce using rule 83 (constante -> CHAR_CTE .)
-    EQUALS          reduce using rule 83 (constante -> CHAR_CTE .)
-    NOTEQUAL        reduce using rule 83 (constante -> CHAR_CTE .)
-    GREATEREQUAL    reduce using rule 83 (constante -> CHAR_CTE .)
-    GREATERTHAN     reduce using rule 83 (constante -> CHAR_CTE .)
-    LESSTHAN        reduce using rule 83 (constante -> CHAR_CTE .)
-    LESSEQUAL       reduce using rule 83 (constante -> CHAR_CTE .)
-    AND             reduce using rule 83 (constante -> CHAR_CTE .)
-    OR              reduce using rule 83 (constante -> CHAR_CTE .)
-    SEMICOLON       reduce using rule 83 (constante -> CHAR_CTE .)
-    RIGHTP          reduce using rule 83 (constante -> CHAR_CTE .)
-    COMMA           reduce using rule 83 (constante -> CHAR_CTE .)
-    RIGHTSB         reduce using rule 83 (constante -> CHAR_CTE .)
+    TIMES           reduce using rule 84 (constante -> CHAR_CTE .)
+    DIVISION        reduce using rule 84 (constante -> CHAR_CTE .)
+    SUM             reduce using rule 84 (constante -> CHAR_CTE .)
+    LESS            reduce using rule 84 (constante -> CHAR_CTE .)
+    EQUALS          reduce using rule 84 (constante -> CHAR_CTE .)
+    NOTEQUAL        reduce using rule 84 (constante -> CHAR_CTE .)
+    GREATEREQUAL    reduce using rule 84 (constante -> CHAR_CTE .)
+    GREATERTHAN     reduce using rule 84 (constante -> CHAR_CTE .)
+    LESSTHAN        reduce using rule 84 (constante -> CHAR_CTE .)
+    LESSEQUAL       reduce using rule 84 (constante -> CHAR_CTE .)
+    AND             reduce using rule 84 (constante -> CHAR_CTE .)
+    OR              reduce using rule 84 (constante -> CHAR_CTE .)
+    SEMICOLON       reduce using rule 84 (constante -> CHAR_CTE .)
+    RIGHTP          reduce using rule 84 (constante -> CHAR_CTE .)
+    COMMA           reduce using rule 84 (constante -> CHAR_CTE .)
+    RIGHTSB         reduce using rule 84 (constante -> CHAR_CTE .)
 
 
 state 76
 
-    (84) constante -> STRING_CTE .
+    (85) constante -> STRING_CTE .
 
-    TIMES           reduce using rule 84 (constante -> STRING_CTE .)
-    DIVISION        reduce using rule 84 (constante -> STRING_CTE .)
-    SUM             reduce using rule 84 (constante -> STRING_CTE .)
-    LESS            reduce using rule 84 (constante -> STRING_CTE .)
-    EQUALS          reduce using rule 84 (constante -> STRING_CTE .)
-    NOTEQUAL        reduce using rule 84 (constante -> STRING_CTE .)
-    GREATEREQUAL    reduce using rule 84 (constante -> STRING_CTE .)
-    GREATERTHAN     reduce using rule 84 (constante -> STRING_CTE .)
-    LESSTHAN        reduce using rule 84 (constante -> STRING_CTE .)
-    LESSEQUAL       reduce using rule 84 (constante -> STRING_CTE .)
-    AND             reduce using rule 84 (constante -> STRING_CTE .)
-    OR              reduce using rule 84 (constante -> STRING_CTE .)
-    SEMICOLON       reduce using rule 84 (constante -> STRING_CTE .)
-    RIGHTP          reduce using rule 84 (constante -> STRING_CTE .)
-    COMMA           reduce using rule 84 (constante -> STRING_CTE .)
-    RIGHTSB         reduce using rule 84 (constante -> STRING_CTE .)
+    TIMES           reduce using rule 85 (constante -> STRING_CTE .)
+    DIVISION        reduce using rule 85 (constante -> STRING_CTE .)
+    SUM             reduce using rule 85 (constante -> STRING_CTE .)
+    LESS            reduce using rule 85 (constante -> STRING_CTE .)
+    EQUALS          reduce using rule 85 (constante -> STRING_CTE .)
+    NOTEQUAL        reduce using rule 85 (constante -> STRING_CTE .)
+    GREATEREQUAL    reduce using rule 85 (constante -> STRING_CTE .)
+    GREATERTHAN     reduce using rule 85 (constante -> STRING_CTE .)
+    LESSTHAN        reduce using rule 85 (constante -> STRING_CTE .)
+    LESSEQUAL       reduce using rule 85 (constante -> STRING_CTE .)
+    AND             reduce using rule 85 (constante -> STRING_CTE .)
+    OR              reduce using rule 85 (constante -> STRING_CTE .)
+    SEMICOLON       reduce using rule 85 (constante -> STRING_CTE .)
+    RIGHTP          reduce using rule 85 (constante -> STRING_CTE .)
+    COMMA           reduce using rule 85 (constante -> STRING_CTE .)
+    RIGHTSB         reduce using rule 85 (constante -> STRING_CTE .)
 
 
 state 77
 
-    (73) expresion -> constante .
+    (73) expresion -> constante . conf
+    (76) conf -> .
 
-    TIMES           reduce using rule 73 (expresion -> constante .)
-    DIVISION        reduce using rule 73 (expresion -> constante .)
-    SUM             reduce using rule 73 (expresion -> constante .)
-    LESS            reduce using rule 73 (expresion -> constante .)
-    EQUALS          reduce using rule 73 (expresion -> constante .)
-    NOTEQUAL        reduce using rule 73 (expresion -> constante .)
-    GREATEREQUAL    reduce using rule 73 (expresion -> constante .)
-    GREATERTHAN     reduce using rule 73 (expresion -> constante .)
-    LESSTHAN        reduce using rule 73 (expresion -> constante .)
-    LESSEQUAL       reduce using rule 73 (expresion -> constante .)
-    AND             reduce using rule 73 (expresion -> constante .)
-    OR              reduce using rule 73 (expresion -> constante .)
-    SEMICOLON       reduce using rule 73 (expresion -> constante .)
-    RIGHTP          reduce using rule 73 (expresion -> constante .)
-    COMMA           reduce using rule 73 (expresion -> constante .)
-    RIGHTSB         reduce using rule 73 (expresion -> constante .)
+    TIMES           reduce using rule 76 (conf -> .)
+    DIVISION        reduce using rule 76 (conf -> .)
+    SUM             reduce using rule 76 (conf -> .)
+    LESS            reduce using rule 76 (conf -> .)
+    EQUALS          reduce using rule 76 (conf -> .)
+    NOTEQUAL        reduce using rule 76 (conf -> .)
+    GREATEREQUAL    reduce using rule 76 (conf -> .)
+    GREATERTHAN     reduce using rule 76 (conf -> .)
+    LESSTHAN        reduce using rule 76 (conf -> .)
+    LESSEQUAL       reduce using rule 76 (conf -> .)
+    AND             reduce using rule 76 (conf -> .)
+    OR              reduce using rule 76 (conf -> .)
+    SEMICOLON       reduce using rule 76 (conf -> .)
+    RIGHTP          reduce using rule 76 (conf -> .)
+    COMMA           reduce using rule 76 (conf -> .)
+    RIGHTSB         reduce using rule 76 (conf -> .)
 
+    conf                           shift and go to state 96
 
 state 78
 
-    (86) constante -> FALSE .
+    (87) constante -> FALSE .
 
-    TIMES           reduce using rule 86 (constante -> FALSE .)
-    DIVISION        reduce using rule 86 (constante -> FALSE .)
-    SUM             reduce using rule 86 (constante -> FALSE .)
-    LESS            reduce using rule 86 (constante -> FALSE .)
-    EQUALS          reduce using rule 86 (constante -> FALSE .)
-    NOTEQUAL        reduce using rule 86 (constante -> FALSE .)
-    GREATEREQUAL    reduce using rule 86 (constante -> FALSE .)
-    GREATERTHAN     reduce using rule 86 (constante -> FALSE .)
-    LESSTHAN        reduce using rule 86 (constante -> FALSE .)
-    LESSEQUAL       reduce using rule 86 (constante -> FALSE .)
-    AND             reduce using rule 86 (constante -> FALSE .)
-    OR              reduce using rule 86 (constante -> FALSE .)
-    SEMICOLON       reduce using rule 86 (constante -> FALSE .)
-    RIGHTP          reduce using rule 86 (constante -> FALSE .)
-    COMMA           reduce using rule 86 (constante -> FALSE .)
-    RIGHTSB         reduce using rule 86 (constante -> FALSE .)
+    TIMES           reduce using rule 87 (constante -> FALSE .)
+    DIVISION        reduce using rule 87 (constante -> FALSE .)
+    SUM             reduce using rule 87 (constante -> FALSE .)
+    LESS            reduce using rule 87 (constante -> FALSE .)
+    EQUALS          reduce using rule 87 (constante -> FALSE .)
+    NOTEQUAL        reduce using rule 87 (constante -> FALSE .)
+    GREATEREQUAL    reduce using rule 87 (constante -> FALSE .)
+    GREATERTHAN     reduce using rule 87 (constante -> FALSE .)
+    LESSTHAN        reduce using rule 87 (constante -> FALSE .)
+    LESSEQUAL       reduce using rule 87 (constante -> FALSE .)
+    AND             reduce using rule 87 (constante -> FALSE .)
+    OR              reduce using rule 87 (constante -> FALSE .)
+    SEMICOLON       reduce using rule 87 (constante -> FALSE .)
+    RIGHTP          reduce using rule 87 (constante -> FALSE .)
+    COMMA           reduce using rule 87 (constante -> FALSE .)
+    RIGHTSB         reduce using rule 87 (constante -> FALSE .)
 
 
 state 79
@@ -1230,33 +1234,33 @@ state 79
     LESSEQUAL       reduce using rule 74 (expresion -> ID .)
     AND             reduce using rule 74 (expresion -> ID .)
     OR              reduce using rule 74 (expresion -> ID .)
+    SEMICOLON       reduce using rule 74 (expresion -> ID .)
     RIGHTSB         reduce using rule 74 (expresion -> ID .)
     RIGHTP          reduce using rule 74 (expresion -> ID .)
     COMMA           reduce using rule 74 (expresion -> ID .)
-    SEMICOLON       reduce using rule 74 (expresion -> ID .)
     LEFTP           reduce using rule 41 (llamada1 -> ID .)
 
 
 state 80
 
-    (82) constante -> INT_CTE .
+    (83) constante -> INT_CTE .
 
-    TIMES           reduce using rule 82 (constante -> INT_CTE .)
-    DIVISION        reduce using rule 82 (constante -> INT_CTE .)
-    SUM             reduce using rule 82 (constante -> INT_CTE .)
-    LESS            reduce using rule 82 (constante -> INT_CTE .)
-    EQUALS          reduce using rule 82 (constante -> INT_CTE .)
-    NOTEQUAL        reduce using rule 82 (constante -> INT_CTE .)
-    GREATEREQUAL    reduce using rule 82 (constante -> INT_CTE .)
-    GREATERTHAN     reduce using rule 82 (constante -> INT_CTE .)
-    LESSTHAN        reduce using rule 82 (constante -> INT_CTE .)
-    LESSEQUAL       reduce using rule 82 (constante -> INT_CTE .)
-    AND             reduce using rule 82 (constante -> INT_CTE .)
-    OR              reduce using rule 82 (constante -> INT_CTE .)
-    SEMICOLON       reduce using rule 82 (constante -> INT_CTE .)
-    RIGHTP          reduce using rule 82 (constante -> INT_CTE .)
-    COMMA           reduce using rule 82 (constante -> INT_CTE .)
-    RIGHTSB         reduce using rule 82 (constante -> INT_CTE .)
+    TIMES           reduce using rule 83 (constante -> INT_CTE .)
+    DIVISION        reduce using rule 83 (constante -> INT_CTE .)
+    SUM             reduce using rule 83 (constante -> INT_CTE .)
+    LESS            reduce using rule 83 (constante -> INT_CTE .)
+    EQUALS          reduce using rule 83 (constante -> INT_CTE .)
+    NOTEQUAL        reduce using rule 83 (constante -> INT_CTE .)
+    GREATEREQUAL    reduce using rule 83 (constante -> INT_CTE .)
+    GREATERTHAN     reduce using rule 83 (constante -> INT_CTE .)
+    LESSTHAN        reduce using rule 83 (constante -> INT_CTE .)
+    LESSEQUAL       reduce using rule 83 (constante -> INT_CTE .)
+    AND             reduce using rule 83 (constante -> INT_CTE .)
+    OR              reduce using rule 83 (constante -> INT_CTE .)
+    SEMICOLON       reduce using rule 83 (constante -> INT_CTE .)
+    RIGHTP          reduce using rule 83 (constante -> INT_CTE .)
+    COMMA           reduce using rule 83 (constante -> INT_CTE .)
+    RIGHTSB         reduce using rule 83 (constante -> INT_CTE .)
 
 
 state 81
@@ -1276,52 +1280,52 @@ state 81
     (72) expresion -> expresion . OR expresion
     (60) exp2 -> .
 
-    TIMES           shift and go to state 102
-    DIVISION        shift and go to state 96
-    SUM             shift and go to state 100
-    LESS            shift and go to state 98
-    EQUALS          shift and go to state 101
-    NOTEQUAL        shift and go to state 104
-    GREATEREQUAL    shift and go to state 97
-    GREATERTHAN     shift and go to state 106
-    LESSTHAN        shift and go to state 103
-    LESSEQUAL       shift and go to state 105
-    AND             shift and go to state 108
-    OR              shift and go to state 107
+    TIMES           shift and go to state 103
+    DIVISION        shift and go to state 97
+    SUM             shift and go to state 101
+    LESS            shift and go to state 99
+    EQUALS          shift and go to state 102
+    NOTEQUAL        shift and go to state 105
+    GREATEREQUAL    shift and go to state 98
+    GREATERTHAN     shift and go to state 107
+    LESSTHAN        shift and go to state 104
+    LESSEQUAL       shift and go to state 106
+    AND             shift and go to state 109
+    OR              shift and go to state 108
     SEMICOLON       reduce using rule 60 (exp2 -> .)
     RIGHTP          reduce using rule 60 (exp2 -> .)
     COMMA           reduce using rule 60 (exp2 -> .)
     RIGHTSB         reduce using rule 60 (exp2 -> .)
 
-    exp2                           shift and go to state 99
+    exp2                           shift and go to state 100
 
 state 82
 
-    (81) constante -> FLOAT_CTE .
+    (82) constante -> FLOAT_CTE .
 
-    TIMES           reduce using rule 81 (constante -> FLOAT_CTE .)
-    DIVISION        reduce using rule 81 (constante -> FLOAT_CTE .)
-    SUM             reduce using rule 81 (constante -> FLOAT_CTE .)
-    LESS            reduce using rule 81 (constante -> FLOAT_CTE .)
-    EQUALS          reduce using rule 81 (constante -> FLOAT_CTE .)
-    NOTEQUAL        reduce using rule 81 (constante -> FLOAT_CTE .)
-    GREATEREQUAL    reduce using rule 81 (constante -> FLOAT_CTE .)
-    GREATERTHAN     reduce using rule 81 (constante -> FLOAT_CTE .)
-    LESSTHAN        reduce using rule 81 (constante -> FLOAT_CTE .)
-    LESSEQUAL       reduce using rule 81 (constante -> FLOAT_CTE .)
-    AND             reduce using rule 81 (constante -> FLOAT_CTE .)
-    OR              reduce using rule 81 (constante -> FLOAT_CTE .)
-    SEMICOLON       reduce using rule 81 (constante -> FLOAT_CTE .)
-    RIGHTP          reduce using rule 81 (constante -> FLOAT_CTE .)
-    COMMA           reduce using rule 81 (constante -> FLOAT_CTE .)
-    RIGHTSB         reduce using rule 81 (constante -> FLOAT_CTE .)
+    TIMES           reduce using rule 82 (constante -> FLOAT_CTE .)
+    DIVISION        reduce using rule 82 (constante -> FLOAT_CTE .)
+    SUM             reduce using rule 82 (constante -> FLOAT_CTE .)
+    LESS            reduce using rule 82 (constante -> FLOAT_CTE .)
+    EQUALS          reduce using rule 82 (constante -> FLOAT_CTE .)
+    NOTEQUAL        reduce using rule 82 (constante -> FLOAT_CTE .)
+    GREATEREQUAL    reduce using rule 82 (constante -> FLOAT_CTE .)
+    GREATERTHAN     reduce using rule 82 (constante -> FLOAT_CTE .)
+    LESSTHAN        reduce using rule 82 (constante -> FLOAT_CTE .)
+    LESSEQUAL       reduce using rule 82 (constante -> FLOAT_CTE .)
+    AND             reduce using rule 82 (constante -> FLOAT_CTE .)
+    OR              reduce using rule 82 (constante -> FLOAT_CTE .)
+    SEMICOLON       reduce using rule 82 (constante -> FLOAT_CTE .)
+    RIGHTP          reduce using rule 82 (constante -> FLOAT_CTE .)
+    COMMA           reduce using rule 82 (constante -> FLOAT_CTE .)
+    RIGHTSB         reduce using rule 82 (constante -> FLOAT_CTE .)
 
 
 state 83
 
     (36) return -> RETURN return1 . SEMICOLON
 
-    SEMICOLON       shift and go to state 109
+    SEMICOLON       shift and go to state 110
 
 
 state 84
@@ -1335,7 +1339,7 @@ state 85
 
     (47) ciclo -> WHILE salto_ciclo . LEFTP exp RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB
 
-    LEFTP           shift and go to state 110
+    LEFTP           shift and go to state 111
 
 
 state 86
@@ -1356,16 +1360,16 @@ state 86
     (70) expresion -> . expresion LESSEQUAL expresion
     (71) expresion -> . expresion AND expresion
     (72) expresion -> . expresion OR expresion
-    (73) expresion -> . constante
+    (73) expresion -> . constante conf
     (74) expresion -> . ID
     (75) expresion -> . LEFTP expresion RIGHTP
     (41) llamada1 -> . ID
-    (81) constante -> . FLOAT_CTE
-    (82) constante -> . INT_CTE
-    (83) constante -> . CHAR_CTE
-    (84) constante -> . STRING_CTE
-    (85) constante -> . TRUE
-    (86) constante -> . FALSE
+    (82) constante -> . FLOAT_CTE
+    (83) constante -> . INT_CTE
+    (84) constante -> . CHAR_CTE
+    (85) constante -> . STRING_CTE
+    (86) constante -> . TRUE
+    (87) constante -> . FALSE
 
     ID              shift and go to state 79
     LEFTP           shift and go to state 73
@@ -1379,7 +1383,7 @@ state 86
     expresion                      shift and go to state 81
     constante                      shift and go to state 77
     llamada                        shift and go to state 74
-    exp                            shift and go to state 111
+    exp                            shift and go to state 112
     llamada1                       shift and go to state 60
 
 state 87
@@ -1390,7 +1394,7 @@ state 87
     (44) args -> . empty
     (57) exp -> . llamada exp1
     (58) exp -> . expresion exp2
-    (87) empty -> .
+    (88) empty -> .
     (40) llamada -> . llamada1 LEFTP args RIGHTP
     (61) expresion -> . expresion TIMES expresion
     (62) expresion -> . expresion DIVISION expresion
@@ -1404,19 +1408,19 @@ state 87
     (70) expresion -> . expresion LESSEQUAL expresion
     (71) expresion -> . expresion AND expresion
     (72) expresion -> . expresion OR expresion
-    (73) expresion -> . constante
+    (73) expresion -> . constante conf
     (74) expresion -> . ID
     (75) expresion -> . LEFTP expresion RIGHTP
     (41) llamada1 -> . ID
-    (81) constante -> . FLOAT_CTE
-    (82) constante -> . INT_CTE
-    (83) constante -> . CHAR_CTE
-    (84) constante -> . STRING_CTE
-    (85) constante -> . TRUE
-    (86) constante -> . FALSE
+    (82) constante -> . FLOAT_CTE
+    (83) constante -> . INT_CTE
+    (84) constante -> . CHAR_CTE
+    (85) constante -> . STRING_CTE
+    (86) constante -> . TRUE
+    (87) constante -> . FALSE
 
-    RIGHTP          reduce using rule 87 (empty -> .)
-    COMMA           reduce using rule 87 (empty -> .)
+    RIGHTP          reduce using rule 88 (empty -> .)
+    COMMA           reduce using rule 88 (empty -> .)
     ID              shift and go to state 79
     LEFTP           shift and go to state 73
     FLOAT_CTE       shift and go to state 82
@@ -1428,22 +1432,22 @@ state 87
 
     expresion                      shift and go to state 81
     constante                      shift and go to state 77
-    args                           shift and go to state 113
+    args                           shift and go to state 114
     llamada                        shift and go to state 74
-    exp                            shift and go to state 114
+    exp                            shift and go to state 115
     llamada1                       shift and go to state 60
-    empty                          shift and go to state 112
+    empty                          shift and go to state 113
 
 state 88
 
     (34) estatuto -> llamada SEMICOLON .
 
+    RIGHTB          reduce using rule 34 (estatuto -> llamada SEMICOLON .)
     IF              reduce using rule 34 (estatuto -> llamada SEMICOLON .)
     WHILE           reduce using rule 34 (estatuto -> llamada SEMICOLON .)
     RETURN          reduce using rule 34 (estatuto -> llamada SEMICOLON .)
     ID              reduce using rule 34 (estatuto -> llamada SEMICOLON .)
     PRINT           reduce using rule 34 (estatuto -> llamada SEMICOLON .)
-    RIGHTB          reduce using rule 34 (estatuto -> llamada SEMICOLON .)
 
 
 state 89
@@ -1464,16 +1468,16 @@ state 89
     (70) expresion -> . expresion LESSEQUAL expresion
     (71) expresion -> . expresion AND expresion
     (72) expresion -> . expresion OR expresion
-    (73) expresion -> . constante
+    (73) expresion -> . constante conf
     (74) expresion -> . ID
     (75) expresion -> . LEFTP expresion RIGHTP
     (41) llamada1 -> . ID
-    (81) constante -> . FLOAT_CTE
-    (82) constante -> . INT_CTE
-    (83) constante -> . CHAR_CTE
-    (84) constante -> . STRING_CTE
-    (85) constante -> . TRUE
-    (86) constante -> . FALSE
+    (82) constante -> . FLOAT_CTE
+    (83) constante -> . INT_CTE
+    (84) constante -> . CHAR_CTE
+    (85) constante -> . STRING_CTE
+    (86) constante -> . TRUE
+    (87) constante -> . FALSE
 
     ID              shift and go to state 79
     LEFTP           shift and go to state 73
@@ -1487,7 +1491,7 @@ state 89
     expresion                      shift and go to state 81
     constante                      shift and go to state 77
     llamada                        shift and go to state 74
-    exp                            shift and go to state 115
+    exp                            shift and go to state 116
     llamada1                       shift and go to state 60
 
 state 90
@@ -1509,18 +1513,18 @@ state 90
     (70) expresion -> . expresion LESSEQUAL expresion
     (71) expresion -> . expresion AND expresion
     (72) expresion -> . expresion OR expresion
-    (73) expresion -> . constante
+    (73) expresion -> . constante conf
     (74) expresion -> . ID
     (75) expresion -> . LEFTP expresion RIGHTP
     (41) llamada1 -> . ID
-    (81) constante -> . FLOAT_CTE
-    (82) constante -> . INT_CTE
-    (83) constante -> . CHAR_CTE
-    (84) constante -> . STRING_CTE
-    (85) constante -> . TRUE
-    (86) constante -> . FALSE
+    (82) constante -> . FLOAT_CTE
+    (83) constante -> . INT_CTE
+    (84) constante -> . CHAR_CTE
+    (85) constante -> . STRING_CTE
+    (86) constante -> . TRUE
+    (87) constante -> . FALSE
 
-    READ            shift and go to state 116
+    READ            shift and go to state 117
     ID              shift and go to state 79
     LEFTP           shift and go to state 73
     FLOAT_CTE       shift and go to state 82
@@ -1533,7 +1537,7 @@ state 90
     expresion                      shift and go to state 81
     constante                      shift and go to state 77
     llamada                        shift and go to state 74
-    exp                            shift and go to state 117
+    exp                            shift and go to state 118
     llamada1                       shift and go to state 60
 
 state 91
@@ -1556,16 +1560,16 @@ state 91
     (70) expresion -> . expresion LESSEQUAL expresion
     (71) expresion -> . expresion AND expresion
     (72) expresion -> . expresion OR expresion
-    (73) expresion -> . constante
+    (73) expresion -> . constante conf
     (74) expresion -> . ID
     (75) expresion -> . LEFTP expresion RIGHTP
     (41) llamada1 -> . ID
-    (81) constante -> . FLOAT_CTE
-    (82) constante -> . INT_CTE
-    (83) constante -> . CHAR_CTE
-    (84) constante -> . STRING_CTE
-    (85) constante -> . TRUE
-    (86) constante -> . FALSE
+    (82) constante -> . FLOAT_CTE
+    (83) constante -> . INT_CTE
+    (84) constante -> . CHAR_CTE
+    (85) constante -> . STRING_CTE
+    (86) constante -> . TRUE
+    (87) constante -> . FALSE
 
     ID              shift and go to state 79
     LEFTP           shift and go to state 73
@@ -1579,8 +1583,8 @@ state 91
     expresion                      shift and go to state 81
     constante                      shift and go to state 77
     llamada                        shift and go to state 74
-    condicion1                     shift and go to state 118
-    exp                            shift and go to state 119
+    condicion1                     shift and go to state 119
+    exp                            shift and go to state 120
     llamada1                       shift and go to state 60
 
 state 92
@@ -1629,19 +1633,19 @@ state 94
     (71) expresion -> expresion . AND expresion
     (72) expresion -> expresion . OR expresion
 
-    RIGHTP          shift and go to state 120
-    TIMES           shift and go to state 102
-    DIVISION        shift and go to state 96
-    SUM             shift and go to state 100
-    LESS            shift and go to state 98
-    EQUALS          shift and go to state 101
-    NOTEQUAL        shift and go to state 104
-    GREATEREQUAL    shift and go to state 97
-    GREATERTHAN     shift and go to state 106
-    LESSTHAN        shift and go to state 103
-    LESSEQUAL       shift and go to state 105
-    AND             shift and go to state 108
-    OR              shift and go to state 107
+    RIGHTP          shift and go to state 121
+    TIMES           shift and go to state 103
+    DIVISION        shift and go to state 97
+    SUM             shift and go to state 101
+    LESS            shift and go to state 99
+    EQUALS          shift and go to state 102
+    NOTEQUAL        shift and go to state 105
+    GREATEREQUAL    shift and go to state 98
+    GREATERTHAN     shift and go to state 107
+    LESSTHAN        shift and go to state 104
+    LESSEQUAL       shift and go to state 106
+    AND             shift and go to state 109
+    OR              shift and go to state 108
 
 
 state 95
@@ -1656,6 +1660,28 @@ state 95
 
 state 96
 
+    (73) expresion -> constante conf .
+
+    TIMES           reduce using rule 73 (expresion -> constante conf .)
+    DIVISION        reduce using rule 73 (expresion -> constante conf .)
+    SUM             reduce using rule 73 (expresion -> constante conf .)
+    LESS            reduce using rule 73 (expresion -> constante conf .)
+    EQUALS          reduce using rule 73 (expresion -> constante conf .)
+    NOTEQUAL        reduce using rule 73 (expresion -> constante conf .)
+    GREATEREQUAL    reduce using rule 73 (expresion -> constante conf .)
+    GREATERTHAN     reduce using rule 73 (expresion -> constante conf .)
+    LESSTHAN        reduce using rule 73 (expresion -> constante conf .)
+    LESSEQUAL       reduce using rule 73 (expresion -> constante conf .)
+    AND             reduce using rule 73 (expresion -> constante conf .)
+    OR              reduce using rule 73 (expresion -> constante conf .)
+    SEMICOLON       reduce using rule 73 (expresion -> constante conf .)
+    RIGHTP          reduce using rule 73 (expresion -> constante conf .)
+    COMMA           reduce using rule 73 (expresion -> constante conf .)
+    RIGHTSB         reduce using rule 73 (expresion -> constante conf .)
+
+
+state 97
+
     (62) expresion -> expresion DIVISION . expresion
     (61) expresion -> . expresion TIMES expresion
     (62) expresion -> . expresion DIVISION expresion
@@ -1669,52 +1695,15 @@ state 96
     (70) expresion -> . expresion LESSEQUAL expresion
     (71) expresion -> . expresion AND expresion
     (72) expresion -> . expresion OR expresion
-    (73) expresion -> . constante
+    (73) expresion -> . constante conf
     (74) expresion -> . ID
     (75) expresion -> . LEFTP expresion RIGHTP
-    (81) constante -> . FLOAT_CTE
-    (82) constante -> . INT_CTE
-    (83) constante -> . CHAR_CTE
-    (84) constante -> . STRING_CTE
-    (85) constante -> . TRUE
-    (86) constante -> . FALSE
-
-    ID              shift and go to state 93
-    LEFTP           shift and go to state 73
-    FLOAT_CTE       shift and go to state 82
-    INT_CTE         shift and go to state 80
-    CHAR_CTE        shift and go to state 75
-    STRING_CTE      shift and go to state 76
-    TRUE            shift and go to state 72
-    FALSE           shift and go to state 78
-
-    expresion                      shift and go to state 121
-    constante                      shift and go to state 77
-
-state 97
-
-    (67) expresion -> expresion GREATEREQUAL . expresion
-    (61) expresion -> . expresion TIMES expresion
-    (62) expresion -> . expresion DIVISION expresion
-    (63) expresion -> . expresion SUM expresion
-    (64) expresion -> . expresion LESS expresion
-    (65) expresion -> . expresion EQUALS expresion
-    (66) expresion -> . expresion NOTEQUAL expresion
-    (67) expresion -> . expresion GREATEREQUAL expresion
-    (68) expresion -> . expresion GREATERTHAN expresion
-    (69) expresion -> . expresion LESSTHAN expresion
-    (70) expresion -> . expresion LESSEQUAL expresion
-    (71) expresion -> . expresion AND expresion
-    (72) expresion -> . expresion OR expresion
-    (73) expresion -> . constante
-    (74) expresion -> . ID
-    (75) expresion -> . LEFTP expresion RIGHTP
-    (81) constante -> . FLOAT_CTE
-    (82) constante -> . INT_CTE
-    (83) constante -> . CHAR_CTE
-    (84) constante -> . STRING_CTE
-    (85) constante -> . TRUE
-    (86) constante -> . FALSE
+    (82) constante -> . FLOAT_CTE
+    (83) constante -> . INT_CTE
+    (84) constante -> . CHAR_CTE
+    (85) constante -> . STRING_CTE
+    (86) constante -> . TRUE
+    (87) constante -> . FALSE
 
     ID              shift and go to state 93
     LEFTP           shift and go to state 73
@@ -1730,7 +1719,7 @@ state 97
 
 state 98
 
-    (64) expresion -> expresion LESS . expresion
+    (67) expresion -> expresion GREATEREQUAL . expresion
     (61) expresion -> . expresion TIMES expresion
     (62) expresion -> . expresion DIVISION expresion
     (63) expresion -> . expresion SUM expresion
@@ -1743,15 +1732,15 @@ state 98
     (70) expresion -> . expresion LESSEQUAL expresion
     (71) expresion -> . expresion AND expresion
     (72) expresion -> . expresion OR expresion
-    (73) expresion -> . constante
+    (73) expresion -> . constante conf
     (74) expresion -> . ID
     (75) expresion -> . LEFTP expresion RIGHTP
-    (81) constante -> . FLOAT_CTE
-    (82) constante -> . INT_CTE
-    (83) constante -> . CHAR_CTE
-    (84) constante -> . STRING_CTE
-    (85) constante -> . TRUE
-    (86) constante -> . FALSE
+    (82) constante -> . FLOAT_CTE
+    (83) constante -> . INT_CTE
+    (84) constante -> . CHAR_CTE
+    (85) constante -> . STRING_CTE
+    (86) constante -> . TRUE
+    (87) constante -> . FALSE
 
     ID              shift and go to state 93
     LEFTP           shift and go to state 73
@@ -1767,6 +1756,43 @@ state 98
 
 state 99
 
+    (64) expresion -> expresion LESS . expresion
+    (61) expresion -> . expresion TIMES expresion
+    (62) expresion -> . expresion DIVISION expresion
+    (63) expresion -> . expresion SUM expresion
+    (64) expresion -> . expresion LESS expresion
+    (65) expresion -> . expresion EQUALS expresion
+    (66) expresion -> . expresion NOTEQUAL expresion
+    (67) expresion -> . expresion GREATEREQUAL expresion
+    (68) expresion -> . expresion GREATERTHAN expresion
+    (69) expresion -> . expresion LESSTHAN expresion
+    (70) expresion -> . expresion LESSEQUAL expresion
+    (71) expresion -> . expresion AND expresion
+    (72) expresion -> . expresion OR expresion
+    (73) expresion -> . constante conf
+    (74) expresion -> . ID
+    (75) expresion -> . LEFTP expresion RIGHTP
+    (82) constante -> . FLOAT_CTE
+    (83) constante -> . INT_CTE
+    (84) constante -> . CHAR_CTE
+    (85) constante -> . STRING_CTE
+    (86) constante -> . TRUE
+    (87) constante -> . FALSE
+
+    ID              shift and go to state 93
+    LEFTP           shift and go to state 73
+    FLOAT_CTE       shift and go to state 82
+    INT_CTE         shift and go to state 80
+    CHAR_CTE        shift and go to state 75
+    STRING_CTE      shift and go to state 76
+    TRUE            shift and go to state 72
+    FALSE           shift and go to state 78
+
+    expresion                      shift and go to state 124
+    constante                      shift and go to state 77
+
+state 100
+
     (58) exp -> expresion exp2 .
 
     RIGHTSB         reduce using rule 58 (exp -> expresion exp2 .)
@@ -1775,7 +1801,7 @@ state 99
     SEMICOLON       reduce using rule 58 (exp -> expresion exp2 .)
 
 
-state 100
+state 101
 
     (63) expresion -> expresion SUM . expresion
     (61) expresion -> . expresion TIMES expresion
@@ -1790,52 +1816,15 @@ state 100
     (70) expresion -> . expresion LESSEQUAL expresion
     (71) expresion -> . expresion AND expresion
     (72) expresion -> . expresion OR expresion
-    (73) expresion -> . constante
+    (73) expresion -> . constante conf
     (74) expresion -> . ID
     (75) expresion -> . LEFTP expresion RIGHTP
-    (81) constante -> . FLOAT_CTE
-    (82) constante -> . INT_CTE
-    (83) constante -> . CHAR_CTE
-    (84) constante -> . STRING_CTE
-    (85) constante -> . TRUE
-    (86) constante -> . FALSE
-
-    ID              shift and go to state 93
-    LEFTP           shift and go to state 73
-    FLOAT_CTE       shift and go to state 82
-    INT_CTE         shift and go to state 80
-    CHAR_CTE        shift and go to state 75
-    STRING_CTE      shift and go to state 76
-    TRUE            shift and go to state 72
-    FALSE           shift and go to state 78
-
-    expresion                      shift and go to state 124
-    constante                      shift and go to state 77
-
-state 101
-
-    (65) expresion -> expresion EQUALS . expresion
-    (61) expresion -> . expresion TIMES expresion
-    (62) expresion -> . expresion DIVISION expresion
-    (63) expresion -> . expresion SUM expresion
-    (64) expresion -> . expresion LESS expresion
-    (65) expresion -> . expresion EQUALS expresion
-    (66) expresion -> . expresion NOTEQUAL expresion
-    (67) expresion -> . expresion GREATEREQUAL expresion
-    (68) expresion -> . expresion GREATERTHAN expresion
-    (69) expresion -> . expresion LESSTHAN expresion
-    (70) expresion -> . expresion LESSEQUAL expresion
-    (71) expresion -> . expresion AND expresion
-    (72) expresion -> . expresion OR expresion
-    (73) expresion -> . constante
-    (74) expresion -> . ID
-    (75) expresion -> . LEFTP expresion RIGHTP
-    (81) constante -> . FLOAT_CTE
-    (82) constante -> . INT_CTE
-    (83) constante -> . CHAR_CTE
-    (84) constante -> . STRING_CTE
-    (85) constante -> . TRUE
-    (86) constante -> . FALSE
+    (82) constante -> . FLOAT_CTE
+    (83) constante -> . INT_CTE
+    (84) constante -> . CHAR_CTE
+    (85) constante -> . STRING_CTE
+    (86) constante -> . TRUE
+    (87) constante -> . FALSE
 
     ID              shift and go to state 93
     LEFTP           shift and go to state 73
@@ -1851,7 +1840,7 @@ state 101
 
 state 102
 
-    (61) expresion -> expresion TIMES . expresion
+    (65) expresion -> expresion EQUALS . expresion
     (61) expresion -> . expresion TIMES expresion
     (62) expresion -> . expresion DIVISION expresion
     (63) expresion -> . expresion SUM expresion
@@ -1864,15 +1853,15 @@ state 102
     (70) expresion -> . expresion LESSEQUAL expresion
     (71) expresion -> . expresion AND expresion
     (72) expresion -> . expresion OR expresion
-    (73) expresion -> . constante
+    (73) expresion -> . constante conf
     (74) expresion -> . ID
     (75) expresion -> . LEFTP expresion RIGHTP
-    (81) constante -> . FLOAT_CTE
-    (82) constante -> . INT_CTE
-    (83) constante -> . CHAR_CTE
-    (84) constante -> . STRING_CTE
-    (85) constante -> . TRUE
-    (86) constante -> . FALSE
+    (82) constante -> . FLOAT_CTE
+    (83) constante -> . INT_CTE
+    (84) constante -> . CHAR_CTE
+    (85) constante -> . STRING_CTE
+    (86) constante -> . TRUE
+    (87) constante -> . FALSE
 
     ID              shift and go to state 93
     LEFTP           shift and go to state 73
@@ -1888,7 +1877,7 @@ state 102
 
 state 103
 
-    (69) expresion -> expresion LESSTHAN . expresion
+    (61) expresion -> expresion TIMES . expresion
     (61) expresion -> . expresion TIMES expresion
     (62) expresion -> . expresion DIVISION expresion
     (63) expresion -> . expresion SUM expresion
@@ -1901,15 +1890,15 @@ state 103
     (70) expresion -> . expresion LESSEQUAL expresion
     (71) expresion -> . expresion AND expresion
     (72) expresion -> . expresion OR expresion
-    (73) expresion -> . constante
+    (73) expresion -> . constante conf
     (74) expresion -> . ID
     (75) expresion -> . LEFTP expresion RIGHTP
-    (81) constante -> . FLOAT_CTE
-    (82) constante -> . INT_CTE
-    (83) constante -> . CHAR_CTE
-    (84) constante -> . STRING_CTE
-    (85) constante -> . TRUE
-    (86) constante -> . FALSE
+    (82) constante -> . FLOAT_CTE
+    (83) constante -> . INT_CTE
+    (84) constante -> . CHAR_CTE
+    (85) constante -> . STRING_CTE
+    (86) constante -> . TRUE
+    (87) constante -> . FALSE
 
     ID              shift and go to state 93
     LEFTP           shift and go to state 73
@@ -1925,7 +1914,7 @@ state 103
 
 state 104
 
-    (66) expresion -> expresion NOTEQUAL . expresion
+    (69) expresion -> expresion LESSTHAN . expresion
     (61) expresion -> . expresion TIMES expresion
     (62) expresion -> . expresion DIVISION expresion
     (63) expresion -> . expresion SUM expresion
@@ -1938,15 +1927,15 @@ state 104
     (70) expresion -> . expresion LESSEQUAL expresion
     (71) expresion -> . expresion AND expresion
     (72) expresion -> . expresion OR expresion
-    (73) expresion -> . constante
+    (73) expresion -> . constante conf
     (74) expresion -> . ID
     (75) expresion -> . LEFTP expresion RIGHTP
-    (81) constante -> . FLOAT_CTE
-    (82) constante -> . INT_CTE
-    (83) constante -> . CHAR_CTE
-    (84) constante -> . STRING_CTE
-    (85) constante -> . TRUE
-    (86) constante -> . FALSE
+    (82) constante -> . FLOAT_CTE
+    (83) constante -> . INT_CTE
+    (84) constante -> . CHAR_CTE
+    (85) constante -> . STRING_CTE
+    (86) constante -> . TRUE
+    (87) constante -> . FALSE
 
     ID              shift and go to state 93
     LEFTP           shift and go to state 73
@@ -1962,7 +1951,7 @@ state 104
 
 state 105
 
-    (70) expresion -> expresion LESSEQUAL . expresion
+    (66) expresion -> expresion NOTEQUAL . expresion
     (61) expresion -> . expresion TIMES expresion
     (62) expresion -> . expresion DIVISION expresion
     (63) expresion -> . expresion SUM expresion
@@ -1975,15 +1964,15 @@ state 105
     (70) expresion -> . expresion LESSEQUAL expresion
     (71) expresion -> . expresion AND expresion
     (72) expresion -> . expresion OR expresion
-    (73) expresion -> . constante
+    (73) expresion -> . constante conf
     (74) expresion -> . ID
     (75) expresion -> . LEFTP expresion RIGHTP
-    (81) constante -> . FLOAT_CTE
-    (82) constante -> . INT_CTE
-    (83) constante -> . CHAR_CTE
-    (84) constante -> . STRING_CTE
-    (85) constante -> . TRUE
-    (86) constante -> . FALSE
+    (82) constante -> . FLOAT_CTE
+    (83) constante -> . INT_CTE
+    (84) constante -> . CHAR_CTE
+    (85) constante -> . STRING_CTE
+    (86) constante -> . TRUE
+    (87) constante -> . FALSE
 
     ID              shift and go to state 93
     LEFTP           shift and go to state 73
@@ -1999,7 +1988,7 @@ state 105
 
 state 106
 
-    (68) expresion -> expresion GREATERTHAN . expresion
+    (70) expresion -> expresion LESSEQUAL . expresion
     (61) expresion -> . expresion TIMES expresion
     (62) expresion -> . expresion DIVISION expresion
     (63) expresion -> . expresion SUM expresion
@@ -2012,15 +2001,15 @@ state 106
     (70) expresion -> . expresion LESSEQUAL expresion
     (71) expresion -> . expresion AND expresion
     (72) expresion -> . expresion OR expresion
-    (73) expresion -> . constante
+    (73) expresion -> . constante conf
     (74) expresion -> . ID
     (75) expresion -> . LEFTP expresion RIGHTP
-    (81) constante -> . FLOAT_CTE
-    (82) constante -> . INT_CTE
-    (83) constante -> . CHAR_CTE
-    (84) constante -> . STRING_CTE
-    (85) constante -> . TRUE
-    (86) constante -> . FALSE
+    (82) constante -> . FLOAT_CTE
+    (83) constante -> . INT_CTE
+    (84) constante -> . CHAR_CTE
+    (85) constante -> . STRING_CTE
+    (86) constante -> . TRUE
+    (87) constante -> . FALSE
 
     ID              shift and go to state 93
     LEFTP           shift and go to state 73
@@ -2036,7 +2025,7 @@ state 106
 
 state 107
 
-    (72) expresion -> expresion OR . expresion
+    (68) expresion -> expresion GREATERTHAN . expresion
     (61) expresion -> . expresion TIMES expresion
     (62) expresion -> . expresion DIVISION expresion
     (63) expresion -> . expresion SUM expresion
@@ -2049,15 +2038,15 @@ state 107
     (70) expresion -> . expresion LESSEQUAL expresion
     (71) expresion -> . expresion AND expresion
     (72) expresion -> . expresion OR expresion
-    (73) expresion -> . constante
+    (73) expresion -> . constante conf
     (74) expresion -> . ID
     (75) expresion -> . LEFTP expresion RIGHTP
-    (81) constante -> . FLOAT_CTE
-    (82) constante -> . INT_CTE
-    (83) constante -> . CHAR_CTE
-    (84) constante -> . STRING_CTE
-    (85) constante -> . TRUE
-    (86) constante -> . FALSE
+    (82) constante -> . FLOAT_CTE
+    (83) constante -> . INT_CTE
+    (84) constante -> . CHAR_CTE
+    (85) constante -> . STRING_CTE
+    (86) constante -> . TRUE
+    (87) constante -> . FALSE
 
     ID              shift and go to state 93
     LEFTP           shift and go to state 73
@@ -2073,7 +2062,7 @@ state 107
 
 state 108
 
-    (71) expresion -> expresion AND . expresion
+    (72) expresion -> expresion OR . expresion
     (61) expresion -> . expresion TIMES expresion
     (62) expresion -> . expresion DIVISION expresion
     (63) expresion -> . expresion SUM expresion
@@ -2086,15 +2075,15 @@ state 108
     (70) expresion -> . expresion LESSEQUAL expresion
     (71) expresion -> . expresion AND expresion
     (72) expresion -> . expresion OR expresion
-    (73) expresion -> . constante
+    (73) expresion -> . constante conf
     (74) expresion -> . ID
     (75) expresion -> . LEFTP expresion RIGHTP
-    (81) constante -> . FLOAT_CTE
-    (82) constante -> . INT_CTE
-    (83) constante -> . CHAR_CTE
-    (84) constante -> . STRING_CTE
-    (85) constante -> . TRUE
-    (86) constante -> . FALSE
+    (82) constante -> . FLOAT_CTE
+    (83) constante -> . INT_CTE
+    (84) constante -> . CHAR_CTE
+    (85) constante -> . STRING_CTE
+    (86) constante -> . TRUE
+    (87) constante -> . FALSE
 
     ID              shift and go to state 93
     LEFTP           shift and go to state 73
@@ -2110,17 +2099,54 @@ state 108
 
 state 109
 
+    (71) expresion -> expresion AND . expresion
+    (61) expresion -> . expresion TIMES expresion
+    (62) expresion -> . expresion DIVISION expresion
+    (63) expresion -> . expresion SUM expresion
+    (64) expresion -> . expresion LESS expresion
+    (65) expresion -> . expresion EQUALS expresion
+    (66) expresion -> . expresion NOTEQUAL expresion
+    (67) expresion -> . expresion GREATEREQUAL expresion
+    (68) expresion -> . expresion GREATERTHAN expresion
+    (69) expresion -> . expresion LESSTHAN expresion
+    (70) expresion -> . expresion LESSEQUAL expresion
+    (71) expresion -> . expresion AND expresion
+    (72) expresion -> . expresion OR expresion
+    (73) expresion -> . constante conf
+    (74) expresion -> . ID
+    (75) expresion -> . LEFTP expresion RIGHTP
+    (82) constante -> . FLOAT_CTE
+    (83) constante -> . INT_CTE
+    (84) constante -> . CHAR_CTE
+    (85) constante -> . STRING_CTE
+    (86) constante -> . TRUE
+    (87) constante -> . FALSE
+
+    ID              shift and go to state 93
+    LEFTP           shift and go to state 73
+    FLOAT_CTE       shift and go to state 82
+    INT_CTE         shift and go to state 80
+    CHAR_CTE        shift and go to state 75
+    STRING_CTE      shift and go to state 76
+    TRUE            shift and go to state 72
+    FALSE           shift and go to state 78
+
+    expresion                      shift and go to state 133
+    constante                      shift and go to state 77
+
+state 110
+
     (36) return -> RETURN return1 SEMICOLON .
 
+    RIGHTB          reduce using rule 36 (return -> RETURN return1 SEMICOLON .)
     IF              reduce using rule 36 (return -> RETURN return1 SEMICOLON .)
     WHILE           reduce using rule 36 (return -> RETURN return1 SEMICOLON .)
     RETURN          reduce using rule 36 (return -> RETURN return1 SEMICOLON .)
     ID              reduce using rule 36 (return -> RETURN return1 SEMICOLON .)
     PRINT           reduce using rule 36 (return -> RETURN return1 SEMICOLON .)
-    RIGHTB          reduce using rule 36 (return -> RETURN return1 SEMICOLON .)
 
 
-state 110
+state 111
 
     (47) ciclo -> WHILE salto_ciclo LEFTP . exp RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB
     (57) exp -> . llamada exp1
@@ -2138,16 +2164,16 @@ state 110
     (70) expresion -> . expresion LESSEQUAL expresion
     (71) expresion -> . expresion AND expresion
     (72) expresion -> . expresion OR expresion
-    (73) expresion -> . constante
+    (73) expresion -> . constante conf
     (74) expresion -> . ID
     (75) expresion -> . LEFTP expresion RIGHTP
     (41) llamada1 -> . ID
-    (81) constante -> . FLOAT_CTE
-    (82) constante -> . INT_CTE
-    (83) constante -> . CHAR_CTE
-    (84) constante -> . STRING_CTE
-    (85) constante -> . TRUE
-    (86) constante -> . FALSE
+    (82) constante -> . FLOAT_CTE
+    (83) constante -> . INT_CTE
+    (84) constante -> . CHAR_CTE
+    (85) constante -> . STRING_CTE
+    (86) constante -> . TRUE
+    (87) constante -> . FALSE
 
     ID              shift and go to state 79
     LEFTP           shift and go to state 73
@@ -2161,17 +2187,17 @@ state 110
     expresion                      shift and go to state 81
     llamada                        shift and go to state 74
     constante                      shift and go to state 77
-    exp                            shift and go to state 133
+    exp                            shift and go to state 134
     llamada1                       shift and go to state 60
 
-state 111
+state 112
 
     (39) escritura -> PRINT LEFTP exp . RIGHTP SEMICOLON
 
-    RIGHTP          shift and go to state 134
+    RIGHTP          shift and go to state 135
 
 
-state 112
+state 113
 
     (44) args -> empty .
 
@@ -2179,16 +2205,16 @@ state 112
     COMMA           reduce using rule 44 (args -> empty .)
 
 
-state 113
+state 114
 
     (40) llamada -> llamada1 LEFTP args . RIGHTP
     (43) args -> args . COMMA exp
 
-    RIGHTP          shift and go to state 135
-    COMMA           shift and go to state 136
+    RIGHTP          shift and go to state 136
+    COMMA           shift and go to state 137
 
 
-state 114
+state 115
 
     (42) args -> exp .
 
@@ -2196,43 +2222,43 @@ state 114
     COMMA           reduce using rule 42 (args -> exp .)
 
 
-state 115
+state 116
 
     (46) asignacion -> ID LEFTSB exp . RIGHTSB ASSIGN exp SEMICOLON
 
-    RIGHTSB         shift and go to state 137
-
-
-state 116
-
-    (38) lectura -> ID ASSIGN READ . LEFTP RIGHTP SEMICOLON
-
-    LEFTP           shift and go to state 138
+    RIGHTSB         shift and go to state 138
 
 
 state 117
 
-    (45) asignacion -> ID ASSIGN exp . SEMICOLON
+    (38) lectura -> ID ASSIGN READ . LEFTP RIGHTP SEMICOLON
 
-    SEMICOLON       shift and go to state 139
+    LEFTP           shift and go to state 139
 
 
 state 118
 
-    (51) condicion -> IF LEFTP condicion1 . RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 condicion4
-    (52) condicion -> IF LEFTP condicion1 . RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 ELSE LEFTB bloque condicion4 RIGHTB
+    (45) asignacion -> ID ASSIGN exp . SEMICOLON
 
-    RIGHTP          shift and go to state 140
+    SEMICOLON       shift and go to state 140
 
 
 state 119
+
+    (51) condicion -> IF LEFTP condicion1 . RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 condicion4
+    (52) condicion -> IF LEFTP condicion1 . RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 ELSE LEFTB bloque condicion4 RIGHTB
+
+    RIGHTP          shift and go to state 141
+
+
+state 120
 
     (53) condicion1 -> exp .
 
     RIGHTP          reduce using rule 53 (condicion1 -> exp .)
 
 
-state 120
+state 121
 
     (75) expresion -> LEFTP expresion RIGHTP .
 
@@ -2254,7 +2280,7 @@ state 120
     RIGHTSB         reduce using rule 75 (expresion -> LEFTP expresion RIGHTP .)
 
 
-state 121
+state 122
 
     (62) expresion -> expresion DIVISION expresion .
     (61) expresion -> expresion . TIMES expresion
@@ -2287,21 +2313,21 @@ state 121
     COMMA           reduce using rule 62 (expresion -> expresion DIVISION expresion .)
     RIGHTSB         reduce using rule 62 (expresion -> expresion DIVISION expresion .)
 
-  ! TIMES           [ shift and go to state 102 ]
-  ! DIVISION        [ shift and go to state 96 ]
-  ! SUM             [ shift and go to state 100 ]
-  ! LESS            [ shift and go to state 98 ]
-  ! EQUALS          [ shift and go to state 101 ]
-  ! NOTEQUAL        [ shift and go to state 104 ]
-  ! GREATEREQUAL    [ shift and go to state 97 ]
-  ! GREATERTHAN     [ shift and go to state 106 ]
-  ! LESSTHAN        [ shift and go to state 103 ]
-  ! LESSEQUAL       [ shift and go to state 105 ]
-  ! AND             [ shift and go to state 108 ]
-  ! OR              [ shift and go to state 107 ]
+  ! TIMES           [ shift and go to state 103 ]
+  ! DIVISION        [ shift and go to state 97 ]
+  ! SUM             [ shift and go to state 101 ]
+  ! LESS            [ shift and go to state 99 ]
+  ! EQUALS          [ shift and go to state 102 ]
+  ! NOTEQUAL        [ shift and go to state 105 ]
+  ! GREATEREQUAL    [ shift and go to state 98 ]
+  ! GREATERTHAN     [ shift and go to state 107 ]
+  ! LESSTHAN        [ shift and go to state 104 ]
+  ! LESSEQUAL       [ shift and go to state 106 ]
+  ! AND             [ shift and go to state 109 ]
+  ! OR              [ shift and go to state 108 ]
 
 
-state 122
+state 123
 
     (67) expresion -> expresion GREATEREQUAL expresion .
     (61) expresion -> expresion . TIMES expresion
@@ -2329,26 +2355,26 @@ state 122
     RIGHTP          reduce using rule 67 (expresion -> expresion GREATEREQUAL expresion .)
     COMMA           reduce using rule 67 (expresion -> expresion GREATEREQUAL expresion .)
     RIGHTSB         reduce using rule 67 (expresion -> expresion GREATEREQUAL expresion .)
-    TIMES           shift and go to state 102
-    DIVISION        shift and go to state 96
-    SUM             shift and go to state 100
-    LESS            shift and go to state 98
+    TIMES           shift and go to state 103
+    DIVISION        shift and go to state 97
+    SUM             shift and go to state 101
+    LESS            shift and go to state 99
 
   ! TIMES           [ reduce using rule 67 (expresion -> expresion GREATEREQUAL expresion .) ]
   ! DIVISION        [ reduce using rule 67 (expresion -> expresion GREATEREQUAL expresion .) ]
   ! SUM             [ reduce using rule 67 (expresion -> expresion GREATEREQUAL expresion .) ]
   ! LESS            [ reduce using rule 67 (expresion -> expresion GREATEREQUAL expresion .) ]
-  ! EQUALS          [ shift and go to state 101 ]
-  ! NOTEQUAL        [ shift and go to state 104 ]
-  ! GREATEREQUAL    [ shift and go to state 97 ]
-  ! GREATERTHAN     [ shift and go to state 106 ]
-  ! LESSTHAN        [ shift and go to state 103 ]
-  ! LESSEQUAL       [ shift and go to state 105 ]
-  ! AND             [ shift and go to state 108 ]
-  ! OR              [ shift and go to state 107 ]
+  ! EQUALS          [ shift and go to state 102 ]
+  ! NOTEQUAL        [ shift and go to state 105 ]
+  ! GREATEREQUAL    [ shift and go to state 98 ]
+  ! GREATERTHAN     [ shift and go to state 107 ]
+  ! LESSTHAN        [ shift and go to state 104 ]
+  ! LESSEQUAL       [ shift and go to state 106 ]
+  ! AND             [ shift and go to state 109 ]
+  ! OR              [ shift and go to state 108 ]
 
 
-state 123
+state 124
 
     (64) expresion -> expresion LESS expresion .
     (61) expresion -> expresion . TIMES expresion
@@ -2378,24 +2404,24 @@ state 123
     RIGHTP          reduce using rule 64 (expresion -> expresion LESS expresion .)
     COMMA           reduce using rule 64 (expresion -> expresion LESS expresion .)
     RIGHTSB         reduce using rule 64 (expresion -> expresion LESS expresion .)
-    TIMES           shift and go to state 102
-    DIVISION        shift and go to state 96
+    TIMES           shift and go to state 103
+    DIVISION        shift and go to state 97
 
   ! TIMES           [ reduce using rule 64 (expresion -> expresion LESS expresion .) ]
   ! DIVISION        [ reduce using rule 64 (expresion -> expresion LESS expresion .) ]
-  ! SUM             [ shift and go to state 100 ]
-  ! LESS            [ shift and go to state 98 ]
-  ! EQUALS          [ shift and go to state 101 ]
-  ! NOTEQUAL        [ shift and go to state 104 ]
-  ! GREATEREQUAL    [ shift and go to state 97 ]
-  ! GREATERTHAN     [ shift and go to state 106 ]
-  ! LESSTHAN        [ shift and go to state 103 ]
-  ! LESSEQUAL       [ shift and go to state 105 ]
-  ! AND             [ shift and go to state 108 ]
-  ! OR              [ shift and go to state 107 ]
+  ! SUM             [ shift and go to state 101 ]
+  ! LESS            [ shift and go to state 99 ]
+  ! EQUALS          [ shift and go to state 102 ]
+  ! NOTEQUAL        [ shift and go to state 105 ]
+  ! GREATEREQUAL    [ shift and go to state 98 ]
+  ! GREATERTHAN     [ shift and go to state 107 ]
+  ! LESSTHAN        [ shift and go to state 104 ]
+  ! LESSEQUAL       [ shift and go to state 106 ]
+  ! AND             [ shift and go to state 109 ]
+  ! OR              [ shift and go to state 108 ]
 
 
-state 124
+state 125
 
     (63) expresion -> expresion SUM expresion .
     (61) expresion -> expresion . TIMES expresion
@@ -2425,24 +2451,24 @@ state 124
     RIGHTP          reduce using rule 63 (expresion -> expresion SUM expresion .)
     COMMA           reduce using rule 63 (expresion -> expresion SUM expresion .)
     RIGHTSB         reduce using rule 63 (expresion -> expresion SUM expresion .)
-    TIMES           shift and go to state 102
-    DIVISION        shift and go to state 96
+    TIMES           shift and go to state 103
+    DIVISION        shift and go to state 97
 
   ! TIMES           [ reduce using rule 63 (expresion -> expresion SUM expresion .) ]
   ! DIVISION        [ reduce using rule 63 (expresion -> expresion SUM expresion .) ]
-  ! SUM             [ shift and go to state 100 ]
-  ! LESS            [ shift and go to state 98 ]
-  ! EQUALS          [ shift and go to state 101 ]
-  ! NOTEQUAL        [ shift and go to state 104 ]
-  ! GREATEREQUAL    [ shift and go to state 97 ]
-  ! GREATERTHAN     [ shift and go to state 106 ]
-  ! LESSTHAN        [ shift and go to state 103 ]
-  ! LESSEQUAL       [ shift and go to state 105 ]
-  ! AND             [ shift and go to state 108 ]
-  ! OR              [ shift and go to state 107 ]
+  ! SUM             [ shift and go to state 101 ]
+  ! LESS            [ shift and go to state 99 ]
+  ! EQUALS          [ shift and go to state 102 ]
+  ! NOTEQUAL        [ shift and go to state 105 ]
+  ! GREATEREQUAL    [ shift and go to state 98 ]
+  ! GREATERTHAN     [ shift and go to state 107 ]
+  ! LESSTHAN        [ shift and go to state 104 ]
+  ! LESSEQUAL       [ shift and go to state 106 ]
+  ! AND             [ shift and go to state 109 ]
+  ! OR              [ shift and go to state 108 ]
 
 
-state 125
+state 126
 
     (65) expresion -> expresion EQUALS expresion .
     (61) expresion -> expresion . TIMES expresion
@@ -2466,14 +2492,14 @@ state 125
     RIGHTP          reduce using rule 65 (expresion -> expresion EQUALS expresion .)
     COMMA           reduce using rule 65 (expresion -> expresion EQUALS expresion .)
     RIGHTSB         reduce using rule 65 (expresion -> expresion EQUALS expresion .)
-    TIMES           shift and go to state 102
-    DIVISION        shift and go to state 96
-    SUM             shift and go to state 100
-    LESS            shift and go to state 98
-    GREATEREQUAL    shift and go to state 97
-    GREATERTHAN     shift and go to state 106
-    LESSTHAN        shift and go to state 103
-    LESSEQUAL       shift and go to state 105
+    TIMES           shift and go to state 103
+    DIVISION        shift and go to state 97
+    SUM             shift and go to state 101
+    LESS            shift and go to state 99
+    GREATEREQUAL    shift and go to state 98
+    GREATERTHAN     shift and go to state 107
+    LESSTHAN        shift and go to state 104
+    LESSEQUAL       shift and go to state 106
 
   ! TIMES           [ reduce using rule 65 (expresion -> expresion EQUALS expresion .) ]
   ! DIVISION        [ reduce using rule 65 (expresion -> expresion EQUALS expresion .) ]
@@ -2483,13 +2509,13 @@ state 125
   ! GREATERTHAN     [ reduce using rule 65 (expresion -> expresion EQUALS expresion .) ]
   ! LESSTHAN        [ reduce using rule 65 (expresion -> expresion EQUALS expresion .) ]
   ! LESSEQUAL       [ reduce using rule 65 (expresion -> expresion EQUALS expresion .) ]
-  ! EQUALS          [ shift and go to state 101 ]
-  ! NOTEQUAL        [ shift and go to state 104 ]
-  ! AND             [ shift and go to state 108 ]
-  ! OR              [ shift and go to state 107 ]
+  ! EQUALS          [ shift and go to state 102 ]
+  ! NOTEQUAL        [ shift and go to state 105 ]
+  ! AND             [ shift and go to state 109 ]
+  ! OR              [ shift and go to state 108 ]
 
 
-state 126
+state 127
 
     (61) expresion -> expresion TIMES expresion .
     (61) expresion -> expresion . TIMES expresion
@@ -2522,21 +2548,21 @@ state 126
     COMMA           reduce using rule 61 (expresion -> expresion TIMES expresion .)
     RIGHTSB         reduce using rule 61 (expresion -> expresion TIMES expresion .)
 
-  ! TIMES           [ shift and go to state 102 ]
-  ! DIVISION        [ shift and go to state 96 ]
-  ! SUM             [ shift and go to state 100 ]
-  ! LESS            [ shift and go to state 98 ]
-  ! EQUALS          [ shift and go to state 101 ]
-  ! NOTEQUAL        [ shift and go to state 104 ]
-  ! GREATEREQUAL    [ shift and go to state 97 ]
-  ! GREATERTHAN     [ shift and go to state 106 ]
-  ! LESSTHAN        [ shift and go to state 103 ]
-  ! LESSEQUAL       [ shift and go to state 105 ]
-  ! AND             [ shift and go to state 108 ]
-  ! OR              [ shift and go to state 107 ]
+  ! TIMES           [ shift and go to state 103 ]
+  ! DIVISION        [ shift and go to state 97 ]
+  ! SUM             [ shift and go to state 101 ]
+  ! LESS            [ shift and go to state 99 ]
+  ! EQUALS          [ shift and go to state 102 ]
+  ! NOTEQUAL        [ shift and go to state 105 ]
+  ! GREATEREQUAL    [ shift and go to state 98 ]
+  ! GREATERTHAN     [ shift and go to state 107 ]
+  ! LESSTHAN        [ shift and go to state 104 ]
+  ! LESSEQUAL       [ shift and go to state 106 ]
+  ! AND             [ shift and go to state 109 ]
+  ! OR              [ shift and go to state 108 ]
 
 
-state 127
+state 128
 
     (69) expresion -> expresion LESSTHAN expresion .
     (61) expresion -> expresion . TIMES expresion
@@ -2564,26 +2590,26 @@ state 127
     RIGHTP          reduce using rule 69 (expresion -> expresion LESSTHAN expresion .)
     COMMA           reduce using rule 69 (expresion -> expresion LESSTHAN expresion .)
     RIGHTSB         reduce using rule 69 (expresion -> expresion LESSTHAN expresion .)
-    TIMES           shift and go to state 102
-    DIVISION        shift and go to state 96
-    SUM             shift and go to state 100
-    LESS            shift and go to state 98
+    TIMES           shift and go to state 103
+    DIVISION        shift and go to state 97
+    SUM             shift and go to state 101
+    LESS            shift and go to state 99
 
   ! TIMES           [ reduce using rule 69 (expresion -> expresion LESSTHAN expresion .) ]
   ! DIVISION        [ reduce using rule 69 (expresion -> expresion LESSTHAN expresion .) ]
   ! SUM             [ reduce using rule 69 (expresion -> expresion LESSTHAN expresion .) ]
   ! LESS            [ reduce using rule 69 (expresion -> expresion LESSTHAN expresion .) ]
-  ! EQUALS          [ shift and go to state 101 ]
-  ! NOTEQUAL        [ shift and go to state 104 ]
-  ! GREATEREQUAL    [ shift and go to state 97 ]
-  ! GREATERTHAN     [ shift and go to state 106 ]
-  ! LESSTHAN        [ shift and go to state 103 ]
-  ! LESSEQUAL       [ shift and go to state 105 ]
-  ! AND             [ shift and go to state 108 ]
-  ! OR              [ shift and go to state 107 ]
+  ! EQUALS          [ shift and go to state 102 ]
+  ! NOTEQUAL        [ shift and go to state 105 ]
+  ! GREATEREQUAL    [ shift and go to state 98 ]
+  ! GREATERTHAN     [ shift and go to state 107 ]
+  ! LESSTHAN        [ shift and go to state 104 ]
+  ! LESSEQUAL       [ shift and go to state 106 ]
+  ! AND             [ shift and go to state 109 ]
+  ! OR              [ shift and go to state 108 ]
 
 
-state 128
+state 129
 
     (66) expresion -> expresion NOTEQUAL expresion .
     (61) expresion -> expresion . TIMES expresion
@@ -2607,14 +2633,14 @@ state 128
     RIGHTP          reduce using rule 66 (expresion -> expresion NOTEQUAL expresion .)
     COMMA           reduce using rule 66 (expresion -> expresion NOTEQUAL expresion .)
     RIGHTSB         reduce using rule 66 (expresion -> expresion NOTEQUAL expresion .)
-    TIMES           shift and go to state 102
-    DIVISION        shift and go to state 96
-    SUM             shift and go to state 100
-    LESS            shift and go to state 98
-    GREATEREQUAL    shift and go to state 97
-    GREATERTHAN     shift and go to state 106
-    LESSTHAN        shift and go to state 103
-    LESSEQUAL       shift and go to state 105
+    TIMES           shift and go to state 103
+    DIVISION        shift and go to state 97
+    SUM             shift and go to state 101
+    LESS            shift and go to state 99
+    GREATEREQUAL    shift and go to state 98
+    GREATERTHAN     shift and go to state 107
+    LESSTHAN        shift and go to state 104
+    LESSEQUAL       shift and go to state 106
 
   ! TIMES           [ reduce using rule 66 (expresion -> expresion NOTEQUAL expresion .) ]
   ! DIVISION        [ reduce using rule 66 (expresion -> expresion NOTEQUAL expresion .) ]
@@ -2624,13 +2650,13 @@ state 128
   ! GREATERTHAN     [ reduce using rule 66 (expresion -> expresion NOTEQUAL expresion .) ]
   ! LESSTHAN        [ reduce using rule 66 (expresion -> expresion NOTEQUAL expresion .) ]
   ! LESSEQUAL       [ reduce using rule 66 (expresion -> expresion NOTEQUAL expresion .) ]
-  ! EQUALS          [ shift and go to state 101 ]
-  ! NOTEQUAL        [ shift and go to state 104 ]
-  ! AND             [ shift and go to state 108 ]
-  ! OR              [ shift and go to state 107 ]
+  ! EQUALS          [ shift and go to state 102 ]
+  ! NOTEQUAL        [ shift and go to state 105 ]
+  ! AND             [ shift and go to state 109 ]
+  ! OR              [ shift and go to state 108 ]
 
 
-state 129
+state 130
 
     (70) expresion -> expresion LESSEQUAL expresion .
     (61) expresion -> expresion . TIMES expresion
@@ -2658,26 +2684,26 @@ state 129
     RIGHTP          reduce using rule 70 (expresion -> expresion LESSEQUAL expresion .)
     COMMA           reduce using rule 70 (expresion -> expresion LESSEQUAL expresion .)
     RIGHTSB         reduce using rule 70 (expresion -> expresion LESSEQUAL expresion .)
-    TIMES           shift and go to state 102
-    DIVISION        shift and go to state 96
-    SUM             shift and go to state 100
-    LESS            shift and go to state 98
+    TIMES           shift and go to state 103
+    DIVISION        shift and go to state 97
+    SUM             shift and go to state 101
+    LESS            shift and go to state 99
 
   ! TIMES           [ reduce using rule 70 (expresion -> expresion LESSEQUAL expresion .) ]
   ! DIVISION        [ reduce using rule 70 (expresion -> expresion LESSEQUAL expresion .) ]
   ! SUM             [ reduce using rule 70 (expresion -> expresion LESSEQUAL expresion .) ]
   ! LESS            [ reduce using rule 70 (expresion -> expresion LESSEQUAL expresion .) ]
-  ! EQUALS          [ shift and go to state 101 ]
-  ! NOTEQUAL        [ shift and go to state 104 ]
-  ! GREATEREQUAL    [ shift and go to state 97 ]
-  ! GREATERTHAN     [ shift and go to state 106 ]
-  ! LESSTHAN        [ shift and go to state 103 ]
-  ! LESSEQUAL       [ shift and go to state 105 ]
-  ! AND             [ shift and go to state 108 ]
-  ! OR              [ shift and go to state 107 ]
+  ! EQUALS          [ shift and go to state 102 ]
+  ! NOTEQUAL        [ shift and go to state 105 ]
+  ! GREATEREQUAL    [ shift and go to state 98 ]
+  ! GREATERTHAN     [ shift and go to state 107 ]
+  ! LESSTHAN        [ shift and go to state 104 ]
+  ! LESSEQUAL       [ shift and go to state 106 ]
+  ! AND             [ shift and go to state 109 ]
+  ! OR              [ shift and go to state 108 ]
 
 
-state 130
+state 131
 
     (68) expresion -> expresion GREATERTHAN expresion .
     (61) expresion -> expresion . TIMES expresion
@@ -2705,26 +2731,26 @@ state 130
     RIGHTP          reduce using rule 68 (expresion -> expresion GREATERTHAN expresion .)
     COMMA           reduce using rule 68 (expresion -> expresion GREATERTHAN expresion .)
     RIGHTSB         reduce using rule 68 (expresion -> expresion GREATERTHAN expresion .)
-    TIMES           shift and go to state 102
-    DIVISION        shift and go to state 96
-    SUM             shift and go to state 100
-    LESS            shift and go to state 98
+    TIMES           shift and go to state 103
+    DIVISION        shift and go to state 97
+    SUM             shift and go to state 101
+    LESS            shift and go to state 99
 
   ! TIMES           [ reduce using rule 68 (expresion -> expresion GREATERTHAN expresion .) ]
   ! DIVISION        [ reduce using rule 68 (expresion -> expresion GREATERTHAN expresion .) ]
   ! SUM             [ reduce using rule 68 (expresion -> expresion GREATERTHAN expresion .) ]
   ! LESS            [ reduce using rule 68 (expresion -> expresion GREATERTHAN expresion .) ]
-  ! EQUALS          [ shift and go to state 101 ]
-  ! NOTEQUAL        [ shift and go to state 104 ]
-  ! GREATEREQUAL    [ shift and go to state 97 ]
-  ! GREATERTHAN     [ shift and go to state 106 ]
-  ! LESSTHAN        [ shift and go to state 103 ]
-  ! LESSEQUAL       [ shift and go to state 105 ]
-  ! AND             [ shift and go to state 108 ]
-  ! OR              [ shift and go to state 107 ]
+  ! EQUALS          [ shift and go to state 102 ]
+  ! NOTEQUAL        [ shift and go to state 105 ]
+  ! GREATEREQUAL    [ shift and go to state 98 ]
+  ! GREATERTHAN     [ shift and go to state 107 ]
+  ! LESSTHAN        [ shift and go to state 104 ]
+  ! LESSEQUAL       [ shift and go to state 106 ]
+  ! AND             [ shift and go to state 109 ]
+  ! OR              [ shift and go to state 108 ]
 
 
-state 131
+state 132
 
     (72) expresion -> expresion OR expresion .
     (61) expresion -> expresion . TIMES expresion
@@ -2746,16 +2772,16 @@ state 131
     RIGHTP          reduce using rule 72 (expresion -> expresion OR expresion .)
     COMMA           reduce using rule 72 (expresion -> expresion OR expresion .)
     RIGHTSB         reduce using rule 72 (expresion -> expresion OR expresion .)
-    TIMES           shift and go to state 102
-    DIVISION        shift and go to state 96
-    SUM             shift and go to state 100
-    LESS            shift and go to state 98
-    EQUALS          shift and go to state 101
-    NOTEQUAL        shift and go to state 104
-    GREATEREQUAL    shift and go to state 97
-    GREATERTHAN     shift and go to state 106
-    LESSTHAN        shift and go to state 103
-    LESSEQUAL       shift and go to state 105
+    TIMES           shift and go to state 103
+    DIVISION        shift and go to state 97
+    SUM             shift and go to state 101
+    LESS            shift and go to state 99
+    EQUALS          shift and go to state 102
+    NOTEQUAL        shift and go to state 105
+    GREATEREQUAL    shift and go to state 98
+    GREATERTHAN     shift and go to state 107
+    LESSTHAN        shift and go to state 104
+    LESSEQUAL       shift and go to state 106
 
   ! TIMES           [ reduce using rule 72 (expresion -> expresion OR expresion .) ]
   ! DIVISION        [ reduce using rule 72 (expresion -> expresion OR expresion .) ]
@@ -2767,11 +2793,11 @@ state 131
   ! GREATERTHAN     [ reduce using rule 72 (expresion -> expresion OR expresion .) ]
   ! LESSTHAN        [ reduce using rule 72 (expresion -> expresion OR expresion .) ]
   ! LESSEQUAL       [ reduce using rule 72 (expresion -> expresion OR expresion .) ]
-  ! AND             [ shift and go to state 108 ]
-  ! OR              [ shift and go to state 107 ]
+  ! AND             [ shift and go to state 109 ]
+  ! OR              [ shift and go to state 108 ]
 
 
-state 132
+state 133
 
     (71) expresion -> expresion AND expresion .
     (61) expresion -> expresion . TIMES expresion
@@ -2793,16 +2819,16 @@ state 132
     RIGHTP          reduce using rule 71 (expresion -> expresion AND expresion .)
     COMMA           reduce using rule 71 (expresion -> expresion AND expresion .)
     RIGHTSB         reduce using rule 71 (expresion -> expresion AND expresion .)
-    TIMES           shift and go to state 102
-    DIVISION        shift and go to state 96
-    SUM             shift and go to state 100
-    LESS            shift and go to state 98
-    EQUALS          shift and go to state 101
-    NOTEQUAL        shift and go to state 104
-    GREATEREQUAL    shift and go to state 97
-    GREATERTHAN     shift and go to state 106
-    LESSTHAN        shift and go to state 103
-    LESSEQUAL       shift and go to state 105
+    TIMES           shift and go to state 103
+    DIVISION        shift and go to state 97
+    SUM             shift and go to state 101
+    LESS            shift and go to state 99
+    EQUALS          shift and go to state 102
+    NOTEQUAL        shift and go to state 105
+    GREATEREQUAL    shift and go to state 98
+    GREATERTHAN     shift and go to state 107
+    LESSTHAN        shift and go to state 104
+    LESSEQUAL       shift and go to state 106
 
   ! TIMES           [ reduce using rule 71 (expresion -> expresion AND expresion .) ]
   ! DIVISION        [ reduce using rule 71 (expresion -> expresion AND expresion .) ]
@@ -2814,25 +2840,25 @@ state 132
   ! GREATERTHAN     [ reduce using rule 71 (expresion -> expresion AND expresion .) ]
   ! LESSTHAN        [ reduce using rule 71 (expresion -> expresion AND expresion .) ]
   ! LESSEQUAL       [ reduce using rule 71 (expresion -> expresion AND expresion .) ]
-  ! AND             [ shift and go to state 108 ]
-  ! OR              [ shift and go to state 107 ]
-
-
-state 133
-
-    (47) ciclo -> WHILE salto_ciclo LEFTP exp . RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB
-
-    RIGHTP          shift and go to state 141
+  ! AND             [ shift and go to state 109 ]
+  ! OR              [ shift and go to state 108 ]
 
 
 state 134
 
-    (39) escritura -> PRINT LEFTP exp RIGHTP . SEMICOLON
+    (47) ciclo -> WHILE salto_ciclo LEFTP exp . RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB
 
-    SEMICOLON       shift and go to state 142
+    RIGHTP          shift and go to state 142
 
 
 state 135
+
+    (39) escritura -> PRINT LEFTP exp RIGHTP . SEMICOLON
+
+    SEMICOLON       shift and go to state 143
+
+
+state 136
 
     (40) llamada -> llamada1 LEFTP args RIGHTP .
 
@@ -2842,7 +2868,7 @@ state 135
     COMMA           reduce using rule 40 (llamada -> llamada1 LEFTP args RIGHTP .)
 
 
-state 136
+state 137
 
     (43) args -> args COMMA . exp
     (57) exp -> . llamada exp1
@@ -2860,16 +2886,16 @@ state 136
     (70) expresion -> . expresion LESSEQUAL expresion
     (71) expresion -> . expresion AND expresion
     (72) expresion -> . expresion OR expresion
-    (73) expresion -> . constante
+    (73) expresion -> . constante conf
     (74) expresion -> . ID
     (75) expresion -> . LEFTP expresion RIGHTP
     (41) llamada1 -> . ID
-    (81) constante -> . FLOAT_CTE
-    (82) constante -> . INT_CTE
-    (83) constante -> . CHAR_CTE
-    (84) constante -> . STRING_CTE
-    (85) constante -> . TRUE
-    (86) constante -> . FALSE
+    (82) constante -> . FLOAT_CTE
+    (83) constante -> . INT_CTE
+    (84) constante -> . CHAR_CTE
+    (85) constante -> . STRING_CTE
+    (86) constante -> . TRUE
+    (87) constante -> . FALSE
 
     ID              shift and go to state 79
     LEFTP           shift and go to state 73
@@ -2883,24 +2909,24 @@ state 136
     expresion                      shift and go to state 81
     constante                      shift and go to state 77
     llamada                        shift and go to state 74
-    exp                            shift and go to state 143
+    exp                            shift and go to state 144
     llamada1                       shift and go to state 60
-
-state 137
-
-    (46) asignacion -> ID LEFTSB exp RIGHTSB . ASSIGN exp SEMICOLON
-
-    ASSIGN          shift and go to state 144
-
 
 state 138
 
-    (38) lectura -> ID ASSIGN READ LEFTP . RIGHTP SEMICOLON
+    (46) asignacion -> ID LEFTSB exp RIGHTSB . ASSIGN exp SEMICOLON
 
-    RIGHTP          shift and go to state 145
+    ASSIGN          shift and go to state 145
 
 
 state 139
+
+    (38) lectura -> ID ASSIGN READ LEFTP . RIGHTP SEMICOLON
+
+    RIGHTP          shift and go to state 146
+
+
+state 140
 
     (45) asignacion -> ID ASSIGN exp SEMICOLON .
 
@@ -2912,7 +2938,7 @@ state 139
     RIGHTB          reduce using rule 45 (asignacion -> ID ASSIGN exp SEMICOLON .)
 
 
-state 140
+state 141
 
     (51) condicion -> IF LEFTP condicion1 RIGHTP . condicion2 LEFTB bloque RIGHTB condicion3 condicion4
     (52) condicion -> IF LEFTP condicion1 RIGHTP . condicion2 LEFTB bloque RIGHTB condicion3 ELSE LEFTB bloque condicion4 RIGHTB
@@ -2920,30 +2946,30 @@ state 140
 
     LEFTB           reduce using rule 54 (condicion2 -> .)
 
-    condicion2                     shift and go to state 146
+    condicion2                     shift and go to state 147
 
-state 141
+state 142
 
     (47) ciclo -> WHILE salto_ciclo LEFTP exp RIGHTP . ciclo1 LEFTB bloque ciclo2 RIGHTB
     (49) ciclo1 -> .
 
     LEFTB           reduce using rule 49 (ciclo1 -> .)
 
-    ciclo1                         shift and go to state 147
+    ciclo1                         shift and go to state 148
 
-state 142
+state 143
 
     (39) escritura -> PRINT LEFTP exp RIGHTP SEMICOLON .
 
-    RIGHTB          reduce using rule 39 (escritura -> PRINT LEFTP exp RIGHTP SEMICOLON .)
     IF              reduce using rule 39 (escritura -> PRINT LEFTP exp RIGHTP SEMICOLON .)
     WHILE           reduce using rule 39 (escritura -> PRINT LEFTP exp RIGHTP SEMICOLON .)
     RETURN          reduce using rule 39 (escritura -> PRINT LEFTP exp RIGHTP SEMICOLON .)
     ID              reduce using rule 39 (escritura -> PRINT LEFTP exp RIGHTP SEMICOLON .)
     PRINT           reduce using rule 39 (escritura -> PRINT LEFTP exp RIGHTP SEMICOLON .)
+    RIGHTB          reduce using rule 39 (escritura -> PRINT LEFTP exp RIGHTP SEMICOLON .)
 
 
-state 143
+state 144
 
     (43) args -> args COMMA exp .
 
@@ -2951,7 +2977,7 @@ state 143
     COMMA           reduce using rule 43 (args -> args COMMA exp .)
 
 
-state 144
+state 145
 
     (46) asignacion -> ID LEFTSB exp RIGHTSB ASSIGN . exp SEMICOLON
     (57) exp -> . llamada exp1
@@ -2969,16 +2995,16 @@ state 144
     (70) expresion -> . expresion LESSEQUAL expresion
     (71) expresion -> . expresion AND expresion
     (72) expresion -> . expresion OR expresion
-    (73) expresion -> . constante
+    (73) expresion -> . constante conf
     (74) expresion -> . ID
     (75) expresion -> . LEFTP expresion RIGHTP
     (41) llamada1 -> . ID
-    (81) constante -> . FLOAT_CTE
-    (82) constante -> . INT_CTE
-    (83) constante -> . CHAR_CTE
-    (84) constante -> . STRING_CTE
-    (85) constante -> . TRUE
-    (86) constante -> . FALSE
+    (82) constante -> . FLOAT_CTE
+    (83) constante -> . INT_CTE
+    (84) constante -> . CHAR_CTE
+    (85) constante -> . STRING_CTE
+    (86) constante -> . TRUE
+    (87) constante -> . FALSE
 
     ID              shift and go to state 79
     LEFTP           shift and go to state 73
@@ -2992,86 +3018,86 @@ state 144
     expresion                      shift and go to state 81
     constante                      shift and go to state 77
     llamada                        shift and go to state 74
-    exp                            shift and go to state 148
+    exp                            shift and go to state 149
     llamada1                       shift and go to state 60
-
-state 145
-
-    (38) lectura -> ID ASSIGN READ LEFTP RIGHTP . SEMICOLON
-
-    SEMICOLON       shift and go to state 149
-
 
 state 146
 
-    (51) condicion -> IF LEFTP condicion1 RIGHTP condicion2 . LEFTB bloque RIGHTB condicion3 condicion4
-    (52) condicion -> IF LEFTP condicion1 RIGHTP condicion2 . LEFTB bloque RIGHTB condicion3 ELSE LEFTB bloque condicion4 RIGHTB
+    (38) lectura -> ID ASSIGN READ LEFTP RIGHTP . SEMICOLON
 
-    LEFTB           shift and go to state 150
+    SEMICOLON       shift and go to state 150
 
 
 state 147
 
-    (47) ciclo -> WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 . LEFTB bloque ciclo2 RIGHTB
+    (51) condicion -> IF LEFTP condicion1 RIGHTP condicion2 . LEFTB bloque RIGHTB condicion3 condicion4
+    (52) condicion -> IF LEFTP condicion1 RIGHTP condicion2 . LEFTB bloque RIGHTB condicion3 ELSE LEFTB bloque condicion4 RIGHTB
 
     LEFTB           shift and go to state 151
 
 
 state 148
 
-    (46) asignacion -> ID LEFTSB exp RIGHTSB ASSIGN exp . SEMICOLON
+    (47) ciclo -> WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 . LEFTB bloque ciclo2 RIGHTB
 
-    SEMICOLON       shift and go to state 152
+    LEFTB           shift and go to state 152
 
 
 state 149
 
+    (46) asignacion -> ID LEFTSB exp RIGHTSB ASSIGN exp . SEMICOLON
+
+    SEMICOLON       shift and go to state 153
+
+
+state 150
+
     (38) lectura -> ID ASSIGN READ LEFTP RIGHTP SEMICOLON .
 
+    RIGHTB          reduce using rule 38 (lectura -> ID ASSIGN READ LEFTP RIGHTP SEMICOLON .)
     IF              reduce using rule 38 (lectura -> ID ASSIGN READ LEFTP RIGHTP SEMICOLON .)
     WHILE           reduce using rule 38 (lectura -> ID ASSIGN READ LEFTP RIGHTP SEMICOLON .)
     RETURN          reduce using rule 38 (lectura -> ID ASSIGN READ LEFTP RIGHTP SEMICOLON .)
     ID              reduce using rule 38 (lectura -> ID ASSIGN READ LEFTP RIGHTP SEMICOLON .)
     PRINT           reduce using rule 38 (lectura -> ID ASSIGN READ LEFTP RIGHTP SEMICOLON .)
-    RIGHTB          reduce using rule 38 (lectura -> ID ASSIGN READ LEFTP RIGHTP SEMICOLON .)
 
 
-state 150
+state 151
 
     (51) condicion -> IF LEFTP condicion1 RIGHTP condicion2 LEFTB . bloque RIGHTB condicion3 condicion4
     (52) condicion -> IF LEFTP condicion1 RIGHTP condicion2 LEFTB . bloque RIGHTB condicion3 ELSE LEFTB bloque condicion4 RIGHTB
     (27) bloque -> . bloque estatuto
     (28) bloque -> . empty
-    (87) empty -> .
+    (88) empty -> .
 
-    RIGHTB          reduce using rule 87 (empty -> .)
-    IF              reduce using rule 87 (empty -> .)
-    WHILE           reduce using rule 87 (empty -> .)
-    RETURN          reduce using rule 87 (empty -> .)
-    ID              reduce using rule 87 (empty -> .)
-    PRINT           reduce using rule 87 (empty -> .)
-
-    bloque                         shift and go to state 153
-    empty                          shift and go to state 56
-
-state 151
-
-    (47) ciclo -> WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 LEFTB . bloque ciclo2 RIGHTB
-    (27) bloque -> . bloque estatuto
-    (28) bloque -> . empty
-    (87) empty -> .
-
-    IF              reduce using rule 87 (empty -> .)
-    WHILE           reduce using rule 87 (empty -> .)
-    RETURN          reduce using rule 87 (empty -> .)
-    ID              reduce using rule 87 (empty -> .)
-    PRINT           reduce using rule 87 (empty -> .)
-    RIGHTB          reduce using rule 87 (empty -> .)
+    RIGHTB          reduce using rule 88 (empty -> .)
+    IF              reduce using rule 88 (empty -> .)
+    WHILE           reduce using rule 88 (empty -> .)
+    RETURN          reduce using rule 88 (empty -> .)
+    ID              reduce using rule 88 (empty -> .)
+    PRINT           reduce using rule 88 (empty -> .)
 
     bloque                         shift and go to state 154
     empty                          shift and go to state 56
 
 state 152
+
+    (47) ciclo -> WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 LEFTB . bloque ciclo2 RIGHTB
+    (27) bloque -> . bloque estatuto
+    (28) bloque -> . empty
+    (88) empty -> .
+
+    IF              reduce using rule 88 (empty -> .)
+    WHILE           reduce using rule 88 (empty -> .)
+    RETURN          reduce using rule 88 (empty -> .)
+    ID              reduce using rule 88 (empty -> .)
+    PRINT           reduce using rule 88 (empty -> .)
+    RIGHTB          reduce using rule 88 (empty -> .)
+
+    bloque                         shift and go to state 155
+    empty                          shift and go to state 56
+
+state 153
 
     (46) asignacion -> ID LEFTSB exp RIGHTSB ASSIGN exp SEMICOLON .
 
@@ -3083,7 +3109,7 @@ state 152
     RIGHTB          reduce using rule 46 (asignacion -> ID LEFTSB exp RIGHTSB ASSIGN exp SEMICOLON .)
 
 
-state 153
+state 154
 
     (51) condicion -> IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque . RIGHTB condicion3 condicion4
     (52) condicion -> IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque . RIGHTB condicion3 ELSE LEFTB bloque condicion4 RIGHTB
@@ -3106,7 +3132,7 @@ state 153
     (46) asignacion -> . ID LEFTSB exp RIGHTSB ASSIGN exp SEMICOLON
     (41) llamada1 -> . ID
 
-    RIGHTB          shift and go to state 155
+    RIGHTB          shift and go to state 156
     IF              shift and go to state 68
     WHILE           shift and go to state 58
     RETURN          shift and go to state 57
@@ -3123,7 +3149,7 @@ state 153
     lectura                        shift and go to state 65
     escritura                      shift and go to state 71
 
-state 154
+state 155
 
     (47) ciclo -> WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 LEFTB bloque . ciclo2 RIGHTB
     (27) bloque -> bloque . estatuto
@@ -3159,12 +3185,12 @@ state 154
     llamada                        shift and go to state 63
     estatuto                       shift and go to state 62
     condicion                      shift and go to state 64
-    ciclo2                         shift and go to state 156
+    ciclo2                         shift and go to state 157
     llamada1                       shift and go to state 60
     lectura                        shift and go to state 65
     escritura                      shift and go to state 71
 
-state 155
+state 156
 
     (51) condicion -> IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB . condicion3 condicion4
     (52) condicion -> IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB . condicion3 ELSE LEFTB bloque condicion4 RIGHTB
@@ -3178,22 +3204,22 @@ state 155
     ID              reduce using rule 55 (condicion3 -> .)
     PRINT           reduce using rule 55 (condicion3 -> .)
 
-    condicion3                     shift and go to state 157
+    condicion3                     shift and go to state 158
 
-state 156
+state 157
 
     (47) ciclo -> WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 LEFTB bloque ciclo2 . RIGHTB
 
-    RIGHTB          shift and go to state 158
+    RIGHTB          shift and go to state 159
 
 
-state 157
+state 158
 
     (51) condicion -> IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 . condicion4
     (52) condicion -> IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 . ELSE LEFTB bloque condicion4 RIGHTB
     (56) condicion4 -> .
 
-    ELSE            shift and go to state 160
+    ELSE            shift and go to state 161
     RIGHTB          reduce using rule 56 (condicion4 -> .)
     IF              reduce using rule 56 (condicion4 -> .)
     WHILE           reduce using rule 56 (condicion4 -> .)
@@ -3201,57 +3227,57 @@ state 157
     ID              reduce using rule 56 (condicion4 -> .)
     PRINT           reduce using rule 56 (condicion4 -> .)
 
-    condicion4                     shift and go to state 159
+    condicion4                     shift and go to state 160
 
-state 158
+state 159
 
     (47) ciclo -> WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB .
 
+    RIGHTB          reduce using rule 47 (ciclo -> WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB .)
     IF              reduce using rule 47 (ciclo -> WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB .)
     WHILE           reduce using rule 47 (ciclo -> WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB .)
     RETURN          reduce using rule 47 (ciclo -> WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB .)
     ID              reduce using rule 47 (ciclo -> WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB .)
     PRINT           reduce using rule 47 (ciclo -> WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB .)
-    RIGHTB          reduce using rule 47 (ciclo -> WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB .)
 
 
-state 159
+state 160
 
     (51) condicion -> IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 condicion4 .
 
-    RIGHTB          reduce using rule 51 (condicion -> IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 condicion4 .)
     IF              reduce using rule 51 (condicion -> IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 condicion4 .)
     WHILE           reduce using rule 51 (condicion -> IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 condicion4 .)
     RETURN          reduce using rule 51 (condicion -> IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 condicion4 .)
     ID              reduce using rule 51 (condicion -> IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 condicion4 .)
     PRINT           reduce using rule 51 (condicion -> IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 condicion4 .)
-
-
-state 160
-
-    (52) condicion -> IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 ELSE . LEFTB bloque condicion4 RIGHTB
-
-    LEFTB           shift and go to state 161
+    RIGHTB          reduce using rule 51 (condicion -> IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 condicion4 .)
 
 
 state 161
 
+    (52) condicion -> IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 ELSE . LEFTB bloque condicion4 RIGHTB
+
+    LEFTB           shift and go to state 162
+
+
+state 162
+
     (52) condicion -> IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 ELSE LEFTB . bloque condicion4 RIGHTB
     (27) bloque -> . bloque estatuto
     (28) bloque -> . empty
-    (87) empty -> .
+    (88) empty -> .
 
-    IF              reduce using rule 87 (empty -> .)
-    WHILE           reduce using rule 87 (empty -> .)
-    RETURN          reduce using rule 87 (empty -> .)
-    ID              reduce using rule 87 (empty -> .)
-    PRINT           reduce using rule 87 (empty -> .)
-    RIGHTB          reduce using rule 87 (empty -> .)
+    IF              reduce using rule 88 (empty -> .)
+    WHILE           reduce using rule 88 (empty -> .)
+    RETURN          reduce using rule 88 (empty -> .)
+    ID              reduce using rule 88 (empty -> .)
+    PRINT           reduce using rule 88 (empty -> .)
+    RIGHTB          reduce using rule 88 (empty -> .)
 
-    bloque                         shift and go to state 162
+    bloque                         shift and go to state 163
     empty                          shift and go to state 56
 
-state 162
+state 163
 
     (52) condicion -> IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 ELSE LEFTB bloque . condicion4 RIGHTB
     (27) bloque -> bloque . estatuto
@@ -3286,27 +3312,27 @@ state 162
     ciclo                          shift and go to state 61
     asignacion                     shift and go to state 69
     estatuto                       shift and go to state 62
-    condicion4                     shift and go to state 163
+    condicion4                     shift and go to state 164
     llamada                        shift and go to state 63
     condicion                      shift and go to state 64
     lectura                        shift and go to state 65
     escritura                      shift and go to state 71
 
-state 163
+state 164
 
     (52) condicion -> IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 ELSE LEFTB bloque condicion4 . RIGHTB
 
-    RIGHTB          shift and go to state 164
+    RIGHTB          shift and go to state 165
 
 
-state 164
+state 165
 
     (52) condicion -> IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 ELSE LEFTB bloque condicion4 RIGHTB .
 
-    RIGHTB          reduce using rule 52 (condicion -> IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 ELSE LEFTB bloque condicion4 RIGHTB .)
     IF              reduce using rule 52 (condicion -> IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 ELSE LEFTB bloque condicion4 RIGHTB .)
     WHILE           reduce using rule 52 (condicion -> IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 ELSE LEFTB bloque condicion4 RIGHTB .)
     RETURN          reduce using rule 52 (condicion -> IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 ELSE LEFTB bloque condicion4 RIGHTB .)
     ID              reduce using rule 52 (condicion -> IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 ELSE LEFTB bloque condicion4 RIGHTB .)
     PRINT           reduce using rule 52 (condicion -> IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 ELSE LEFTB bloque condicion4 RIGHTB .)
+    RIGHTB          reduce using rule 52 (condicion -> IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 ELSE LEFTB bloque condicion4 RIGHTB .)
 

@@ -1,6 +1,7 @@
 method int obtenMayor(int a, int b){
   var boolean x;
   a = 3;
+  x = false;
   b = 4;
   x = a > b;
   if (x){
