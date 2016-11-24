@@ -1,14 +1,15 @@
 method int factorial(int n){
-  var int r;
+  var int r, aux;
   if (n == 1){
     return 1;
   }
-  r = n * factorial(n-1);
+  aux = factorial(n - 1);
+  r = n * aux;
   return r;
 }
 
 method void main(){
-  int n, res;
+  var int n, res;
   n = 5;
   print("El factorial es:");
   res = factorial(n);

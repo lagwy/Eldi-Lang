@@ -213,48 +213,6 @@ def varGlobalDictionary(id):
     elif id in globales_boolean:
         return BOOLEAN
 
-"""
-###########################################################################
-#   addVariableTemporal
-#   Añadir una variable temporal a su diccionario correspondiente
-###########################################################################
-def addVariableTemporal(tipo, valor):
-    # Especificar al programa que se harán modificaciones a variables globales
-    global temporales_int, temporales_float, temporales_char, temporales_string, temporalActual
-    global temporales_boolean, temporales_int_cont, temporales_char_cont, temporales_float_cont, temporales_string_cont, temporales_boolean_cont
-    # Revisar a que diccionario corresponde el tipo de la variable temporal
-    if tipo == INT:
-        variable = {}
-        variable['valor'] = valor
-        variable['direccionMemoria'] = temporales_int_cont
-        temporales_int[ temporalActual ] = variable
-        temporales_int_cont += 1
-    elif tipo == FLOAT:
-        variable = {}
-        variable['valor'] = valor
-        variable['direccionMemoria'] = temporales_float_cont
-        temporales_float[ temporalActual ] = variable
-        temporales_float_cont += 1
-    elif tipo == CHAR:
-        variable = {}
-        variable['valor'] = valor
-        variable['direccionMemoria'] = temporales_char_cont
-        temporales_char[ temporalActual ] = variable
-        temporales_char_cont += 1
-    elif tipo == STRING:
-        variable = {}
-        variable['valor'] = valor
-        variable['direccionMemoria'] = temporales_string_cont
-        temporales_string[ temporalActual ] = variable
-        temporales_string_cont += 1
-    elif tipo == BOOLEAN:
-        variable = {}
-        variable['valor'] = valor
-        variable['direccionMemoria'] = temporales_boolean_cont
-        temporales_boolean[ temporalActual ] = variable
-        temporales_boolean_cont +=1
-    temporalActual += 1"""
-
 ###########################################################################
 #   addVariableGlobal
 #   Añadir un identificador a los diccionarios globales de acuerdo a su tipo
@@ -1365,25 +1323,27 @@ def p_expresion(p):
     rangoTipos = range(0, 5)
     # Si en tipo1 y tipo2 no hay un número del 1 al 4, entonces es una variable
     # Buscar el tipo1 en las variables locales y después en las globales
+    # print p[1]
+    # print p[3]
     if not( tipo1 in rangoTipos):
         # Revisar en las variables locales
-        if tipo1 in diccionario_metodos[metodoActual]['vars']:
-            p[1] = diccionario_metodos[metodoActual]['vars'][tipo1]['valor']
+        if p[1] in diccionario_metodos[metodoActual]['vars']:
+            p[1] = diccionario_metodos[metodoActual]['vars'][p[1]]['direccionMemoria']
             tipo1 = getNumericalType(p[1])
         else:
             # Revisar en las variables globales
-            if checkVariableGlobal(tipo1):
+            if checkVariableGlobal(p[1]):
                 tipo_global = varGlobalDictionary(tipo1)
                 if tipo_global == INT:
-                    p[1] = globales_int[tipo1]['valor']
+                    p[1] = globales_int[p[1]]['valor']
                 elif tipo_global == FLOAT:
-                    p[1] = globales_float[tipo1]['valor']
+                    p[1] = globales_float[p[1]]['valor']
                 elif tipo_global == CHAR:
-                    p[1] = globales_char[tipo1]['valor']
+                    p[1] = globales_char[p[1]]['valor']
                 elif tipo_global == STRING:
-                    p[1] = globales_string[tipo1]['valor']
+                    p[1] = globales_string[p[1]]['valor']
                 elif tipo_global == BOOLEAN:
-                    p[1] = globales_boolean[tipo1]['valor']
+                    p[1] = globales_boolean[p[1]]['valor']
                 tipo1 = tipo_global
             else:
                 # La variable no existe en las locales y globales
@@ -1391,8 +1351,8 @@ def p_expresion(p):
                 sys.exit()
     # Realizar el mismo procedimiento para el tipo del segundo término
     if not( tipo2 in rangoTipos):
-        if tipo2 in diccionario_metodos[metodoActual]['vars']:
-            p[3] = diccionario_metodos[metodoActual]['vars'][tipo2]['valor']
+        if p[3] in diccionario_metodos[metodoActual]['vars']:
+            p[3] = diccionario_metodos[metodoActual]['vars'][p[3]]['direccionMemoria']
             tipo2 = getNumericalType(p[3])
         else:
             if checkVariableGlobal(tipo2):
@@ -1600,7 +1560,7 @@ def p_error(p):
 yacc.yacc()
 
 # Leer el programa de un archivo
-data = open('Programas/Condicion.eldi','r').read()
+data = open('Programas/Factorial_Recursivo.eldi','r').read()
 t = yacc.parse(data)
 # Validar que el método main se encuentra en el diccionario métodos
 if not( checkMetodos("main") ):
