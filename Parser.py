@@ -1172,7 +1172,7 @@ def p_ciclo2(p):
     quad_goto.append( salto )
     lista_cuadruplos.append(quad_goto)
     # Cambiar el GOTOF
-    lista_cuadruplos[salto][3] = len(lista_cuadruplos) + 1
+    lista_cuadruplos[salto+1][3] = len(lista_cuadruplos) + 1
 
 ###########################################################################
 #   p_condicion
@@ -1217,7 +1217,6 @@ def p_condicion2(p):
                     print "No se encuentra el identificador " + condicion_exp
                     sys.exit()
         else:
-            print 'dir'
             quad.append(condicion_exp)
         condicion_exp = None
     else:
@@ -1323,8 +1322,6 @@ def p_expresion(p):
     rangoTipos = range(0, 5)
     # Si en tipo1 y tipo2 no hay un número del 1 al 4, entonces es una variable
     # Buscar el tipo1 en las variables locales y después en las globales
-    # print p[1]
-    # print p[3]
     if not( tipo1 in rangoTipos):
         # Revisar en las variables locales
         if p[1] in diccionario_metodos[metodoActual]['vars']:
@@ -1383,8 +1380,16 @@ def p_expresion(p):
         # Generar el cuádruplo de la expresión
         quad_exp = []
         quad_exp.append(p[2])           # Operación que se realizará
-        quad_exp.append(p[1])           # Primer término
-        quad_exp.append(p[3])           # Segundo término
+        # Revisar si se toma como expresión el último temporal
+        if p[1] > 4000:
+            quad_exp.append(contTemp-1)       # Primer término
+        else:
+            quad_exp.append(p[1])           # Primer término
+        # Revisar si se toma como expresión el último temporal
+        if p[3] > 4000:
+            quad_exp.append(contTemp-1)       # Segundo término
+        else:
+            quad_exp.append(p[3])           # Segundo término
         quad_exp.append(contTemp)       # Guardarlo en un temporal
         contTemp = contTemp + 1         # Aumentar el contador de temporales
         # Añadir el cuádruplo a la lista
@@ -1560,7 +1565,7 @@ def p_error(p):
 yacc.yacc()
 
 # Leer el programa de un archivo
-data = open('Programas/Factorial_Recursivo.eldi','r').read()
+data = open('Programas/Factorial_Ciclico.eldi','r').read()
 t = yacc.parse(data)
 # Validar que el método main se encuentra en el diccionario métodos
 if not( checkMetodos("main") ):
