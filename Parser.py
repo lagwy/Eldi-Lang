@@ -604,7 +604,7 @@ def p_add_method(p):
         # Guardar la cantidad de parámetros que recibe el método
         met['param_len'] = param_len
         # Guardar el número de cuádruplo en el que comienzan las operaciones
-        met['cuadruplo_inicio'] = inicioCuadruplo
+        met['cuadruplo_inicio'] = inicioCuadruplo - 1
         # Guardar el metodo en la lista de diccionarios
         diccionario_metodos[metodoActual] = met.copy()
         # Regresar la declaración del método a la regla inicial
@@ -1142,7 +1142,7 @@ def p_ciclo(p):
 def p_salto_ciclo(p):
     '''salto_ciclo : '''
     global saltos_ciclos
-    saltos_ciclos.append( len(lista_cuadruplos) + 1 )
+    saltos_ciclos.append( len(lista_cuadruplos) + 1)
 
 ###########################################################################
 #   p_ciclo1
@@ -1153,7 +1153,10 @@ def p_ciclo1(p):
     # Generación del cuádruplo inicial
     quad = []
     quad.append("GOTOFc")
-    quad.append(ciclo_exp)
+    if ciclo_exp == None:
+        quad.append(contTemp-1)
+    else:
+        quad.append(ciclo_exp)
     quad.append(None)
     # Realizar el salto al cuádruplo
     quad.append('x')
@@ -1177,7 +1180,11 @@ def p_ciclo2(p):
     quad_goto.append( salto )
     lista_cuadruplos.append(quad_goto)
     # Cambiar el GOTOF
-    lista_cuadruplos[salto+1][3] = len(lista_cuadruplos) + 1
+    # Aquí existe un cambio dependiendo de si tiene o no más de una expresión
+    if solo_una_expresion == True:
+        lista_cuadruplos[salto+1][3] = len(lista_cuadruplos) + 1
+    else:
+        lista_cuadruplos[salto][3] = len(lista_cuadruplos) + 1
 
 ###########################################################################
 #   p_condicion
@@ -1571,7 +1578,7 @@ def p_error(p):
 yacc.yacc()
 
 # Leer el programa de un archivo
-data = open('Programas/Factorial_Recursivo.eldi','r').read()
+data = open('Programas/Ciclo.eldi','r').read()
 t = yacc.parse(data)
 # Validar que el método main se encuentra en el diccionario métodos
 if not( checkMetodos("main") ):
