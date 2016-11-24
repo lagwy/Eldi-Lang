@@ -517,13 +517,24 @@ def p_metodos(p):
         else:
             p[0] = aux
 
+tiene_return = False
 ###########################################################################
 #   p_metodo
 #   Regla que obtiene toda la estructura de un método declarado
 ###########################################################################
 def p_metodo(p):
     '''metodo : inicio_method METHOD tipo_metodo metodo1 LEFTP save_params RIGHTP LEFTB method_vars add_method bloque RIGHTB end_method'''
-    global metodoActual, contTemp, params_metodo, tipo_metodo, vars_metodo, inicioCuadruplo
+    global metodoActual, contTemp, params_metodo, tipo_metodo, vars_metodo, inicioCuadruplo, tiene_return
+    # Revisar si el método tiene un tipo, debe tener un return
+    if tipo_metodo <> "void":
+        if not(tiene_return):
+            print metodoActual + ": No existe un valor de retorno."
+            sys.exit()
+    else:
+        if tiene_return:
+            print metodoActual + ": Esta función no debería tener retorno."
+            sys.exit()
+
     # Como ya se ha obtenido toda la información sobre el método,
     # resetea todas las variables utilizadas para futuras declaraciones
     param_len = 0               # Regresar el contador de parámetros
@@ -531,6 +542,7 @@ def p_metodo(p):
     parametros.clear()          # Limpiar el diccionario de parámetros
     contTemp = 2000             # Reiniciar el contador de temporales
     # Limpiar las variables del método
+    tiene_return = False
     metodoActual = None
     params_metodo = None
     tipo_metodo = None
@@ -735,6 +747,9 @@ def p_estatuto(p):
 def p_return(p):
     '''return : RETURN return1 SEMICOLON'''
     # Su principal acción es llamar a la regla return1 que guarda el cuádruplo
+    # La función si tiene valor de retorno
+    global tiene_return
+    tiene_return = True
 
 ###########################################################################
 #   p_return1

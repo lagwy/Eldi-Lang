@@ -10,7 +10,7 @@ method int obtenMayor(int a, int b){
   }
 }
 
-method int main(){
+method void main(){
   var int a, b, resultado;
   a = 4;
   b = 5;
