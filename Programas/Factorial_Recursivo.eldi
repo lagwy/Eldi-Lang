@@ -1,0 +1,15 @@
+method int factorial(int n){
+  var int r;
+  if (n == 1){
+    return 1;
+  }
+  r = n * factorial(n-1);
+  return r;
+}
+
+method void main(){
+  int n, res;
+  n = 5;
+  print("El factorial es:");
+  res = factorial(n);
+}

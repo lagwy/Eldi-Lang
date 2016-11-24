@@ -1242,6 +1242,10 @@ def p_condicion3(p):
     # Insertar en la pila el actual
     saltos_condicion.append(len(lista_cuadruplos))
 
+###########################################################################
+#   p_condicion4
+#   Modificar el GOTO después de realizar la condición cuando es verdadera
+###########################################################################
 def p_condicion4(p):
     '''condicion4 : '''
     global lista_cuadruplos
