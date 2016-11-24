@@ -873,8 +873,8 @@ def p_llamada(p):
         # Generación del cuádruplo de GOSUB
         quad_gosub = []
         quad_gosub.append("GOSUB")
-        # Método al que se hará la llamada
-        quad_gosub.append(p[1])
+        # Cuádruplo del método al que se hará la llamada
+        quad_gosub.append(diccionario_metodos[p[1]]['cuadruplo_inicio'])
         quad_gosub.append(None)
         quad_gosub.append(None)
         # Añadir a la lista de cuádruplos
