@@ -1007,6 +1007,11 @@ def p_args(p):
                 else:
                     # Revisar que los tipos coincidan
                     revisaTipoParametro( tipo_llamada, metodo_llamada )
+            # Corregir para cuando es negativo el valor
+            if p[1] < 0:
+                p[1] = (p[1] * -1) -1
+            else:
+                p[1] = contTemp-1
             quad_arg.append(p[1])       # Guardar la expresión
             quad_arg.append(None)
             # Nombre del parámetro que se está enviando
@@ -1381,13 +1386,14 @@ def p_expresion(p):
         quad_exp = []
         quad_exp.append(p[2])           # Operación que se realizará
         # Revisar si se toma como expresión el último temporal
+
         if p[1] > 4000:
-            quad_exp.append(contTemp-1)       # Primer término
+            quad_exp.append(contTemp-1)     # Primer término
         else:
             quad_exp.append(p[1])           # Primer término
         # Revisar si se toma como expresión el último temporal
         if p[3] > 4000:
-            quad_exp.append(contTemp-1)       # Segundo término
+            quad_exp.append(contTemp-1)     # Segundo término
         else:
             quad_exp.append(p[3])           # Segundo término
         quad_exp.append(contTemp)       # Guardarlo en un temporal
@@ -1565,7 +1571,7 @@ def p_error(p):
 yacc.yacc()
 
 # Leer el programa de un archivo
-data = open('Programas/Factorial_Ciclico.eldi','r').read()
+data = open('Programas/Factorial_Recursivo.eldi','r').read()
 t = yacc.parse(data)
 # Validar que el método main se encuentra en el diccionario métodos
 if not( checkMetodos("main") ):
