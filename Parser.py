@@ -84,6 +84,8 @@ ciclo_exp = None                # Expresión del ciclo
 condicion_exp = None            # Expresión del condicional
 saltos_ciclos = []              # Pila de saltos de los ciclo
 saltos_condicion = []           # Pila de saltos en las condiciones
+tiene_return = False            # Controlador para saber si la función tiene un estatuto de retorno
+tipo_ultima_expresion = None    # Tipo de la última expresión
 
 ###########################################################################
 #   checkMetodos
@@ -517,24 +519,18 @@ def p_metodos(p):
         else:
             p[0] = aux
 
-tiene_return = False
+tipo_retorno = None
 ###########################################################################
 #   p_metodo
 #   Regla que obtiene toda la estructura de un método declarado
 ###########################################################################
 def p_metodo(p):
     '''metodo : inicio_method METHOD tipo_metodo metodo1 LEFTP save_params RIGHTP LEFTB method_vars add_method bloque RIGHTB end_method'''
-    global metodoActual, contTemp, params_metodo, tipo_metodo, vars_metodo, inicioCuadruplo, tiene_return
-    # Revisar si el método tiene un tipo, debe tener un return
+    global metodoActual, contTemp, params_metodo, tipo_metodo, vars_metodo, inicioCuadruplo, tiene_return, tipo_retorno
     if tipo_metodo <> "void":
         if not(tiene_return):
             print metodoActual + ": No existe un valor de retorno."
             sys.exit()
-    else:
-        if tiene_return:
-            print metodoActual + ": Esta función no debería tener retorno."
-            sys.exit()
-
     # Como ya se ha obtenido toda la información sobre el método,
     # resetea todas las variables utilizadas para futuras declaraciones
     param_len = 0               # Regresar el contador de parámetros
@@ -548,6 +544,7 @@ def p_metodo(p):
     tipo_metodo = None
     vars_metodo = None
     inicioCuadruplo = None
+    tipo_retorno = None
 
 ###########################################################################
 #   p_inicio_method
@@ -758,7 +755,7 @@ def p_return(p):
 def p_return1(p):
     '''return1 : exp'''
     # Revisar el tipo de expresión, puede ser una expresión como tal o una llamada
-    global tipo_exp
+    global tipo_exp, tipo_retorno
     # Generación del cuádruplo de return
     quad = []
     quad.append("RETURN")
@@ -769,13 +766,43 @@ def p_return1(p):
         # Revisar si la expresión es una asignación directa
         if solo_una_expresion:
             quad.append(p[1])
+            datatype = checkDataType(p[1])
+            # Utilizar una variable para obtener el identificador numérico
+            num_datatype = None
+            if datatype == "int":
+                num_datatype = INT
+            elif datatype == "float":
+                num_datatype = FLOAT
+            elif datatype == "char":
+                num_datatype = CHAR
+            elif datatype == "string":
+                num_datatype = STRING
+            elif datatype == "boolean":
+                num_datatype = BOOLEAN
+            else:
+                # Revisar en el diccionario de métodos que tipo corresponde a esta variable
+                num_datatype = diccionario_metodos[metodoActual]['vars'][p[1]]['type']
+            tipo_retorno = num_datatype
         else:
             # Si la expresión es la última operación realizada, asignar
             # el último temporal que se realizó
+            tipo_retorno = tipo_ultima_expresion
             quad.append(contTemp-1)
     else:
         # Si es una llamada, anexar el nombre
         quad.append("llamada")
+    # Revisar si el método tiene un tipo, debe tener un return
+    if tipo_retorno <> None:
+        if tipo_retorno <> tipo_metodo:
+            print metodoActual + ": El tipo de retorno no coincide con el tipo del método"
+            sys.exit()
+        else:
+            # Tipo de retorno correcto
+            pass
+    else:
+        if tiene_return:
+            print metodoActual + ": Esta función no debería tener retorno."
+            sys.exit()
     # Añadir el cuádruplo a la lista
     lista_cuadruplos.append(quad)
 
@@ -1314,7 +1341,7 @@ def p_expresion(p):
         | expresion LESSEQUAL expresion
         | expresion AND expresion
         | expresion OR expresion'''
-    global contTemp, solo_una_expresion
+    global contTemp, solo_una_expresion, tipo_ultima_expresion
     # La expresión ya no es un sólo término
     solo_una_expresion = False
     # Obtener el tipo del primer término
@@ -1374,6 +1401,7 @@ def p_expresion(p):
                 sys.exit()
     # Obtener el tipo de dato resultante
     tipoResultante = resultante( tipo1 , tipo2 , getNumTypeOperation(p[2]))
+    tipo_ultima_expresion = tipoResultante
     # Revisar que la operación sea posible de realizar
     if resultante( getNumericalType(p[1]) , getNumericalType(p[3]) , getNumTypeOperation(p[2])) == ERROR:
         print "No es posible realizar la operación " + p[2] + " a los operadores " + str(p[1]) + ", " + str(p[3])

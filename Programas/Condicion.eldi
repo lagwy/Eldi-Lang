@@ -4,6 +4,7 @@ method int obtenMayor(int a, int b){
   b = 4;
   x = a > b;
   if (x){
+    a = a + a;
     return a;
   } else{
     return b;
