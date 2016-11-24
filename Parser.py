@@ -752,22 +752,31 @@ def p_return1(p):
             # quad.append(p[1])
             datatype = checkDataType(p[1])
             # Utilizar una variable para obtener el identificador numérico
+            # Revisar los rangos de las variables
             num_datatype = None
-            if datatype == "int":
+            if p[1] in range(3000, 3200):
                 num_datatype = INT
-            elif datatype == "float":
+            elif p[1] in range(3200, 3400):
                 num_datatype = FLOAT
-            elif datatype == "char":
+            elif p[1] in range(3400, 3600):
                 num_datatype = CHAR
-            elif datatype == "string":
+            elif p[1] in range(3600, 3800):
                 num_datatype = STRING
-            elif datatype == "boolean":
+            elif p[1] in range(3800, 4000):
                 num_datatype = BOOLEAN
             else:
                 # Revisar en el diccionario de métodos que tipo corresponde a esta variable
-                num_datatype = diccionario_metodos[metodoActual]['vars'][p[1]]['type']
-                # print diccionario_metodos[metodoActual]['vars'][p[1]]
-                quad.append(diccionario_metodos[metodoActual]['vars'][p[1]]['direccionMemoria'])
+                if p[1] in diccionario_metodos[metodoActual]['vars']:
+                    num_datatype = diccionario_metodos[metodoActual]['vars'][p[1]]['type']
+                    # print diccionario_metodos[metodoActual]['vars'][p[1]]
+                    quad.append(diccionario_metodos[metodoActual]['vars'][p[1]]['direccionMemoria'])
+                else:
+                    # Revisar en el diccionario de variables globales
+                    revisa_global = varGlobalDictionary(p[1])
+                    if revisa_global in range(INT, BOOLEAN+1):
+                        num_datatype = revisa_global
+                    else:
+                        print p[1] + "No se encuentra en las variables globales y locales"
             if len(quad) == 3:
                 quad.append(p[1])
             tipo_retorno = num_datatype
