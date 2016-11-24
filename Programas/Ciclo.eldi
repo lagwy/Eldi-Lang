@@ -3,7 +3,7 @@ method void main(){
   i = 0;
   while (i <= 20){
     print("El valor de i: ");
-    while (i > (10 * 3){
+    while (i > (10){
       print("Es mayor a 10");
     }
     print(i);

@@ -1,20 +1,17 @@
+var boolean try;
 
-var int entFactorial, entNum, entIt;
+method void main(){
+  var int factorial, temp, r;
+  print("Escribe el numero a calcular: ");
+  factorial = read();
+  temp = factorial - 1;
+  r = factorial;
+  while(temp >= 1){
+    r = r * temp;
+    temp = temp - 1;
+  }
 
-	method void main()
-	{
-		entNum = 20	;
-		entFactorial = 1;
+  print("El factorial es :");
+  print(r);
 
-		entIt = 1;
-		while(entIt < entNum + 1)
-		{
-			entFactorial = entFactorial * entIt;
-			entIt = entIt + 1;
-		}
-
-		print("Factorial del numero:");
-    print( entNum);
-    print("es igual a:");
-    print( entFactorial);
-	}
+}

@@ -1008,6 +1008,7 @@ def p_args(p):
                     # Revisar que los tipos coincidan
                     revisaTipoParametro( tipo_llamada, metodo_llamada )
             # Corregir para cuando es negativo el valor
+            print p[1]
             if p[1] < 0:
                 p[1] = (p[1] * -1) -1
             else:
@@ -1577,10 +1578,18 @@ def p_error(p):
 # Cargar el analizador sintáctico
 yacc.yacc()
 
-# Leer el programa de un archivo
-data = open('Programas/Ciclo.eldi','r').read()
-t = yacc.parse(data)
-# Validar que el método main se encuentra en el diccionario métodos
-if not( checkMetodos("main") ):
-    print "No se ha encontrado el método main"
-    sys.exit()
+def getCuadruplos():
+    # Leer el programa de un archivo
+    data = open('Programas/Factorial_Ciclico.eldi','r').read()
+    t = yacc.parse(data)
+    # Validar que el método main se encuentra en el diccionario métodos
+    if not( checkMetodos("main") ):
+        print "No se ha encontrado el método main"
+        sys.exit()
+    # print lista_cuadruplos
+    return lista_cuadruplos
+
+contador = 1
+for cuadruplo in getCuadruplos():
+    print contador, " ", cuadruplo
+    contador += 1
