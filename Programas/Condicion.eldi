@@ -6,7 +6,7 @@ method int obtenMayor(int a, int b){
   x = a > b;
   if (x){
     a = a + a;
-    return a;
+    return 5;
   } else{
     return b;
   }

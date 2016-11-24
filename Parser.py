@@ -748,7 +748,8 @@ def p_return1(p):
     if tipo_exp == 1:
         # Revisar si la expresión es una asignación directa
         if solo_una_expresion:
-            quad.append(p[1])
+            # print p[1]
+            # quad.append(p[1])
             datatype = checkDataType(p[1])
             # Utilizar una variable para obtener el identificador numérico
             num_datatype = None
@@ -765,6 +766,10 @@ def p_return1(p):
             else:
                 # Revisar en el diccionario de métodos que tipo corresponde a esta variable
                 num_datatype = diccionario_metodos[metodoActual]['vars'][p[1]]['type']
+                # print diccionario_metodos[metodoActual]['vars'][p[1]]
+                quad.append(diccionario_metodos[metodoActual]['vars'][p[1]]['direccionMemoria'])
+            if len(quad) == 3:
+                quad.append(p[1])
             tipo_retorno = num_datatype
         else:
             # Si la expresión es la última operación realizada, asignar
