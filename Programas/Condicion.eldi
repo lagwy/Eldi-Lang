@@ -1,12 +1,15 @@
+var boolean y;
+
 method int obtenMayor(int a, int b){
   var boolean x;
+  y = true;
   a = 3;
   x = false;
   b = 4;
   x = a > b;
-  if (x){
+  if (y){
     a = a + a;
-    return 5;
+    return false;
   } else{
     return b;
   }

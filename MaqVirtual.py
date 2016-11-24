@@ -9,7 +9,14 @@ def main():
 	for cuadruplo in Parser.lista_cuadruplos:
 		print cont, "\t", cuadruplo
 		cont += 1
-    # print "\n\n", json.dumps(Parser.lista_cuadruplos), "\n\n", Parser.diccionario_metodos
+	"""
+	print json.dumps(Parser.diccionario_metodos)
+	print json.dumps(Parser.globales_int)
+	print json.dumps(Parser.globales_float)
+	print json.dumps(Parser.globales_char)
+	print json.dumps(Parser.globales_string)
+	print json.dumps(Parser.globales_boolean)
+	"""
 
 if __name__ == "__main__":
     main()

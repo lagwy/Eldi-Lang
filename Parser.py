@@ -1237,7 +1237,21 @@ def p_condicion2(p):
     # Revisar si hay sólo una expresión
     if solo_una_expresion:
         # Añadir la expresión si sólo es una
-        quad.append(condicion_exp)
+        datatype = type(condicion_exp)
+        if datatype <> int:
+            # Revisar la dirección de la variable en las variables locales
+            if condicion_exp in diccionario_metodos[metodoActual]['vars']:
+                quad.append( diccionario_metodos[metodoActual]['vars'][condicion_exp]['direccionMemoria'] )
+            else:
+                # Revisar en las variables globales (solo en boolean porque no puede pertenecer a otro tipo)
+                if condicion_exp in globales_boolean:
+                    quad.append(globales_boolean[condicion_exp]['direccionMemoria'])
+                else:
+                    print "No se encuentra el identificador " + condicion_exp
+                    sys.exit()
+        else:
+            print 'dir'
+            quad.append(condicion_exp)
         condicion_exp = None
     else:
         # Añadir el temporal
