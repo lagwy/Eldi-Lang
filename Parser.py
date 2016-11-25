@@ -88,6 +88,7 @@ saltos_condicion = []           # Pila de saltos en las condiciones
 tiene_return = False            # Controlador para saber si la función tiene un estatuto de retorno
 tipo_ultima_expresion = None    # Tipo de la última expresión
 saltos_return = []              # Pila de cuádruplos donde hay un return, para al final mandarlos al endproc
+cuadruplo_main = None           # Número de cuádruplo donde está el endproc del main
 
 ###########################################################################
 #   checkMetodos
@@ -361,6 +362,8 @@ def p_programa(p):
     quad.append(None)
     # Añadir el cuádruplo recién generado a la lista de cuádruplos totales
     lista_cuadruplos.append(quad)
+    # Añadir al endproc del main, el salto hasta el END que indica el final de la ejecución
+    lista_cuadruplos[cuadruplo_main-1][1] = len(lista_cuadruplos)
 
 ###########################################################################
 #   p_goto_main
@@ -513,6 +516,12 @@ def p_end_method(p):
         # print lista_cuadruplos[salto-1][3]
         lista_cuadruplos[salto-1][1] = len(lista_cuadruplos) + 1
         # lista_cuadruplos[saltos_return.pop()][3] = len(lista_cuadruplos)
+
+    # Revisar si el método actual es el main
+    if metodoActual == "main":
+        global cuadruplo_main
+        cuadruplo_main =  len(lista_cuadruplos) + 1
+
 
     quad = []
     quad.append('ENDPROC')
@@ -1593,7 +1602,7 @@ yacc.yacc()
 
 def getCuadruplos():
     # Leer el programa de un archivo
-    data = open('Programas/Condicion.eldi','r').read()
+    data = open('Programas/Ciclo.eldi','r').read()
     t = yacc.parse(data)
     # Validar que el método main se encuentra en el diccionario métodos
     if not( checkMetodos("main") ):
