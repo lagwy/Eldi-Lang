@@ -87,6 +87,7 @@ saltos_ciclos = []              # Pila de saltos de los ciclo
 saltos_condicion = []           # Pila de saltos en las condiciones
 tiene_return = False            # Controlador para saber si la función tiene un estatuto de retorno
 tipo_ultima_expresion = None    # Tipo de la última expresión
+saltos_return = []              # Pila de cuádruplos donde hay un return, para al final mandarlos al endproc
 
 ###########################################################################
 #   checkMetodos
@@ -505,6 +506,14 @@ def p_end_method(p):
     '''end_method : '''
     # Revisar si se ha utilizado el return si el método tiene algún tipo
     # Generación del cuádruplo de fin del método
+
+    # Apuntar todos los return al endproc, se guarda en la casilla 1 del cuádruplo
+    while len(saltos_return) <> 0:
+        salto = saltos_return.pop()
+        # print lista_cuadruplos[salto-1][3]
+        lista_cuadruplos[salto-1][1] = len(lista_cuadruplos) + 1
+        # lista_cuadruplos[saltos_return.pop()][3] = len(lista_cuadruplos)
+
     quad = []
     quad.append('ENDPROC')
     quad.append(None)
@@ -696,7 +705,9 @@ def p_return(p):
 def p_return1(p):
     '''return1 : exp'''
     # Revisar el tipo de expresión, puede ser una expresión como tal o una llamada
-    global tipo_exp, tipo_retorno
+    global tipo_exp, tipo_retorno, saltos_return
+    # Añadir el número de este cuádruplo a la pila de retornos
+    saltos_return.append(len(lista_cuadruplos) + 1)
     # Generación del cuádruplo de return
     quad = []
     quad.append("RETURN")
