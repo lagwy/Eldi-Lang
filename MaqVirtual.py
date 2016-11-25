@@ -2,6 +2,7 @@
 import Parser
 
 # Listas y diccionarios de pruebas
+cuadruplos = []
 dicGlobal = {}
 dicMetodos = {}
 varGlobales = [[],[],[],[],[]]
@@ -11,6 +12,12 @@ varMain = [[],[],[],[],[]]
 listPos = []
 funcMem = []
 Scope = 0
+
+constantes_int = Parser.constantes_int
+constantes_float = Parser.constantes_float
+constantes_char = Parser.constantes_char
+constantes_string = Parser.constantes_string
+constantes_boolean = Parser.constantes_boolean
 
 ##########################################################################
 #	memoriaGlobal()
@@ -42,8 +49,8 @@ def memoriaGlobal():
 	for key in Parser.globales_boolean:
 		dicGlobal[key] = [4 , contBoolean]
 		contBoolean += 1
-	print "diccionario"
-	print "diccionario global ", dicGlobal
+	# print "diccionario"
+	# print "diccionario global ", dicGlobal
 
 ##########################################################################
 #	memoriaFuncion( funcion )
@@ -55,6 +62,7 @@ def memoriaFuncion(funcion):
 	varFun = [[],[],[],[],[]]
 	func = Parser.diccionario_metodos.get(funcion) #Guarda la funcion temporalmente
 	variables = func.get("vars") #Guarda las variables de la funcion temporalmente
+
 	#Recorre todas las varibales de la funcion
 	for v in variables:
 		# Guarda  dicFun[ nombreVariable ] = [tipo, posicion]
@@ -80,8 +88,6 @@ def memoriaFuncion(funcion):
 			varFun[dicFun.get(v)[0]].append("")
 		elif dicFun.get(v)[0] == 4:
 			varFun[dicFun.get(v)[0]].append(False)
-	for i in range(func.get("temporales")):
-		listTemp.append(None)
 	# Guarda en Memoria de funcion el diccionario de variables y
 	# la lista de variables de la función, temporalmente
 	funcMem.append([dicFun, varFun])
@@ -116,13 +122,13 @@ def valorDireccion(direc):
 	elif(3000 <= direc and direc < 3200):
 		return constantes_int[direc - 3000]
 	elif(3200 <= direc and direc < 3400):
-		return constantes_int[direc - 3200]
+		return constantes_float[direc - 3200]
 	elif(3400 <= direc and direc < 3600):
-		return constantes_int[direc - 3400]
+		return constantes_char[direc - 3400]
 	elif(3600 <= direc and direc < 3800):
-		return constantes_int[direc - 3600]
+		return constantes_string[direc - 3600]
 	elif(3800 <= direc and direc < 4000):
-		return constantes_int[direc - 3800]
+		return constantes_boolean[direc - 3800]
 	return direc
 
 ##########################################################################
@@ -137,11 +143,14 @@ def asignarTemporales(valor, direc):
 #	Procesamiento de cada uno de los cuádruplos, termina hasta que el actual
 #	sea igual o mayor al tamaño de la lista
 ##########################################################################
-def operacionCuadruplos(lista_cuadruplos):
+def operacionCuadruplos(lista_cuadruplos, longitud):
 	memoriaGlobal()
 	memoriaFuncion("main")
 	cuadruploActual = 0
-	while cuadruploActual <= len(lista_cuadruplos):
+	# print cuadruploActual
+	# print lista_cuadruplos
+	# print len(Parser.getCuadruplos)
+	while cuadruploActual <= longitud:
 		cuadruplo = lista_cuadruplos[cuadruploActual]
 		val1 = cuadruplo[0]
 		val2 = cuadruplo[1]
@@ -241,7 +250,8 @@ def operacionCuadruplos(lista_cuadruplos):
 #	Método principal de la máquina virtual
 ##########################################################################
 def main():
-	print operacionCuadruplos(Parser.getCuadruplos)
+	cuadruplos = Parser.getCuadruplos()
+	print operacionCuadruplos(cuadruplos, len(cuadruplos))
 
 if __name__ == "__main__":
     main()

@@ -1008,11 +1008,6 @@ def p_args(p):
                     # Revisar que los tipos coincidan
                     revisaTipoParametro( tipo_llamada, metodo_llamada )
             # Corregir para cuando es negativo el valor
-            print p[1]
-            if p[1] < 0:
-                p[1] = (p[1] * -1) -1
-            else:
-                p[1] = contTemp-1
             quad_arg.append(p[1])       # Guardar la expresión
             quad_arg.append(None)
             # Nombre del parámetro que se está enviando
@@ -1130,7 +1125,7 @@ def p_asignacion(p):
 #   Función de la regla para cuando es un ciclo
 ###########################################################################
 def p_ciclo(p):
-    '''ciclo : WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB'''
+    '''ciclo : WHILE salto_ciclo LEFTP exp ciclo1 RIGHTP LEFTB bloque ciclo2 RIGHTB'''
     # Revisar que la condición sea una expresión
     if p[3] <> None:
         global ciclo_exp
@@ -1143,7 +1138,7 @@ def p_ciclo(p):
 def p_salto_ciclo(p):
     '''salto_ciclo : '''
     global saltos_ciclos
-    saltos_ciclos.append( len(lista_cuadruplos) + 1)
+    saltos_ciclos.append( len(lista_cuadruplos))
 
 ###########################################################################
 #   p_ciclo1
@@ -1163,7 +1158,10 @@ def p_ciclo1(p):
     quad.append('x')
     # Añadir el cuádruplo a la lista
     lista_cuadruplos.append(quad)
+    global saltos_ciclos
+    saltos_ciclos.append( len(lista_cuadruplos) - 1)
 
+cantidad_expresiones = 0
 ###########################################################################
 #   p_ciclo2
 #   Repetir las instrucciones del ciclo
@@ -1178,14 +1176,12 @@ def p_ciclo2(p):
     quad_goto.append(None)
     # Cuádruplo al que se hará el salto
     salto = saltos_ciclos.pop()
-    quad_goto.append( salto )
+    salto_goto = saltos_ciclos.pop()
+    quad_goto.append( salto_goto + 1 )
     lista_cuadruplos.append(quad_goto)
     # Cambiar el GOTOF
     # Aquí existe un cambio dependiendo de si tiene o no más de una expresión
-    if solo_una_expresion == True:
-        lista_cuadruplos[salto+1][3] = len(lista_cuadruplos) + 1
-    else:
-        lista_cuadruplos[salto][3] = len(lista_cuadruplos) + 1
+    lista_cuadruplos[salto][3] = len(lista_cuadruplos) + 1
 
 ###########################################################################
 #   p_condicion
@@ -1283,6 +1279,8 @@ def p_condicion4(p):
 def p_exp(p):
     '''exp : llamada exp1
         | expresion exp2'''
+    global cantidad_expresiones
+    cantidad_expresiones += 1
     # Si p[1] es None, entonces es una llamada
     if p[1] <> None:
         p[0] = p[1]
@@ -1382,11 +1380,15 @@ def p_expresion(p):
                 # La variable no se encuentra en el método y en las globales
                 print metodoActual + ": La variable <<" + str(tipo1) + ">> no se encuentra."
                 sys.exit()
+
+    if p[3] in range(3800, 4000):
+        tipo2 = 4
+    # print tipo1, tipo2
     # Obtener el tipo de dato resultante
     tipoResultante = resultante( tipo1 , tipo2 , getNumTypeOperation(p[2]))
     tipo_ultima_expresion = tipoResultante
     # Revisar que la operación sea posible de realizar
-    if resultante( getNumericalType(p[1]) , getNumericalType(p[3]) , getNumTypeOperation(p[2])) == ERROR:
+    if resultante( tipo1 , tipo2 , getNumTypeOperation(p[2])) == ERROR:
         print "No es posible realizar la operación " + p[2] + " a los operadores " + str(p[1]) + ", " + str(p[3])
         sys.exit()
     else:
@@ -1580,7 +1582,7 @@ yacc.yacc()
 
 def getCuadruplos():
     # Leer el programa de un archivo
-    data = open('Programas/Factorial_Ciclico.eldi','r').read()
+    data = open('Programas/Condicion.eldi','r').read()
     t = yacc.parse(data)
     # Validar que el método main se encuentra en el diccionario métodos
     if not( checkMetodos("main") ):

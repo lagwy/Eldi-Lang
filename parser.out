@@ -49,7 +49,7 @@ Rule 43    args -> args COMMA exp
 Rule 44    args -> empty
 Rule 45    asignacion -> ID ASSIGN exp SEMICOLON
 Rule 46    asignacion -> ID LEFTSB exp RIGHTSB ASSIGN exp SEMICOLON
-Rule 47    ciclo -> WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB
+Rule 47    ciclo -> WHILE salto_ciclo LEFTP exp ciclo1 RIGHTP LEFTB bloque ciclo2 RIGHTB
 Rule 48    salto_ciclo -> <empty>
 Rule 49    ciclo1 -> <empty>
 Rule 50    ciclo2 -> <empty>
@@ -828,7 +828,7 @@ state 55
     (35) estatuto -> . asignacion
     (51) condicion -> . IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 condicion4
     (52) condicion -> . IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 ELSE LEFTB bloque condicion4 RIGHTB
-    (47) ciclo -> . WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB
+    (47) ciclo -> . WHILE salto_ciclo LEFTP exp ciclo1 RIGHTP LEFTB bloque ciclo2 RIGHTB
     (36) return -> . RETURN return1 SEMICOLON
     (38) lectura -> . ID ASSIGN READ LEFTP RIGHTP SEMICOLON
     (39) escritura -> . PRINT LEFTP exp RIGHTP SEMICOLON
@@ -914,7 +914,7 @@ state 57
 
 state 58
 
-    (47) ciclo -> WHILE . salto_ciclo LEFTP exp RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB
+    (47) ciclo -> WHILE . salto_ciclo LEFTP exp ciclo1 RIGHTP LEFTB bloque ciclo2 RIGHTB
     (48) salto_ciclo -> .
 
     LEFTP           reduce using rule 48 (salto_ciclo -> .)
@@ -1337,7 +1337,7 @@ state 84
 
 state 85
 
-    (47) ciclo -> WHILE salto_ciclo . LEFTP exp RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB
+    (47) ciclo -> WHILE salto_ciclo . LEFTP exp ciclo1 RIGHTP LEFTB bloque ciclo2 RIGHTB
 
     LEFTP           shift and go to state 111
 
@@ -2148,7 +2148,7 @@ state 110
 
 state 111
 
-    (47) ciclo -> WHILE salto_ciclo LEFTP . exp RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB
+    (47) ciclo -> WHILE salto_ciclo LEFTP . exp ciclo1 RIGHTP LEFTB bloque ciclo2 RIGHTB
     (57) exp -> . llamada exp1
     (58) exp -> . expresion exp2
     (40) llamada -> . llamada1 LEFTP args RIGHTP
@@ -2846,10 +2846,12 @@ state 133
 
 state 134
 
-    (47) ciclo -> WHILE salto_ciclo LEFTP exp . RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB
+    (47) ciclo -> WHILE salto_ciclo LEFTP exp . ciclo1 RIGHTP LEFTB bloque ciclo2 RIGHTB
+    (49) ciclo1 -> .
 
-    RIGHTP          shift and go to state 142
+    RIGHTP          reduce using rule 49 (ciclo1 -> .)
 
+    ciclo1                         shift and go to state 142
 
 state 135
 
@@ -2950,12 +2952,10 @@ state 141
 
 state 142
 
-    (47) ciclo -> WHILE salto_ciclo LEFTP exp RIGHTP . ciclo1 LEFTB bloque ciclo2 RIGHTB
-    (49) ciclo1 -> .
+    (47) ciclo -> WHILE salto_ciclo LEFTP exp ciclo1 . RIGHTP LEFTB bloque ciclo2 RIGHTB
 
-    LEFTB           reduce using rule 49 (ciclo1 -> .)
+    RIGHTP          shift and go to state 148
 
-    ciclo1                         shift and go to state 148
 
 state 143
 
@@ -3038,7 +3038,7 @@ state 147
 
 state 148
 
-    (47) ciclo -> WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 . LEFTB bloque ciclo2 RIGHTB
+    (47) ciclo -> WHILE salto_ciclo LEFTP exp ciclo1 RIGHTP . LEFTB bloque ciclo2 RIGHTB
 
     LEFTB           shift and go to state 152
 
@@ -3082,7 +3082,7 @@ state 151
 
 state 152
 
-    (47) ciclo -> WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 LEFTB . bloque ciclo2 RIGHTB
+    (47) ciclo -> WHILE salto_ciclo LEFTP exp ciclo1 RIGHTP LEFTB . bloque ciclo2 RIGHTB
     (27) bloque -> . bloque estatuto
     (28) bloque -> . empty
     (88) empty -> .
@@ -3123,7 +3123,7 @@ state 154
     (35) estatuto -> . asignacion
     (51) condicion -> . IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 condicion4
     (52) condicion -> . IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 ELSE LEFTB bloque condicion4 RIGHTB
-    (47) ciclo -> . WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB
+    (47) ciclo -> . WHILE salto_ciclo LEFTP exp ciclo1 RIGHTP LEFTB bloque ciclo2 RIGHTB
     (36) return -> . RETURN return1 SEMICOLON
     (38) lectura -> . ID ASSIGN READ LEFTP RIGHTP SEMICOLON
     (39) escritura -> . PRINT LEFTP exp RIGHTP SEMICOLON
@@ -3151,7 +3151,7 @@ state 154
 
 state 155
 
-    (47) ciclo -> WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 LEFTB bloque . ciclo2 RIGHTB
+    (47) ciclo -> WHILE salto_ciclo LEFTP exp ciclo1 RIGHTP LEFTB bloque . ciclo2 RIGHTB
     (27) bloque -> bloque . estatuto
     (50) ciclo2 -> .
     (29) estatuto -> . condicion
@@ -3163,7 +3163,7 @@ state 155
     (35) estatuto -> . asignacion
     (51) condicion -> . IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 condicion4
     (52) condicion -> . IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 ELSE LEFTB bloque condicion4 RIGHTB
-    (47) ciclo -> . WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB
+    (47) ciclo -> . WHILE salto_ciclo LEFTP exp ciclo1 RIGHTP LEFTB bloque ciclo2 RIGHTB
     (36) return -> . RETURN return1 SEMICOLON
     (38) lectura -> . ID ASSIGN READ LEFTP RIGHTP SEMICOLON
     (39) escritura -> . PRINT LEFTP exp RIGHTP SEMICOLON
@@ -3208,7 +3208,7 @@ state 156
 
 state 157
 
-    (47) ciclo -> WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 LEFTB bloque ciclo2 . RIGHTB
+    (47) ciclo -> WHILE salto_ciclo LEFTP exp ciclo1 RIGHTP LEFTB bloque ciclo2 . RIGHTB
 
     RIGHTB          shift and go to state 159
 
@@ -3231,14 +3231,14 @@ state 158
 
 state 159
 
-    (47) ciclo -> WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB .
+    (47) ciclo -> WHILE salto_ciclo LEFTP exp ciclo1 RIGHTP LEFTB bloque ciclo2 RIGHTB .
 
-    RIGHTB          reduce using rule 47 (ciclo -> WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB .)
-    IF              reduce using rule 47 (ciclo -> WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB .)
-    WHILE           reduce using rule 47 (ciclo -> WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB .)
-    RETURN          reduce using rule 47 (ciclo -> WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB .)
-    ID              reduce using rule 47 (ciclo -> WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB .)
-    PRINT           reduce using rule 47 (ciclo -> WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB .)
+    RIGHTB          reduce using rule 47 (ciclo -> WHILE salto_ciclo LEFTP exp ciclo1 RIGHTP LEFTB bloque ciclo2 RIGHTB .)
+    IF              reduce using rule 47 (ciclo -> WHILE salto_ciclo LEFTP exp ciclo1 RIGHTP LEFTB bloque ciclo2 RIGHTB .)
+    WHILE           reduce using rule 47 (ciclo -> WHILE salto_ciclo LEFTP exp ciclo1 RIGHTP LEFTB bloque ciclo2 RIGHTB .)
+    RETURN          reduce using rule 47 (ciclo -> WHILE salto_ciclo LEFTP exp ciclo1 RIGHTP LEFTB bloque ciclo2 RIGHTB .)
+    ID              reduce using rule 47 (ciclo -> WHILE salto_ciclo LEFTP exp ciclo1 RIGHTP LEFTB bloque ciclo2 RIGHTB .)
+    PRINT           reduce using rule 47 (ciclo -> WHILE salto_ciclo LEFTP exp ciclo1 RIGHTP LEFTB bloque ciclo2 RIGHTB .)
 
 
 state 160
@@ -3291,7 +3291,7 @@ state 163
     (35) estatuto -> . asignacion
     (51) condicion -> . IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 condicion4
     (52) condicion -> . IF LEFTP condicion1 RIGHTP condicion2 LEFTB bloque RIGHTB condicion3 ELSE LEFTB bloque condicion4 RIGHTB
-    (47) ciclo -> . WHILE salto_ciclo LEFTP exp RIGHTP ciclo1 LEFTB bloque ciclo2 RIGHTB
+    (47) ciclo -> . WHILE salto_ciclo LEFTP exp ciclo1 RIGHTP LEFTB bloque ciclo2 RIGHTB
     (36) return -> . RETURN return1 SEMICOLON
     (38) lectura -> . ID ASSIGN READ LEFTP RIGHTP SEMICOLON
     (39) escritura -> . PRINT LEFTP exp RIGHTP SEMICOLON
