@@ -4,14 +4,14 @@ method void main(){
   var int factorial, temp, r;
   print("Escribe el numero a calcular: ");
   factorial = read();
-  temp = factorial - 1;
-  r = factorial;
-  while(temp >= 1){
-    r = r * temp;
-    temp = temp - 1;
+  temp = 1;
+  while(factorial > 1){
+    print(factorial);
+    temp = temp * factorial;
+    factorial = factorial - 1;
   }
 
   print("El factorial es :");
-  print(r);
+  print(temp);
 
 }

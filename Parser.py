@@ -481,7 +481,7 @@ def p_metodo(p):
     param_len = 0               # Regresar el contador de parámetros
     resetVariablesLocales()     # Limpiar todos los diccionarios de variables locales
     parametros.clear()          # Limpiar el diccionario de parámetros
-    contTemp = 2000             # Reiniciar el contador de temporales
+    #contTemp = 2000             # Reiniciar el contador de temporales
     # Limpiar las variables del método
     tiene_return = False
     metodoActual = None
@@ -796,7 +796,7 @@ def p_lectura(p):
         # Obtener la dirección de esa variable para poder guardarla
         direccionLectura = diccionario_metodos[metodoActual]['vars'][p[1]]['direccionMemoria']
         # Actualiar el valor de esa variable
-        diccionario_metodos[metodoActual]['vars'][p[1]]['valor'] = 4
+        diccionario_metodos[metodoActual]['vars'][p[1]]['valor'] = direccionLectura
     else:
         # Si no se encuentra, revisar si existe en las variables globales
         if checkVariableGlobal(p[1]):
@@ -848,7 +848,12 @@ def p_escritura(p):
     quad.append(None)
     quad.append(None)
     # Expresión que se desea imprimir, cambiar por la dirección
-    quad.append(p[3])
+    direc = diccionario_metodos.get(metodoActual).get("vars").get(p[3])
+    if(direc is None):
+        direc = p[3]
+    else:
+        direc = direc.get('direccionMemoria')
+    quad.append(direc)
     # Añadir a la lista de cuádruplos
     lista_cuadruplos.append(quad)
 
@@ -1602,7 +1607,7 @@ yacc.yacc()
 
 def getCuadruplos():
     # Leer el programa de un archivo
-    data = open('Programas/Ciclo.eldi','r').read()
+    data = open('Programas/Factorial_Ciclico.eldi','r').read()
     t = yacc.parse(data)
     # Validar que el método main se encuentra en el diccionario métodos
     if not( checkMetodos("main") ):
