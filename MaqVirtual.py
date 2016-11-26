@@ -56,7 +56,6 @@ def memoriaGlobal():
 #	memoriaFuncion( funcion )
 #
 ##########################################################################
-
 def memoriaFuncion(funcion):
 
 	dicFun = {}  				#Diccionario de funciones
@@ -319,11 +318,3 @@ if __name__ == "__main__":
 				cuadruploActual = listPos.pop() - 1
 		#if cuadruplo[0] != 'GOTO' and cuadruplo[0] != 'GOTOFc' and cuadruplo[0] != 'GOTOFi' :
 		cuadruploActual = cuadruploActual + 1
-
-'''if __name__ == "__main__":
-    main()
-    operacionCuadruplos(Parser.lista_cuadruplos)'''
-
-# operacionCuadruplos(lista_cuadruplos)
-# print variables.keys()
-# print lista_cuadruplos[1]
