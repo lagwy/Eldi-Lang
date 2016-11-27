@@ -1,27 +1,15 @@
 var boolean y;
 
-method int obtenMayor(int a, int b){
-  var boolean x;
-  y = true;
-  a = 3;
-  x = false;
-  b = 4;
-  x = a > b;
-  if (y && true){
-    a = a + a;
-    return 4;
-  } else{
-    return b;
-  }
-}
-
 method void main(){
   var int a, b, resultado;
   a = 4;
   b = 5;
-  resultado = obtenMayor(a,b);
+  # resultado = obtenMayor(a,b);
   if (b < a){
     print("En main");
+  } else {
+    a = a * a;
+    print (a);
   }
   print(resultado);
 }

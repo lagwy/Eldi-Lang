@@ -233,35 +233,35 @@ def addVariableGlobal(identificador, tipo):
         if tipo == INT:
             variable = {}
             # Asignar un valor temporal a la variable global
-            variable['valor'] = None
+            # variable['valor'] = None
             variable['direccionMemoria'] = globales_int_cont
             globales_int[ identificador ] = variable.copy()
             globales_int_cont += 1
         elif tipo == FLOAT:
             variable = {}
             # Asignar un valor temporal a la variable global
-            variable['valor'] = None
+            # variable['valor'] = None
             variable['direccionMemoria'] = globales_float_cont
             globales_float[ identificador ] = variable.copy()
             globales_float_cont += 1
         elif tipo == CHAR:
             variable = {}
             # Asignar un valor temporal a la variable global
-            variable['valor'] = None
+            # variable['valor'] = None
             variable['direccionMemoria'] = globales_char_cont
             globales_char[ identificador ] = variable.copy()
             globales_char_cont += 1
         elif tipo == STRING:
             variable = {}
             # Asignar un valor temporal a la variable global
-            variable['valor'] = None
+            # variable['valor'] = None
             variable['direccionMemoria'] = globales_string_cont
             globales_string[ identificador ] = variable.copy()
             globales_string_cont += 1
         elif tipo == BOOLEAN:
             variable = {}
             # Asignar un valor temporal a la variable global
-            variable['valor'] = None
+            # variable['valor'] = None
             variable['direccionMemoria'] = globales_boolean_cont
             globales_boolean[ identificador ] = variable.copy()
             globales_boolean_cont +=1
@@ -284,7 +284,7 @@ def addVariableLocal(id, tipo, posicion):
         if tipo == INT:
             variable = {}
             # Asignar el valor de la variable como nulo
-            variable['valor'] = None
+            # variable['valor'] = None
             variable['direccionMemoria'] = locales_int_cont
             variable['posicion'] = posicion
             variable['type'] = tipo
@@ -294,7 +294,7 @@ def addVariableLocal(id, tipo, posicion):
         elif tipo == FLOAT:
             variable = {}
             # Asignar el valor de la variable como nulo
-            variable['valor'] = None
+            # variable['valor'] = None
             variable['direccionMemoria'] = locales_float_cont
             variable['posicion'] = posicion
             variable['type'] = tipo
@@ -304,7 +304,7 @@ def addVariableLocal(id, tipo, posicion):
         elif tipo == CHAR:
             variable = {}
             # Asignar el valor de la variable como nulo
-            variable['valor'] = None
+            # variable['valor'] = None
             variable['direccionMemoria'] = locales_char_cont
             variable['posicion'] = posicion
             variable['type'] = tipo
@@ -314,7 +314,7 @@ def addVariableLocal(id, tipo, posicion):
         elif tipo == STRING:
             variable = {}
             # Asignar el valor de la variable como nulo
-            variable['valor'] = None
+            # variable['valor'] = None
             variable['direccionMemoria'] = locales_string_cont
             variable['posicion'] = posicion
             variable['type'] = tipo
@@ -324,7 +324,7 @@ def addVariableLocal(id, tipo, posicion):
         elif tipo == BOOLEAN:
             variable = {}
             # Asignar el valor de la variable como nulo
-            variable['valor'] = None
+            # variable['valor'] = None
             variable['direccionMemoria'] = locales_boolean_cont
             variable['posicion'] = posicion
             variable['type'] = tipo
@@ -429,6 +429,8 @@ def p_variables(p):
             vars.append(p[2])
             vars.append(p[3])
             p[0] = vars
+    else:
+        print "Es un arreglo " +  p[3]
 
 ###########################################################################
 #   p_lista_variables
@@ -796,7 +798,7 @@ def p_lectura(p):
         # Obtener la dirección de esa variable para poder guardarla
         direccionLectura = diccionario_metodos[metodoActual]['vars'][p[1]]['direccionMemoria']
         # Actualiar el valor de esa variable
-        diccionario_metodos[metodoActual]['vars'][p[1]]['valor'] = direccionLectura
+        # diccionario_metodos[metodoActual]['vars'][p[1]]['valor'] = direccionLectura
     else:
         # Si no se encuentra, revisar si existe en las variables globales
         if checkVariableGlobal(p[1]):
@@ -806,19 +808,19 @@ def p_lectura(p):
             # al que pertenece y obtener la dirección, después actualizar el valor
             if tipo_global == INT:
                 direccionMemoria = globales_int[p[1]]["direccionMemoria"]
-                globales_int[p[1]]["valor"] = p[3]
+                # globales_int[p[1]]["valor"] = p[3]
             elif tipo_global == FLOAT:
                 direccionMemoria = globales_float[p[1]]["direccionMemoria"]
-                globales_float[p[1]]["valor"] = p[3]
+                # globales_float[p[1]]["valor"] = p[3]
             elif tipo_global == CHAR:
                 direccionMemoria = globales_char[p[1]]["direccionMemoria"]
-                globales_char[p[1]]["valor"] = p[3]
+                # globales_char[p[1]]["valor"] = p[3]
             elif tipo_global == STRING:
                 direccionMemoria = globales_string[p[1]]["direccionMemoria"]
-                globales_string[p[1]]["valor"] = p[3]
+                # globales_string[p[1]]["valor"] = p[3]
             elif tipo_global == BOOLEAN:
                 direccionMemoria = globales_boolean[p[1]]["direccionMemoria"]
-                globales_boolean[p[1]]["valor"] = p[3]
+                # globales_boolean[p[1]]["valor"] = p[3]
             direccionLectura = direccionMemoria
         else:
             # El identificador no se encuentra en las variables locales y globales
@@ -1059,7 +1061,7 @@ def p_asignacion(p):
         # Obtener la dirección a la cual se asignará
         direccionAsignacion = diccionario_metodos[metodoActual]['vars'][p[1]]['direccionMemoria']
         # Asignar el valor a esa variable
-        diccionario_metodos[metodoActual]['vars'][p[1]]['valor'] = p[3]
+        # diccionario_metodos[metodoActual]['vars'][p[1]]['valor'] = p[3]
     else:
         # Revisar si es una variable global en la que se asignará
         if checkVariableGlobal(p[1]):
@@ -1068,19 +1070,19 @@ def p_asignacion(p):
             # Obtener la dirección en la que se guardará y guardar la expresión
             if tipo_global == INT:
                 direccionAsignacion = globales_int[p[1]]["direccionMemoria"]
-                globales_int[p[1]]["valor"] = p[3]
+                # globales_int[p[1]]["valor"] = p[3]
             elif tipo_global == FLOAT:
                 direccionAsignacion = globales_float[p[1]]["direccionMemoria"]
-                globales_float[p[1]]["valor"] = p[3]
+                # globales_float[p[1]]["valor"] = p[3]
             elif tipo_global == CHAR:
                 direccionAsignacion = globales_char[p[1]]["direccionMemoria"]
-                globales_char[p[1]]["valor"] = p[3]
+                # globales_char[p[1]]["valor"] = p[3]
             elif tipo_global == STRING:
                 direccionAsignacion = globales_string[p[1]]["direccionMemoria"]
-                globales_string[p[1]]["valor"] = p[3]
+                # globales_string[p[1]]["valor"] = p[3]
             elif tipo_global == BOOLEAN:
                 direccionAsignacion = globales_boolean[p[1]]["direccionMemoria"]
-                globales_boolean[p[1]]["valor"] = p[3]
+                # globales_boolean[p[1]]["valor"] = p[3]
             direccionAsignacion = direccionAsignacion
         else:
             # La variable no se encuentra como local o global
@@ -1101,14 +1103,16 @@ def p_asignacion(p):
                 # Revisar que tipo1 sea una variable global
                 if tipo1 in diccionario_metodos[metodoActual]['vars']:
                     # Obtener el valor y modificar su valor
-                    valor = diccionario_metodos[metodoActual]['vars'][tipo1]['valor']
-                    diccionario_metodos[metodoActual]['vars'][p[1]]['valor'] = valor
+                    #valor = diccionario_metodos[metodoActual]['vars'][tipo1]['valor']
+                    # diccionario_metodos[metodoActual]['vars'][p[1]]['valor'] = valor
                     # Añadir el valor al cuádruplo
-                    quad.append(valor)
+                    # print tipo1
+                    quad.append(diccionario_metodos[metodoActual]['vars'][tipo1]['direccionMemoria'])
                 else:
                     # Revisar si se encuentra en las variables globales
                     if checkVariableGlobal(tipo1):
                         # Revisar a que diccionario corresponde
+                        '''
                         if tipo_global == INT:
                             quad.append(globales_int[tipo1]['valor'])
                         elif tipo_global == FLOAT:
@@ -1118,7 +1122,8 @@ def p_asignacion(p):
                         elif tipo_global == STRING:
                             quad.append( globales_string[tipo1]['valor'])
                         elif tipo_global == BOOLEAN:
-                            quad.append(globales_boolean[tipo1]['valor'])
+                            quad.append(globales_boolean[tipo1]['valor'])'''
+                        quad.append(6)
                     else:
                         # Revisar si el valor a asignar corresponde a una llamada
                         if tipo_exp == 0:
@@ -1367,6 +1372,7 @@ def p_expresion(p):
             # Revisar en las variables globales
             if checkVariableGlobal(p[1]):
                 tipo_global = varGlobalDictionary(tipo1)
+                '''
                 if tipo_global == INT:
                     p[1] = globales_int[p[1]]['valor']
                 elif tipo_global == FLOAT:
@@ -1376,7 +1382,7 @@ def p_expresion(p):
                 elif tipo_global == STRING:
                     p[1] = globales_string[p[1]]['valor']
                 elif tipo_global == BOOLEAN:
-                    p[1] = globales_boolean[p[1]]['valor']
+                    p[1] = globales_boolean[p[1]]['valor']'''
                 tipo1 = tipo_global
             else:
                 # La variable no existe en las locales y globales
@@ -1390,7 +1396,7 @@ def p_expresion(p):
         else:
             if checkVariableGlobal(tipo2):
                 tipo_global = varGlobalDictionary(tipo2)
-                if tipo_global == INT:
+                '''if tipo_global == INT:
                     p[3] = globales_int[tipo2]['valor']
                 elif tipo_global == FLOAT:
                     p[3] = globales_float[tipo2]['valor']
@@ -1399,7 +1405,7 @@ def p_expresion(p):
                 elif tipo_global == STRING:
                     p[3] = globales_string[tipo2]['valor']
                 elif tipo_global == BOOLEAN:
-                    p[3] = globales_boolean[tipo2]['valor']
+                    p[3] = globales_boolean[tipo2]['valor']'''
                 tipo2 = tipo_global
             else:
                 # La variable no se encuentra en el método y en las globales
@@ -1436,7 +1442,7 @@ def p_expresion(p):
         # Añadir el cuádruplo a la lista
         lista_cuadruplos.append(quad_exp)
     # Revisar cual es la operación que se hará
-
+'''
     if p[2] == '*':
         p[0] = p[1] * p[3]
     elif p[2] == '/':
@@ -1489,7 +1495,7 @@ def p_expresion(p):
         else:
             # SI no es posible realizar la operación
             print "No es posible realizar la operación " + p[2] + " a los operadores " + str(p[1]) + ", " + str(p[3])
-            sys.exit()
+            sys.exit()'''
     # Añadir al diccionario de temporales
     #addVariableTemporal( tipoResultante, p[0] )
 
@@ -1621,3 +1627,4 @@ contador = 1
 for cuadruplo in getCuadruplos():
     print contador, " ", cuadruplo
     contador += 1
+#print json.dumps(diccionario_metodos)

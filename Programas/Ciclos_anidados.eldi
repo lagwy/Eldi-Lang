@@ -1,6 +1,8 @@
 method void main(){
   var int i, j;
+  i = 1;
   while (i < 10){
+    i = 1;
     print("i: ");
     print(i);
     while(j < 5){
