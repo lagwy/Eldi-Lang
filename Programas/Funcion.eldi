@@ -1,0 +1,20 @@
+method int imprime(int h){
+	var int aux, i, val;
+	if(h > 1) {
+		val = h - 1;
+		aux = imprime(val);
+		i = h * aux;
+		return i;
+	}
+	else {
+		return 1;
+	}
+}
+
+method void main(){
+	var int j;
+	j = read();
+
+	j = imprime(j);
+	print (j);
+}

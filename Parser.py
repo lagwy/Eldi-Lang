@@ -338,7 +338,7 @@ def addVariableLocal(id, tipo, posicion):
 ###########################################################################
 def addGlobalVars(lista):
     # Revisar que existan variables globales
-    if lista <> None:
+    if lista != None:
         for declaracion in lista:
             # Ciclo para leer los identificadores, estos se encuentran
             # a partir del segundo elemento (casilla 1)
@@ -1035,7 +1035,11 @@ def p_args(p):
                     # Revisar que los tipos coincidan
                     revisaTipoParametro( tipo_llamada, metodo_llamada )
             # Corregir para cuando es negativo el valor
-            quad_arg.append(p[1])       # Guardar la expresión
+            if(diccionario_metodos[metodoActual]['vars'].has_key(p[1])):
+                direc = diccionario_metodos[metodoActual]['vars'].get(p[1]).get("direccionMemoria")
+            else:
+                direc = p[1]
+            quad_arg.append(direc)       # Guardar la expresión
             quad_arg.append(None)
             # Nombre del parámetro que se está enviando
             quad_arg.append("param" + str(cont_args))
@@ -1613,7 +1617,7 @@ yacc.yacc()
 
 def getCuadruplos():
     # Leer el programa de un archivo
-    data = open('Programas/Ciclos_anidados.eldi','r').read()
+    data = open('Programas/Factorial_Recursivo.eldi','r').read()
     t = yacc.parse(data)
     # Validar que el método main se encuentra en el diccionario métodos
     if not( checkMetodos("main") ):

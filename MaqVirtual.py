@@ -18,8 +18,10 @@ dicMetodos = {}
 varGlobales = [[],[],[],[],[]]
 temporales = []
 listPos = []
+listFun = []
 
 funcMem = []
+retorno = None
 Scope = 0
 
 ##########################################################################
@@ -52,15 +54,21 @@ def memoriaGlobal():
 	for i in range(contTemp - 2000):
 		temporales.append(None)
 
+	#print(temporales)
+
 ##########################################################################
 #	memoriaFuncion( funcion )
 #
 ##########################################################################
+
 def memoriaFuncion(funcion):
 
 	dicFun = {}  				#Diccionario de funciones
 	varFun = [[],[],[],[],[]]
 	func = diccionario_metodos.get(funcion) #Guarda la funcion temporalmente
+	funcAct = funcion
+	listFun.append(funcion)
+	#if func is not None:
 	variables = func.get("vars") #Guarda las variables de la funcion temporalmente
 
 	#Recorre todas las varibales de la funcion
@@ -102,15 +110,16 @@ def memoriaFuncion(funcion):
 	'''for i in range(func.get("temporales")):
 		listTemp.append(None)'''
 
-	funcMem.append([dicFun, varFun]) #Guarda en la lista de funciones el [ diccionario de variables y
+	funcMem.append([dicFun, varFun]) #Guarda las funciones actuales que se estan usando el [ diccionario de variables y
 									 #la lista de variables de la función ], temporalmente
 									 #funcMen = [ [ dic[direccion]=[tipo,posicion], varFun=[[valor,valor,...],[valor]..] ],  [ dic[direccion]=[tipo,posicion], varFun =[[valor,valor,...],[valor]..] ] ]
 
 ##########################################################################
 #	scoper(direc)
-#
+# 	Vericfica de que tipo e una variable, local o global
 ##########################################################################
 def scopeVar(direc):
+	#print (funcMem[Scope][0])
 
 	if funcMem[Scope][0].has_key(direc): #Si existe llave , regresa 1
 		return 1
@@ -163,6 +172,18 @@ def valorDireccion(direc):
 def asignarTemporales(valor, direc):
 	#print(direc)
 	temporales[direc - 2000] = valor
+
+def asignarParametros(valor, param):
+	pos = int(param[5:])
+	#print(pos, listFun)
+	func = diccionario_metodos.get(listFun[len(listFun) - 1])
+	func = func.get("vars")
+	for v in func:
+		if func.get(v).get("posicion") == pos:
+			direc = func.get(v).get("direccionMemoria")
+	lista = funcMem[Scope + 1][0].get(direc)
+	funcMem[Scope + 1][1][lista[0]][lista[1]] = valorDireccion(valor)
+
 
 
 
@@ -257,17 +278,25 @@ if __name__ == "__main__":
 			asignarTemporales(res1 or res2, val4)
 
 		elif cuadruplo[0] == '=':
+			#print(val2, val4)
 			res1 = valorDireccion(val2)
 			var = scopeVar(val4)
 			#print (res1, var, dicGlobal.get(val4),funcMem[Scope][0].get(val4))
-
 			if var == 0:
 				lista = dicGlobal.get(val4)
-				varGlobales[lista[0]][lista[1]] = res1
+				if retorno is not None:
+					varGlobales[lista[0]][lista[1]] = retorno
+					retorno = None
+				else:
+					varGlobales[lista[0]][lista[1]] = res1
 			elif var == 1:
 				lista = funcMem[Scope][0].get(val4)
 				varsFun = funcMem[Scope][1]
-				varsFun[lista[0]][lista[1]] = res1
+				if retorno is not None:
+					varsFun[lista[0]][lista[1]] = retorno
+					retorno = None
+				else:
+					varsFun[lista[0]][lista[1]] = res1
 				funcMem[Scope][1] = varsFun
 				#funcMem[Scope][1][lista[0]][lista[1]] = res1
 
@@ -297,24 +326,38 @@ if __name__ == "__main__":
 			cuadruploActual = val4 - 2
 
 		elif cuadruplo[0] == 'RETURN':
+			retorno = valorDireccion(val4)
 			cuadruploActual = cuadruploActual
 
 		elif cuadruplo[0] == 'ERA':
-			memoriaFuncion(val4)
+			memoriaFuncion(val2)
 
-		elif cuadruplo[0] == 'PARAMETRO':
-			asignarParametros(val2)
+		elif cuadruplo[0] == 'PARAM':
+			asignarParametros(val2, val4)
 
 		elif cuadruplo[0] == 'GOSUB':
-			listPos.append(cuadruploActual)
-			cuadruploActual = val4 - 2
+			listPos.append(cuadruploActual + 1)
+			cuadruploActual = val2 - 1
 			Scope = Scope + 1
 
 		elif cuadruplo[0] == 'ENDPROC':
-			print(funcMem)
-			funcMem.pop()
+			#print(funcMem)
 			Scope = Scope - 1
+			funcMem.pop()
+			listFun.pop()
+			if(len(listFun) > 0):
+				funcAct = listFun[len(listFun) - 1]
 			if not len(listPos) == 0:
 				cuadruploActual = listPos.pop() - 1
+		elif cuadruplo[0] == 'END':
+			cuadruploActual = cuadruploActual
 		#if cuadruplo[0] != 'GOTO' and cuadruplo[0] != 'GOTOFc' and cuadruplo[0] != 'GOTOFi' :
 		cuadruploActual = cuadruploActual + 1
+
+'''if __name__ == "__main__":
+    main()
+    operacionCuadruplos(Parser.lista_cuadruplos)'''
+
+# operacionCuadruplos(lista_cuadruplos)
+# print variables.keys()
+# print lista_cuadruplos[1]
