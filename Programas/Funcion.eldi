@@ -1,3 +1,4 @@
+var int e[2];
 
 method int imprime(int h){
 	var int aux, i, val;
@@ -12,12 +13,6 @@ method int imprime(int h){
 	}
 }
 
-method char chars(){
-	var char x[3];
-	x[0] = 'd';
-	return x[0];
-}
-
 method void main(){
 	var int arr2[2],j, arr[5];
 	arr2[1] = 2;
@@ -26,4 +21,5 @@ method void main(){
 	j = imprime(j);
 	print (j);
 	j = arr2[1] * 5;
+	e[0] = j;
 }

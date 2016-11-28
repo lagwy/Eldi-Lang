@@ -1084,6 +1084,7 @@ def p_args(p):
 
 posicion_arreglo = None
 id_arreglo = None
+direccionArreglo = None
 ###########################################################################
 #   p_asignacion
 #   Regla de estatuto de asignación
@@ -1092,7 +1093,7 @@ def p_asignacion(p):
     '''asignacion : ID ASSIGN exp SEMICOLON
         | asignacion_id LEFTSB asignacion1 asignacion_inter asignacion2 RIGHTSB ASSIGN exp SEMICOLON'''
     # Diccionarios globales que pueden modificarse durante la asignación
-    global diccionario_metodos, solo_una_expresion, posicion_arreglo, id_arreglo
+    global diccionario_metodos, solo_una_expresion, posicion_arreglo, id_arreglo, direccionArreglo
     global globales_int, globales_float, globales_char, globales_string, globales_boolean
     # Variable de dirección de memoria en la cual se guardará el valor
     direccionAsignacion = None
@@ -1200,6 +1201,7 @@ def p_asignacion(p):
     solo_una_expresion = None
     posicion_arreglo = None
     id_arreglo = None
+    direccionArreglo = None
 
 def p_asignacion_id(p):
     '''asignacion_id : ID'''
@@ -1211,10 +1213,30 @@ def p_asignacion_id(p):
 def p_asignacion1(p):
     '''asignacion1 : '''
     # Generar cuádruplo para revisar que el identificador es de un arreglo
-    global contTemp, lista_cuadruplos
+    global contTemp, lista_cuadruplos, direccionArreglo
     quad = []
     quad.append("VAL")
-    quad.append(id_arreglo)
+    dirArreglo = 0
+    # Obtener el identificador del arreglo
+    if id_arreglo in diccionario_metodos[metodoActual]['vars']:
+        dirArreglo = diccionario_metodos[metodoActual]['vars'][id_arreglo]['direccionMemoria']
+    else:
+        # Revisar en las globales
+        if id_arreglo in globales_int:
+            dirArreglo = globales_int[id_arreglo]['direccionMemoria']
+        elif id_arreglo in globales_float:
+            dirArreglo = globales_float[id_arreglo]['direccionMemoria']
+        elif id_arreglo in globales_char:
+            dirArreglo = globales_char[id_arreglo]['direccionMemoria']
+        elif id_arreglo in globales_string:
+            dirArreglo = globales_string[id_arreglo]['direccionMemoria']
+        elif id_arreglo in globales_boolean:
+            dirArreglo = globales_boolean[id_arreglo]['direccionMemoria']
+        else:
+            print "No está declarada en las variables dimensionadas"
+            sys.exit()
+    quad.append(dirArreglo)
+    direccionArreglo = dirArreglo
     quad.append(None)
     quad.append(contTemp)
     contTemp += 1
@@ -1232,7 +1254,7 @@ def p_asignacion2(p):
     global contTemp, lista_cuadruplos
     quad = []
     quad.append("VER")
-    quad.append(id_arreglo)
+    quad.append(direccionArreglo)
     quad.append(posicion_arreglo)
     quad.append(contTemp)
     contTemp += 1
@@ -1240,7 +1262,7 @@ def p_asignacion2(p):
 
     quad = []
     quad.append("RES")
-    quad.append(id_arreglo)
+    quad.append(direccionArreglo)
     quad.append(contTemp-1)
     quad.append(contTemp)
     contTemp += 1
@@ -1468,7 +1490,7 @@ def p_expresion(p):
                 p[1] = diccionario_metodos[metodoActual]['vars'][p[1]]['direccionMemoria']
                 tipo1 = getNumericalType(p[1])
             else:
-                print "es un arreglo"
+                # print "es un arreglo"
                 p[1] = diccionario_metodos[metodoActual]['vars'][p[1]]['direccionMemoria']
                 tipo1 = getNumericalType(p[1])
         else:
@@ -1659,7 +1681,27 @@ def p_expresion2(p):
         global contTemp, lista_cuadruplos
         quad = []
         quad.append("VAL")
-        quad.append(p[1])
+        id_arreglo = p[1]
+        dirArreglo = 0
+        # Obtener el identificador del arreglo
+        if id_arreglo in diccionario_metodos[metodoActual]['vars']:
+            dirArreglo = diccionario_metodos[metodoActual]['vars'][id_arreglo]['direccionMemoria']
+        else:
+            # Revisar en las globales
+            if id_arreglo in globales_int:
+                dirArreglo = globales_int[id_arreglo]['direccionMemoria']
+            elif id_arreglo in globales_float:
+                dirArreglo = globales_float[id_arreglo]['direccionMemoria']
+            elif id_arreglo in globales_char:
+                dirArreglo = globales_char[id_arreglo]['direccionMemoria']
+            elif id_arreglo in globales_string:
+                dirArreglo = globales_string[id_arreglo]['direccionMemoria']
+            elif id_arreglo in globales_boolean:
+                dirArreglo = globales_boolean[id_arreglo]['direccionMemoria']
+            else:
+                print "No está declarada en las variables dimensionadas"
+                sys.exit()
+        quad.append(dirArreglo)
         quad.append(None)
         quad.append(contTemp)
         contTemp += 1
@@ -1667,7 +1709,7 @@ def p_expresion2(p):
 
         quad = []
         quad.append("VER")
-        quad.append(p[1])
+        quad.append(dirArreglo)
         quad.append(p[3])
         quad.append(contTemp)
         contTemp += 1
@@ -1675,7 +1717,7 @@ def p_expresion2(p):
 
         quad = []
         quad.append("RES")
-        quad.append(p[1])
+        quad.append(dirArreglo)
         quad.append(contTemp-1)
         quad.append(contTemp)
         contTemp += 1
