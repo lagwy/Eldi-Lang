@@ -271,7 +271,7 @@ def addVariableGlobal(identificador, tipo):
 #   Añadir una variable local al diccionario dependiendo de su tipo, y a una
 #   una lista de parámetros que será asignada al método
 ###########################################################################
-def addVariableLocal(id, tipo, posicion):
+def addVariableLocal(id, tipo, posicion, largo):
     # Revisar si el nombre de la variable existe en los parámetros o en los método
     if checkParametros(id) or checkMetodos(id):
         print "El identificador <<" + id + ">> ya está en uso."
@@ -288,6 +288,7 @@ def addVariableLocal(id, tipo, posicion):
             variable['direccionMemoria'] = locales_int_cont
             variable['posicion'] = posicion
             variable['type'] = tipo
+            variable['tam'] = largo
             parametros[ id ] = variable
             locales_int[ id ] = variable
             locales_int_cont += 1
@@ -298,6 +299,7 @@ def addVariableLocal(id, tipo, posicion):
             variable['direccionMemoria'] = locales_float_cont
             variable['posicion'] = posicion
             variable['type'] = tipo
+            variable['tam'] = largo
             parametros[ id ] = variable
             locales_float[ id ] = variable
             locales_float_cont += 1
@@ -308,6 +310,7 @@ def addVariableLocal(id, tipo, posicion):
             variable['direccionMemoria'] = locales_char_cont
             variable['posicion'] = posicion
             variable['type'] = tipo
+            variable['tam'] = largo
             parametros[ id ] = variable
             locales_char[ id ] = variable
             locales_char_cont += 1
@@ -318,6 +321,7 @@ def addVariableLocal(id, tipo, posicion):
             variable['direccionMemoria'] = locales_string_cont
             variable['posicion'] = posicion
             variable['type'] = tipo
+            variable['tam'] = largo
             parametros[ id ] = variable
             locales_string[ id ] = variable
             locales_string_cont += 1
@@ -328,6 +332,7 @@ def addVariableLocal(id, tipo, posicion):
             variable['direccionMemoria'] = locales_boolean_cont
             variable['posicion'] = posicion
             variable['type'] = tipo
+            variable['tam'] = largo
             parametros[ id ] = variable
             locales_boolean[ id ] = variable
             locales_boolean_cont += 1
@@ -418,7 +423,7 @@ def p_variables(p):
         | VAR tipo ID LEFTSB INT_CTE RIGHTSB lista_variables SEMICOLON'''
     # Recibir las variables cuando hay una lista, parte sin arreglos
     if len(p) == 6:
-        if p[4] <> None:
+        if p[4] != None:
             vars = []
             vars.append(p[2])
             vars.append(p[3])
@@ -430,7 +435,21 @@ def p_variables(p):
             vars.append(p[3])
             p[0] = vars
     else:
-        print "Es un arreglo " +  p[3]
+        if p[7] != None:
+            vars = []
+            vars.append(p[2])
+            vars.append(p[3])
+            vars.append(p[5])
+            vars = vars + p[7]
+            p[0] = vars
+        else:
+            vars = []
+            vars.append(p[2])
+            vars.append(p[3])
+            vars.append(p[5])
+            p[0] = vars
+        #print "Es un arreglo " +  p[3]
+        #print(p[2],p[3],p[4],p[5], p[7], len(p))
 
 ###########################################################################
 #   p_lista_variables
@@ -444,10 +463,19 @@ def p_lista_variables(p):
     if len(p) == 4:
         vars = []
         vars.append( p[2] )
-        if p[3] <> None:
+        if p[3] != None:
             p[0] = vars + p[3]
         else:
             p[0] = vars
+    elif len(p) > 4:
+        vars = []
+        vars.append( p[2] )
+        vars.append(p[4])
+        if p[6] != None:
+            p[0] = vars + p[6]
+        else:
+            p[0] = vars
+
 
 ###########################################################################
 #   p_metodos
@@ -585,13 +613,13 @@ def p_tipo_metodo(p):
 def p_add_method(p):
     '''add_method : '''
     # Revisar que existan parámetros en el método
-    if params_metodo <> None:
+    if params_metodo != None:
         # Posición en la que se recibirá el parámetro
         posicion = 1
         # Para cada uno de los parámetros, añadirlo como si fuera una variable local
         for parametro in params_metodo:
             # A partir del segundo elemento (casilla 1, pues el primero tiene el id)
-            addVariableLocal(parametro[1], parametro[0], posicion)
+            addVariableLocal(parametro[1], parametro[0], posicion, 0)
             posicion += 1
         # Escribir la cantidad de parámetros que fueron añadidos
         param_len =  len(params_metodo)
@@ -599,13 +627,18 @@ def p_add_method(p):
         # No contiene parámetros
         param_len = 0
     # Revisar si el método tiene declaración de variables locales
-    if vars_metodo <> None:
+    if vars_metodo != None:
         # Para cada una de las listas de variables que fueron declaradas
         for variable in vars_metodo:
             # Añadir la variable a la lista de variables locales, se realiza la
             # a partir de la posición 1 porque la posición 0 contiene el tipo
             for i in range(1, len(variable)):
-                addVariableLocal(variable[i], variable[0], 0)
+                print(variable[i])
+                if isinstance(variable[i], str):
+                    largo = 0
+                    if len(variable) > i + 1 and isinstance(variable[i + 1], int):
+                        largo = variable[i + 1]
+                    addVariableLocal(variable[i], variable[0], 0, largo)
     # Revisar si el identificador del método ya había sido utilizado como nombre
     # de otro método o como variable global
     if ( checkMetodos(metodoActual) or checkVariableGlobal(metodoActual) ):
@@ -1617,7 +1650,7 @@ yacc.yacc()
 
 def getCuadruplos():
     # Leer el programa de un archivo
-    data = open('Programas/Factorial_Recursivo.eldi','r').read()
+    data = open('Programas/Funcion.eldi','r').read()
     t = yacc.parse(data)
     # Validar que el método main se encuentra en el diccionario métodos
     if not( checkMetodos("main") ):
