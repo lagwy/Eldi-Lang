@@ -1081,15 +1081,18 @@ def p_args(p):
             # Incrementar el contador de argumentos
             cont_args += 1
 
+
+posicion_arreglo = None
+id_arreglo = None
 ###########################################################################
 #   p_asignacion
 #   Regla de estatuto de asignación
 ###########################################################################
 def p_asignacion(p):
     '''asignacion : ID ASSIGN exp SEMICOLON
-        | ID LEFTSB exp RIGHTSB ASSIGN exp SEMICOLON'''
+        | asignacion_id LEFTSB asignacion1 asignacion_inter asignacion2 RIGHTSB ASSIGN exp SEMICOLON'''
     # Diccionarios globales que pueden modificarse durante la asignación
-    global diccionario_metodos, solo_una_expresion
+    global diccionario_metodos, solo_una_expresion, posicion_arreglo, id_arreglo
     global globales_int, globales_float, globales_char, globales_string, globales_boolean
     # Variable de dirección de memoria en la cual se guardará el valor
     direccionAsignacion = None
@@ -1184,8 +1187,65 @@ def p_asignacion(p):
         quad.append(direccionAsignacion)
         # Añadir el cuádruplo a la lista
         lista_cuadruplos.append(quad)
+    else:
+        # Generación del cuádruplo para asignación de arreglo
+        quad = []
+        quad.append(p[7])
+        quad.append(p[8])
+        quad.append(None)
+        quad.append(contTemp-1)
+        lista_cuadruplos.append(quad)
+        # print "Asignacion a variable dimensionada"
     # Establecer las variables como antes de la asignación
     solo_una_expresion = None
+    posicion_arreglo = None
+    id_arreglo = None
+
+def p_asignacion_id(p):
+    '''asignacion_id : ID'''
+    global id_arreglo
+    id_arreglo = p[1]
+    p[0] = p[1]
+
+
+def p_asignacion1(p):
+    '''asignacion1 : '''
+    # Generar cuádruplo para revisar que el identificador es de un arreglo
+    global contTemp, lista_cuadruplos
+    quad = []
+    quad.append("VAL")
+    quad.append(id_arreglo)
+    quad.append(None)
+    quad.append(contTemp)
+    contTemp += 1
+    lista_cuadruplos.append(quad)
+
+def p_asignacion_inter(p):
+    '''asignacion_inter : exp'''
+    # Igualar los valores
+    global posicion_arreglo
+    posicion_arreglo = p[1]
+    p[0] = p[1]
+
+def p_asignacion2(p):
+    '''asignacion2 : '''
+    global contTemp, lista_cuadruplos
+    quad = []
+    quad.append("VER")
+    quad.append(id_arreglo)
+    quad.append(posicion_arreglo)
+    quad.append(contTemp)
+    contTemp += 1
+    lista_cuadruplos.append(quad)
+
+    quad = []
+    quad.append("RES")
+    quad.append(id_arreglo)
+    quad.append(contTemp-1)
+    quad.append(contTemp)
+    contTemp += 1
+    lista_cuadruplos.append(quad)
+
 
 ###########################################################################
 #   p_ciclo
@@ -1401,10 +1461,16 @@ def p_expresion(p):
     # Si en tipo1 y tipo2 no hay un número del 1 al 4, entonces es una variable
     # Buscar el tipo1 en las variables locales y después en las globales
     if not( tipo1 in rangoTipos):
+        print "tipo1 " +  str(tipo1)
         # Revisar en las variables locales
         if p[1] in diccionario_metodos[metodoActual]['vars']:
-            p[1] = diccionario_metodos[metodoActual]['vars'][p[1]]['direccionMemoria']
-            tipo1 = getNumericalType(p[1])
+            if diccionario_metodos[metodoActual]['vars'][p[1]]['tam'] == 0:
+                p[1] = diccionario_metodos[metodoActual]['vars'][p[1]]['direccionMemoria']
+                tipo1 = getNumericalType(p[1])
+            else:
+                print "es un arreglo"
+                p[1] = diccionario_metodos[metodoActual]['vars'][p[1]]['direccionMemoria']
+                tipo1 = getNumericalType(p[1])
         else:
             # Revisar en las variables globales
             if checkVariableGlobal(p[1]):
@@ -1427,9 +1493,15 @@ def p_expresion(p):
                 sys.exit()
     # Realizar el mismo procedimiento para el tipo del segundo término
     if not( tipo2 in rangoTipos):
+        print "tipo1 " +  str(tipo1)
         if p[3] in diccionario_metodos[metodoActual]['vars']:
-            p[3] = diccionario_metodos[metodoActual]['vars'][p[3]]['direccionMemoria']
-            tipo2 = getNumericalType(p[3])
+            if diccionario_metodos[metodoActual]['vars'][p[3]]['tam'] == 0:
+                p[3] = diccionario_metodos[metodoActual]['vars'][p[3]]['direccionMemoria']
+                tipo2 = getNumericalType(p[3])
+            else:
+                print "es un arreglo"
+                p[3] = diccionario_metodos[metodoActual]['vars'][p[3]]['direccionMemoria']
+                tipo2 = getNumericalType(p[3])
         else:
             if checkVariableGlobal(tipo2):
                 tipo_global = varGlobalDictionary(tipo2)
@@ -1543,6 +1615,7 @@ def p_expresion(p):
 def p_expresion2(p):
     '''expresion : constante conf
         | ID
+        | ID LEFTSB exp RIGHTSB
         | LEFTP expresion RIGHTP'''
     global solo_una_expresion, constantes_int, constantes_int_cont
     global constantes_float, constantes_float_cont, constantes_char, constantes_char_cont
@@ -1581,6 +1654,34 @@ def p_expresion2(p):
             constantes_boolean_cont += 1
             num_datatype = BOOLEAN
         # print num_datatype
+    if len(p) == 5:
+        # Generar los cuadruplos para verificar
+        global contTemp, lista_cuadruplos
+        quad = []
+        quad.append("VAL")
+        quad.append(p[1])
+        quad.append(None)
+        quad.append(contTemp)
+        contTemp += 1
+        lista_cuadruplos.append(quad)
+
+        quad = []
+        quad.append("VER")
+        quad.append(p[1])
+        quad.append(p[3])
+        quad.append(contTemp)
+        contTemp += 1
+        lista_cuadruplos.append(quad)
+
+        quad = []
+        quad.append("RES")
+        quad.append(p[1])
+        quad.append(contTemp-1)
+        quad.append(contTemp)
+        contTemp += 1
+        lista_cuadruplos.append(quad)
+        p[0] = contTemp-1
+
     # Hasta el momento, la expresión es sólo una
     solo_una_expresion = True
 

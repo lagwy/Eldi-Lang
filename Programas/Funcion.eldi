@@ -12,10 +12,18 @@ method int imprime(int h){
 	}
 }
 
+method char chars(){
+	var char x[3];
+	x[0] = 'd';
+	return x[0];
+}
+
 method void main(){
 	var int arr2[2],j, arr[5];
+	arr2[1] = 2;
 	j = read();
 
 	j = imprime(j);
 	print (j);
+	j = arr2[1] * 5;
 }
