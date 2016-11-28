@@ -51,7 +51,6 @@ def memoriaGlobal():
 	for key in globales_boolean:
 		dicGlobal[key] = [4 , contBoolean]
 		contBoolean = contBoolean + 1
-
 	for i in range(contTemp - 2000):
 		temporales.append(None)
 
@@ -61,9 +60,7 @@ def memoriaGlobal():
 #	memoriaFuncion( funcion )
 #
 ##########################################################################
-
 def memoriaFuncion(funcion):
-
 	dicFun = {}  				#Diccionario de funciones
 	varFun = [[],[],[],[],[]]
 	func = diccionario_metodos.get(funcion) #Guarda la funcion temporalmente
@@ -117,10 +114,6 @@ def memoriaFuncion(funcion):
 			varFun[dicFun.get(k)[0]].append(False)
 			for i in range(1, dicFun.get(k)[2]):
 				varFun[dicFun.get(k)[0]].append(False)
-
-	'''for i in range(func.get("temporales")):
-		listTemp.append(None)'''
-
 	funcMem.append([dicFun, varFun]) #Guarda las funciones actuales que se estan usando el [ diccionario de variables y
 									 #la lista de variables de la función ], temporalmente
 									 #funcMen = [ [ dic[direccion]=[tipo,posicion], varFun=[[valor,valor,...],[valor]..] ],  [ dic[direccion]=[tipo,posicion], varFun =[[valor,valor,...],[valor]..] ] ]
@@ -130,14 +123,10 @@ def memoriaFuncion(funcion):
 # 	Vericfica de que tipo e una variable, local o global
 ##########################################################################
 def scopeVar(direc):
-	#print (funcMem[Scope][0])
-
 	if funcMem[Scope][0].has_key(direc): #Si existe llave , regresa 1
 		return 1
-
 	elif dicGlobal.has_key(direc): #Si encuentra un llave en las variables globales retorna 0
 		return 0
-
 	else:
 		return -1
 
@@ -197,25 +186,10 @@ def asignarParametros(valor, param):
 	lista = funcMem[Scope + 1][0].get(direc)
 	funcMem[Scope + 1][1][lista[0]][lista[1]] = valorDireccion(valor)
 
-
-
-
-"""
-lista_cuadruplos = [[3, 1500, 1500, 2500],
-					[1, 2000, 3000, 2500],
-					["GOTF", 9000, None, 5],
-					[4, "hello", "world", 5001],
-					["READ", 24, 5000],
-					["PRINT", None, None, 5001],
-					["RET", None, None, None]]
-variables = {1500 : 4, 2000 : 3, 3000 : 7, 2500: 0, 9000: True, 5000: 4, 8000: 10}
-listaVariables = [9000, 5000, 1500]
-print variables.keys()
-"""
 # Método principal
 def main():
-    print "\n\n", Parser.diccionario_metodos
-
+	pass
+    #print "\n\n", Parser.diccionario_metodos
 
 #def operacionCuadruplos(lista_cuadruplos):
 if __name__ == "__main__":

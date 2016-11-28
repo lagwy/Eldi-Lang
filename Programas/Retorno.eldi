@@ -1,0 +1,17 @@
+method int cuadrado(int h){
+  return h*h;
+}
+
+method void main(){
+  var int j, aux;
+  j = 1;
+  print("Numeros del 1 al 10 al cuadrado");
+  while (j < 10){
+    print("El cuadrado de ");
+    print(j);
+    print(" es ");
+    aux = cuadrado(j);
+    print( aux );
+    j = j + 1;
+  }
+}

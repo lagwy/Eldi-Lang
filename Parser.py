@@ -448,8 +448,6 @@ def p_variables(p):
             vars.append(p[3])
             vars.append(p[5])
             p[0] = vars
-        #print "Es un arreglo " +  p[3]
-        #print(p[2],p[3],p[4],p[5], p[7], len(p))
 
 ###########################################################################
 #   p_lista_variables
@@ -475,7 +473,6 @@ def p_lista_variables(p):
             p[0] = vars + p[6]
         else:
             p[0] = vars
-
 
 ###########################################################################
 #   p_metodos
@@ -633,7 +630,7 @@ def p_add_method(p):
             # Añadir la variable a la lista de variables locales, se realiza la
             # a partir de la posición 1 porque la posición 0 contiene el tipo
             for i in range(1, len(variable)):
-                print(variable[i])
+                # print(variable[i])
                 if isinstance(variable[i], str):
                     largo = 0
                     if len(variable) > i + 1 and isinstance(variable[i + 1], int):
@@ -1246,7 +1243,7 @@ def p_asignacion1(p):
         elif id_arreglo in globales_boolean:
             dirArreglo = globales_boolean[id_arreglo]['direccionMemoria']
         else:
-            print "No está declarada en las variables dimensionadas"
+            print str(id_arreglo) + ": no está declarada en las variables dimensionadas"
             sys.exit()
     quad.append(dirArreglo)
     direccionArreglo = dirArreglo
@@ -1497,7 +1494,7 @@ def p_expresion(p):
     # Si en tipo1 y tipo2 no hay un número del 1 al 4, entonces es una variable
     # Buscar el tipo1 en las variables locales y después en las globales
     if not( tipo1 in rangoTipos):
-        print "tipo1 " +  str(tipo1)
+        # print "tipo1 " +  str(tipo1)
         # Revisar en las variables locales
         if p[1] in diccionario_metodos[metodoActual]['vars']:
             if diccionario_metodos[metodoActual]['vars'][p[1]]['tam'] == 0:
@@ -1529,13 +1526,13 @@ def p_expresion(p):
                 sys.exit()
     # Realizar el mismo procedimiento para el tipo del segundo término
     if not( tipo2 in rangoTipos):
-        print "tipo1 " +  str(tipo1)
+        # print "tipo1 " +  str(tipo1)
         if p[3] in diccionario_metodos[metodoActual]['vars']:
             if diccionario_metodos[metodoActual]['vars'][p[3]]['tam'] == 0:
                 p[3] = diccionario_metodos[metodoActual]['vars'][p[3]]['direccionMemoria']
                 tipo2 = getNumericalType(p[3])
             else:
-                print "es un arreglo"
+                # print "es un arreglo"
                 p[3] = diccionario_metodos[metodoActual]['vars'][p[3]]['direccionMemoria']
                 tipo2 = getNumericalType(p[3])
         else:
@@ -1811,7 +1808,7 @@ yacc.yacc()
 
 def getCuadruplos():
     # Leer el programa de un archivo
-    data = open('Programas/Funcion.eldi','r').read()
+    data = open('Programas/Fibonnaci_Recursivo.eldi','r').read()
     t = yacc.parse(data)
     # Validar que el método main se encuentra en el diccionario métodos
     if not( checkMetodos("main") ):

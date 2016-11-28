@@ -1,4 +1,3 @@
-
 method int imprime(int h){
 	var int aux, i, val;
 	if(h > 1) {

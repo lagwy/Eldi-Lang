@@ -1,0 +1,19 @@
+method void main(){
+  var int arra[5], j, pos, aux;
+  pos = 0;
+  arr[0] = 10;
+  arr[1] = 9;
+  arr[2] = 30;
+  arr[3] = 20;
+  arr[4] = 77;
+  j = 30;
+  while(pos < 5){
+    aux = arr[pos];
+    if (j == aux){
+      print("Arreglo en la posicion");
+      print(pos);
+      pos = 5;
+    }
+    pos = pos + 1;
+  }
+}

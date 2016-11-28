@@ -1,0 +1,32 @@
+method int fibonnaci(int n){
+  var int aux1, aux2, suma, num;
+  if(n>2){
+    num = n - 1;
+    aux1 = fibonnaci(num);
+    num = n - 2;
+    aux2 = fibonnaci(num);
+    suma = aux1 + aux2;
+    return suma;
+  } else {
+    if (n == 2){
+      return 1;
+    } else {
+      if (n == 1){
+        return 1;
+      } else {
+        return 0;
+      }
+    }
+  }
+}
+
+method void main(){
+  var int num, val;
+  num = 1;
+  while(num < 25 ){
+    val = fibonnaci(num);
+    print("Valor ");
+    print(val);
+    num = num + 1;
+  }
+}
