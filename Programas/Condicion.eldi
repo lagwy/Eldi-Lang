@@ -12,5 +12,4 @@ method void main(){
     print (a);
   }
   print(resultado);
-  print(true);
 }

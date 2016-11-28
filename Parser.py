@@ -1617,7 +1617,7 @@ yacc.yacc()
 
 def getCuadruplos():
     # Leer el programa de un archivo
-    data = open('Programas/Condicion.eldi','r').read()
+    data = open('Programas/Factorial_Recursivo.eldi','r').read()
     t = yacc.parse(data)
     # Validar que el método main se encuentra en el diccionario métodos
     if not( checkMetodos("main") ):
