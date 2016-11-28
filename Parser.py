@@ -1085,6 +1085,8 @@ def p_args(p):
 posicion_arreglo = None
 id_arreglo = None
 direccionArreglo = None
+tempResAsign = None
+expEsArr = None
 ###########################################################################
 #   p_asignacion
 #   Regla de estatuto de asignación
@@ -1093,8 +1095,8 @@ def p_asignacion(p):
     '''asignacion : ID ASSIGN exp SEMICOLON
         | asignacion_id LEFTSB asignacion1 asignacion_inter asignacion2 RIGHTSB ASSIGN exp SEMICOLON'''
     # Diccionarios globales que pueden modificarse durante la asignación
-    global diccionario_metodos, solo_una_expresion, posicion_arreglo, id_arreglo, direccionArreglo
-    global globales_int, globales_float, globales_char, globales_string, globales_boolean
+    global diccionario_metodos, solo_una_expresion, posicion_arreglo, id_arreglo, direccionArreglo, expEsArr
+    global globales_int, globales_float, globales_char, globales_string, globales_boolean, tempResAsign
     # Variable de dirección de memoria en la cual se guardará el valor
     direccionAsignacion = None
     # Revisar que la variable exista en el diccionario de método
@@ -1192,9 +1194,18 @@ def p_asignacion(p):
         # Generación del cuádruplo para asignación de arreglo
         quad = []
         quad.append(p[7])
-        quad.append(p[8])
-        quad.append(None)
-        quad.append(contTemp-1)
+        if solo_una_expresion:
+            if expEsArr <> None:
+                quad.append(expEsArr)
+            else:
+                quad.append(p[8])
+            quad.append(None)
+            quad.append(contTemp-1)
+        else:
+            quad.append(contTemp-1)
+            quad.append(None)
+            # Operacion
+            quad.append(tempResAsign)
         lista_cuadruplos.append(quad)
         # print "Asignacion a variable dimensionada"
     # Establecer las variables como antes de la asignación
@@ -1202,6 +1213,8 @@ def p_asignacion(p):
     posicion_arreglo = None
     id_arreglo = None
     direccionArreglo = None
+    tempResAsign = None
+    expEsArr = None
 
 def p_asignacion_id(p):
     '''asignacion_id : ID'''
@@ -1251,7 +1264,7 @@ def p_asignacion_inter(p):
 
 def p_asignacion2(p):
     '''asignacion2 : '''
-    global contTemp, lista_cuadruplos
+    global contTemp, lista_cuadruplos, tempResAsign
     quad = []
     quad.append("VER")
     quad.append(direccionArreglo)
@@ -1265,6 +1278,7 @@ def p_asignacion2(p):
     quad.append(direccionArreglo)
     quad.append(contTemp-1)
     quad.append(contTemp)
+    tempResAsign = contTemp
     contTemp += 1
     lista_cuadruplos.append(quad)
 
@@ -1712,6 +1726,9 @@ def p_expresion2(p):
         quad.append(dirArreglo)
         quad.append(p[3])
         quad.append(contTemp)
+        global expEsArr
+        expEsArr = contTemp - 2
+        # print contTemp
         contTemp += 1
         lista_cuadruplos.append(quad)
 
@@ -1723,6 +1740,7 @@ def p_expresion2(p):
         contTemp += 1
         lista_cuadruplos.append(quad)
         p[0] = contTemp-1
+
 
     # Hasta el momento, la expresión es sólo una
     solo_una_expresion = True

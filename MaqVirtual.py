@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import Parser
+import sys
 from Parser import globales_int
 from Parser import globales_float
 from Parser import globales_char
@@ -79,33 +80,43 @@ def memoriaFuncion(funcion):
 		# Guarda  dicFun[ direccion ] = [tipo, posicion]
 		# Agrega  en VarFun = [[],[],[],[]] el valor en el la lista correspondiente
 		if variables.get(v).get("type") == 0:
-			dicFun[direccion] = [variables.get(v).get("type"),  variables.get(v).get("direccionMemoria") - 1000]
+			dicFun[direccion] = [variables.get(v).get("type"),  variables.get(v).get("direccionMemoria") - 1000, variables.get(v).get("tam")]
 			#varFun[variables.get(v).get("type")].append(valor)
 
 		elif variables.get(v).get("type") == 1:
-			dicFun[direccion] = [variables.get(v).get("type"),  variables.get(v).get("direccionMemoria") - 1000]
+			dicFun[direccion] = [variables.get(v).get("type"),  variables.get(v).get("direccionMemoria") - 1200, variables.get(v).get("tam")]
 
 		elif variables.get(v).get("type") == 2:
-			dicFun[direccion] = [variables.get(v).get("type"),  variables.get(v).get("direccionMemoria") - 1000]
+			dicFun[direccion] = [variables.get(v).get("type"),  variables.get(v).get("direccionMemoria") - 1400, variables.get(v).get("tam")]
 
 		elif variables.get(v).get("type") == 3:
-			dicFun[direccion] = [variables.get(v).get("type"),  variables.get(v).get("direccionMemoria") - 1000]
+			dicFun[direccion] = [variables.get(v).get("type"),  variables.get(v).get("direccionMemoria") - 1600, variables.get(v).get("tam")]
 
 		elif variables.get(v).get("type") == 4:
-			dicFun[direccion] = [variables.get(v).get("type"),  variables.get(v).get("direccionMemoria") - 1000]
+			dicFun[direccion] = [variables.get(v).get("type"),  variables.get(v).get("direccionMemoria") - 1800, variables.get(v).get("tam")]
 
 	#Inicializa las variables con un valor default y las guarda en la lista de variables por tipo, de funciones.
 	for k in dicFun:
 		if dicFun.get(k)[0] == 0:
 			varFun[dicFun.get(k)[0]].append(0)
+			for i in range(1, dicFun.get(k)[2]):
+				varFun[dicFun.get(k)[0]].append(0)
 		elif dicFun.get(k)[0] == 1:
 			varFun[dicFun.get(k)[0]].append(0.0)
+			for i in range(1, dicFun.get(k)[2]):
+				varFun[dicFun.get(k)[0]].append(0.0)
 		elif dicFun.get(k)[0] == 2:
 			varFun[dicFun.get(k)[0]].append('')
+			for i in range(1, dicFun.get(k)[2]):
+				varFun[dicFun.get(k)[0]].append('')
 		elif dicFun.get(k)[0] == 3:
 			varFun[dicFun.get(k)[0]].append("")
+			for i in range(1, dicFun.get(k)[2]):
+				varFun[dicFun.get(k)[0]].append("")
 		elif dicFun.get(k)[0] == 4:
 			varFun[dicFun.get(k)[0]].append(False)
+			for i in range(1, dicFun.get(k)[2]):
+				varFun[dicFun.get(k)[0]].append(False)
 
 	'''for i in range(func.get("temporales")):
 		listTemp.append(None)'''
@@ -166,6 +177,8 @@ def valorDireccion(direc):
 
 	elif(3800 <= direc and direc < 4000):
 		return constantes_boolean[direc - 3800]
+	elif(isinstance(direc, list)):
+		return funcMen[Scope][1][direc[0]][direc[1]]
 
 	return direc
 
@@ -298,6 +311,8 @@ if __name__ == "__main__":
 				else:
 					varsFun[lista[0]][lista[1]] = res1
 				funcMem[Scope][1] = varsFun
+			elif(isinstance(valorDireccion(val4), list)):
+				funcMem[Scope][1][direc[0]][direc[1]] = res1
 				#funcMem[Scope][1][lista[0]][lista[1]] = res1
 
 		elif cuadruplo[0] == 'READ':
@@ -312,7 +327,10 @@ if __name__ == "__main__":
 				funcMem[Scope][1][lista[0]][lista[1]] = res1
 
 		elif cuadruplo[0] == 'PRINT':
-			print valorDireccion(val4)
+			val = valorDireccion(val4)
+			if isinstance(val, list):
+				val = funcMem[Scope][1][val[0]][val[1]]
+			print val
 
 		elif cuadruplo[0] == 'GOTOFc':
 			if not valorDireccion(val2):
@@ -349,6 +367,24 @@ if __name__ == "__main__":
 				funcAct = listFun[len(listFun) - 1]
 			if not len(listPos) == 0:
 				cuadruploActual = listPos.pop() - 1
+		elif cuadruplo[0] == 'VAL':
+			if funcMem[Scope][0].get(val2)[2] > 0:
+				asignarTemporales(True, val4)
+			else:
+				print "Error variable tratada de accesar como arreglo"
+				sys.exit(1)
+		elif cuadruplo[0] == 'VER':
+			pos = valorDireccion(val3)
+			if pos > -1 and pos < funcMem[Scope][0].get(val2)[2]:
+				asignarTemporales(pos, val4)
+			else:
+				print "Indice fuera de los limites en arreglo"
+				sys.exit(1)
+		elif cuadruplo[0] == 'RES':
+			lista = funcMem[Scope][0].get(val2)
+			direc = [lista[0],lista[1] + valorDireccion(val3)]
+			asignarTemporales(direc, val4)
+
 		elif cuadruplo[0] == 'END':
 			cuadruploActual = cuadruploActual
 		#if cuadruplo[0] != 'GOTO' and cuadruplo[0] != 'GOTOFc' and cuadruplo[0] != 'GOTOFi' :
